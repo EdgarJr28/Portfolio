@@ -3,11 +3,12 @@ interface props {
   className?: string;
   onClick?: () => void;
   disabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
-const Button = ({ children, className, onClick, disabled }: props) => {
+const Button = ({ children, className, onClick, disabled, type }: props) => {
   return (
-    <button disabled={disabled} onClick={onClick} className={`${className} px-5 py-3 rounded-lg font-medium`}>
+    <button type={type} disabled={disabled} onClick={onClick} className={`${className} px-5 py-3 rounded-lg font-medium`}>
       {children}
     </button>)
 }

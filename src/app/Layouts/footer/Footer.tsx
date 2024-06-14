@@ -63,7 +63,7 @@ const Footer = () => {
                     </div>
                     {/* Navigation Links */}
                     <div className='text-center'>
-                        <h2 className="text-lg font-bold mb-4">Enlaces Rápidos</h2>
+                        <h2 className="text-lg font-bold mb-4">Shortcut Links</h2>
                         <ul className="space-y-2">
                             <li><Link className='hover:text-baseBlue' href="/">Home</Link></li>
                             <li><Link className='hover:text-baseBlue' href="#">About</Link></li>
@@ -71,14 +71,14 @@ const Footer = () => {
                     </div>
                     {/* Newsletter Subscription */}
                     <div>
-                        <h2 className="text-lg text-center font-bold mb-4">Suscríbete al boletín</h2>
+                        <h2 className="text-lg text-center font-bold mb-4">Subscribe to the newsletter</h2>
                         <form>
                             <InputWithLabel onChange={handleChange} type={"email"} name="email" placeholder={"Introduce tu correo"} label="E-mail" value={formData.email} className="w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white" />
                             <button
                                 type="submit"
                                 className="w-full bg-transparent text-baseBlack border dark:text-white dark:hover:text-baseBlack dark:border-white border-baseBlack py-2 hover:scale-105 transition-transform duration-300 ease-in-out hover:bg-white hover:text-black"
                             >
-                                Suscribirse
+                                Subscribe
                             </button>
                         </form>
                     </div>

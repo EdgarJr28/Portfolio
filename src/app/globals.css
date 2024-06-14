@@ -27,7 +27,7 @@ input:-webkit-autofill:active {
     color: white !important;
     -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
     box-shadow: 0 0 0px 1000px transparent inset !important;
-    -webkit-text-fill-color: white !important;
+    -webkit-text-fill-color: gray !important;
     /* Cambia el color del texto aquí */
     transition: background-color 5000s ease-in-out 0s;
 }
@@ -35,7 +35,7 @@ input:-webkit-autofill:active {
 /* Elimina todos los colores de autocompletar en Firefox */
 input:-moz-autofill {
     box-shadow: 0 0 0px 1000px white inset !important;
-    -moz-text-fill-color: white inherit !important;
+    -moz-text-fill-color: gray inherit !important;
 }
 
 .no-scroll {

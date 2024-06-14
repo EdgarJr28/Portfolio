@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./Layouts/navbar/Navbar.component";
 import Head from "next/head";
 import Favicon from '/public/dev.ico';
+import Footer from "./Layouts/footer/Footer";
 
 export const metadata: Metadata = {
   title: "Portfolio",
@@ -28,6 +29,7 @@ export default function RootLayout({
         <div>
           {children}
         </div>
+        <Footer />
       </body>
     </html>
   );

@@ -10,7 +10,6 @@ export default function Index() {
           <Home />
         </div>
       </main>
-      <Footer />
     </>
   );
 }
