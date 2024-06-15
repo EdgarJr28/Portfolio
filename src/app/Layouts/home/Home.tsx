@@ -32,9 +32,8 @@ const Home = () => {
                             <Image
                                 src="/gifs/developer.gif"
                                 alt="Illustration of a person at a desk"
-                                layout="fill"
-                                objectFit="cover"
-                                className="rounded drop-shadow-xl mdsm:hover:scale-105 transition-all duration-300"
+                                fill
+                                className="rounded object-cover drop-shadow-xl mdsm:hover:scale-105 transition-all duration-300"
                                 unoptimized={true}
                             />
                         </div>
