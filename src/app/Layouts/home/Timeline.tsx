@@ -38,7 +38,7 @@ const educations = [
 
 const Timeline = () => {
     return (
-        <div className="container mt-12 rounded-sm p-8 dark:text-white mdsm:mx-20">
+        <div className="mt-12 rounded-sm p-8 dark:text-white mdsm:mx-20">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Experiences Section */}
                 <div>
