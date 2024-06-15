@@ -1,19 +1,34 @@
-
+'use client'
 import Image from 'next/image';
-import React from 'react';
+import React, { useState } from 'react';
+import ProfileModal from './me/ProfileModal';
 
 const Bio = () => {
+    const [modalOpen, setModalOpen] = useState<boolean>();
+    const handleOpenModal = () => {
+        setModalOpen(true)
+    }
+    const handleClose = () => {
+        setModalOpen(false)
+    }
     return (
-        <div className="container mx-auto px-4 py-8 md:flex md:space-x-8 dark:text-white">
-            <div className="md:w-1/2">
+        <div className="container w-full mx-auto px-4 py-8 md:flex dark:text-white">
+            <div className="md:w-1/2 p-4">
                 <div className="inline-flex items-center">
-                    <Image src="/gifs/Hi.gif" alt="Hi" width={45} height={30} />
-                    <h2 className="text-3xl font-bold mt-2 ml-2">Note</h2>
+                    <Image src="/gifs/Hi.gif"
+                        alt="Hi"
+                        width={45}
+                        height={30}
+                        quality={100}
+                        unoptimized={false}
+                    />
+                    <h2 className="text-2xl font-semibold mt-2">About me</h2>
                 </div>
 
                 <p className="text-baseGray dark:text-white">
-                    "I'm a technology enthusiast with strong skills in web development. My meticulous approach blends seamlessly with a fervent passion for solving complex problems. Experienced in data analysis, I am eager to contribute to innovative projects where I can apply my attention to detail and unwavering commitment to continuous learning."
+                I'm a technology enthusiast with strong web development skills. My meticulous approach blends seamlessly with a fervent passion for solving complex problems. With a background in data analytics and teamwork, I am eager to contribute to innovative projects where I can apply my attention to detail and unwavering commitment to continuous learning.
                 </p>
+                <span className='text-xs text-baseBlue dark:text-yellow-400 cursor-pointer hover:text-lg transition-all duration-300' onClick={handleOpenModal}>See more</span>
             </div>
             <div className="md:w-1/2 mt-4 md:mt-0">
                 <Image
@@ -26,7 +41,9 @@ const Bio = () => {
                     quality={100}  // Ajusta la calidad según sea necesario, valor entre 1 y 100
                 />
             </div>
+            <ProfileModal isOpen={modalOpen} onClose={handleClose} />
         </div>
+
     );
 };
 
