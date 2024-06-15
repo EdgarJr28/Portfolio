@@ -12,7 +12,7 @@ const Home = () => {
                     <div className="p-4 text-center lg:text-left lg:w-1/2 lg:pr-12">
                         <p className="text-baseGray dark:text-white">Welcome to my portfolio website! 🚀</p>
                         <h1 className="text-4xl font-bold my-4 dark:text-white">
-                            Hello friends, I'm <span className="text-baseBlue dark:text-yellow-300">Ed</span>
+                            Hello friends, I&apos;m <span className="text-baseBlue dark:text-yellow-300">Ed</span>
                         </h1>
                         <p className="text-baseGray dark:text-white mb-6">
                             Creating a successful product is a process that requires great energy and dedication. I specialize in designing exceptional user experiences, intuitive interfaces and high quality web development.

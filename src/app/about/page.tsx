@@ -2,7 +2,6 @@ import React from 'react'
 import Bio from './bio'
 import StatsCard from './stats/myStats'
 import SpotifyProfileCard from './me/SpotifyProfileCard'
-import Image from 'next/image'
 
 const About = () => {
     return (
@@ -18,7 +17,7 @@ const About = () => {
                         <SpotifyProfileCard />
                     </div>
 
-                    {/* Columna 2: Imagen */}
+                    {/* Columna 2: Text */}
                     <div className="flex justify-center items-center">
                         <div className="text-center">
                             <h1 className="text-4xl font-mono text-baseGray dark:text-white">"all that hard work gonna pay off"</h1>
