@@ -29,21 +29,21 @@ const Footer = () => {
                             EdDev
                         </h2>
                         <div className="flex space-x-2">
-                            <a target="_blank" rel="noopener noreferrer">
+                            <a target="_blank" rel="noopener noreferrer" href={'https://www.facebook.com/EdgarJunior.28'}>
                                 <FontAwesomeIcon
                                     icon={faSquareFacebook}
                                     width={30} height={30}
                                     className="text-4xl hover:text-blue-500 hover:scale-105 transition duration-300"
                                 />
                             </a>
-                            <a target="_blank" rel="noopener noreferrer">
+                            <a target="_blank" rel="noopener noreferrer" href={'https://x.com/ed__28'}>
                                 <FontAwesomeIcon
                                     icon={faSquareXTwitter}
                                     width={30} height={30}
                                     className="text-4xl hover:text-baseGray hover:scale-105 transition duration-300"
                                 />
                             </a>
-                            <a target="_blank" rel="noopener noreferrer">
+                            <a target="_blank" rel="noopener noreferrer" href={'https://www.instagram.com/ed__2898/'}>
                                 <FontAwesomeIcon
                                     icon={faSquareInstagram}
                                     width={30}
@@ -51,7 +51,7 @@ const Footer = () => {
                                     className="text-4xl  hover:text-red-300 hover:scale-105 transition duration-300"
                                 />
                             </a>
-                            <a target="_blank" rel="noopener noreferrer">
+                            <a target="_blank" rel="noopener noreferrer" href={'https://github.com/EdgarJr28'}>
                                 <FontAwesomeIcon
                                     icon={faGithubSquare}
                                     width={30}
