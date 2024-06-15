@@ -6,9 +6,12 @@ import Favicon from '/public/dev.ico';
 import Footer from "./Layouts/footer/Footer";
 
 export const metadata: Metadata = {
-  title: "Portfolio",
-  description: "@Ed's Portfolio",
-  icons: [{ rel: 'icon', url: Favicon.src }]
+  title: "EdDev Portfolio / Innovative Developer Projects",
+  description: "Welcome to EdDev Portfolio - Showcasing Innovative Web Development Projects. Explore my latest designs, coding skills and professional tech insights.",
+  icons: [
+    { rel: 'icon', url: Favicon.src },
+    { rel: 'apple-touch-icon', sizes: '180x180', url: Favicon.src }
+  ]
 };
 
 export default function RootLayout({

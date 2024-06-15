@@ -21,7 +21,7 @@ const About = () => {
                         {/* Columna 2: Text */}
                         <div className="flex justify-center items-center">
                             <div className="text-center">
-                                <h1 className="text-4xl font-mono text-baseGray dark:text-white">"all that hard work gonna pay off"</h1>
+                                <p className="text-4xl font-mono text-baseGray dark:text-white">"all that hard work gonna pay off"</p>
                             </div>
                         </div>
                     </div>

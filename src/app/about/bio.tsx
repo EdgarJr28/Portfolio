@@ -25,7 +25,7 @@ const Bio = () => {
                     <h2 className="text-2xl font-semibold mt-2">About me</h2>
                 </div>
 
-                <p className="text-baseGray dark:text-white">
+                <p className="text-baseGray text-lg dark:text-white">
                     I&apos;m a technology enthusiast with strong web development skills. My meticulous approach blends seamlessly with a fervent passion for solving complex problems. With a background in data analytics and teamwork, I am eager to contribute to innovative projects where I can apply my attention to detail and unwavering commitment to continuous learning.&nbsp;
                     <span className='text-xs text-baseBlue dark:text-yellow-400 cursor-pointer hover:text-base transition-all duration-300' onClick={handleOpenModal}>See more</span>
                 </p>
