@@ -12,8 +12,8 @@ const Bio = () => {
         setModalOpen(false)
     }
     return (
-        <div className="w-full mx-auto px-4 py-8 md:flex dark:text-white">
-            <div className="md:w-1/2 p-4">
+        <div className="w-full mx-auto px-4 py-8 md:flex dark:text-white mdsm:p-20">
+            <div className="md:w-1/2 p-4 mdsm:py-20">
                 <div className="inline-flex items-center">
                     <Image src="/gifs/Hi.gif"
                         alt="Hi"

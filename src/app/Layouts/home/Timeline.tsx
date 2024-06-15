@@ -2,38 +2,33 @@ import React from 'react';
 
 const experiences = [
     {
-        position: "Project Manager",
-        company: "Best Studio",
-        year: "2019 - Present"
+        position: "Jr Developer",
+        company: "Soluciona Ingeinería SAS",
+        year: "2019 - 2020"
     },
     {
-        position: "UX Designer",
-        company: "Digital Ace",
-        year: "2018 - 2019"
+        position: "Developer Freelancer",
+        company: "",
+        year: "2021 - 2022"
     },
     {
-        position: "UI Freelancer",
-        company: "Freelance",
-        year: "2016 - 2018"
+        position: "Developer",
+        company: "Intra Technology",
+        year: "2022 - 2023"
     }
 ];
 
 const educations = [
     {
-        title: "Master Dusigri",
-        university: "Creative Agency",
-        year: "2016"
+        title: "Systems Analyst",
+        university: "SENA",
+        year: "2020"
     },
     {
-        title: "UX Master",
-        university: "Creative Agency",
-        year: "2018"
+        title: "Systems Engineer",
+        university: "CUC University",
+        year: "2021 - Current"
     },
-    {
-        title: "Artwork Design",
-        university: "New Art School",
-        year: "2013"
-    }
 ];
 
 const Timeline = () => {
@@ -71,7 +66,7 @@ const Timeline = () => {
                                 <div className="absolute top-0 left-5 h-full border-l-2 border-gray-300"></div>
                                 <div className="flex items-center mb-2 relative z-10">
                                     <span className="bg-baseGray text-white dark:bg-white dark:text-black rounded-full h-10 w-10 flex items-center justify-center">
-                                        {education.year}
+                                        {education.year.split(' ')[0]}
                                     </span>
                                     <h3 className="ml-4 text-lg font-semibold">{education.title}</h3>
                                 </div>

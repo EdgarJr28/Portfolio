@@ -66,7 +66,7 @@ const Footer = () => {
                         <h2 className="text-lg font-bold mb-4">Shortcut Links</h2>
                         <ul className="space-y-2">
                             <li><Link className='hover:text-baseBlue' href="/">Home</Link></li>
-                            <li><Link className='hover:text-baseBlue' href="#">About</Link></li>
+                            <li><Link className='hover:text-baseBlue' href="/about">About</Link></li>
                         </ul>
                     </div>
                     {/* Newsletter Subscription */}
