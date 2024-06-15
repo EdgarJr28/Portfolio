@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 const InputWhithToggleSwitch = ({ value, onChange, className, label, name }: any) => {
     const [isToggled, setIsToggled] = useState(false);
     useEffect(() => {
-        setIsToggled(value);
+        setIsToggled(value || false);
     }, []);
 
     const handleToggle = () => {

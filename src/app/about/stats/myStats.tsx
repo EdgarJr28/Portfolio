@@ -4,17 +4,17 @@ import { Nested } from '@alptugidin/react-circular-progress-bar';
 
 const StatsCard = () => {
     return (
-        <div className="flex flex-col rounded-lg shadow-lg md:flex-row gap-4 max-w-[80%]  mdsm:max-w-[40%] mx-auto">
+        <div className="flex flex-col rounded-lg md:flex-row gap-4 max-w-[80%]  mdsm:max-w-[40%] mx-auto">
             {/* Frontend Stats */}
-            <div className="bg-transparent  dark:text-white p-4 w-full md:w-1/2">
+            <div className="bg-transparent dark:text-white p-4 w-full md:w-1/2">
                 <h3 className="text-xl font-semibold mb-4 text-center">Frontend Stats</h3>
                 <div className="mb-6 dark:text-white rounded-lg">
                     <Nested
                         circles={[
-                            { text: 'Javascript', value: 80, color: '#fde047' },
-                            { text: 'Typescript', value: 60, color: '#0ea5e9' },
-                            { text: 'HTML', value: 80, color: '#c2410c' },
-                            { text: 'CSS', value: 80, color: '#7c3aed' }
+                            { text: 'Javascript', value: 80, color: '#037db8' },
+                            { text: 'Typescript', value: 60, color: '#037db8' },
+                            { text: 'HTML', value: 80, color: '#037db8' },
+                            { text: 'CSS', value: 80, color: '#037db8' }
                         ]}
                         sx={{
                             bgColor: '#cbd5e1',
@@ -35,10 +35,10 @@ const StatsCard = () => {
                 <div className="mb-6">
                     <Nested
                         circles={[
-                            { text: 'REST', value: 100, color: '#b90004' },
-                            { text: 'SQL', value: 80, color: '#a87b98' },
-                            { text: 'NoSQL', value: 70, color: '#eff847' },
-                            { text: 'JWT', value: 100, color: '#408080' }
+                            { text: 'REST', value: 100, color: '#037db8' },
+                            { text: 'SQL', value: 80, color: '#037db8' },
+                            { text: 'NoSQL', value: 70, color: '#037db8' },
+                            { text: 'JWT', value: 100, color: '#037db8' }
                         ]}
                         sx={{
                             bgColor: '#cbd5e1',

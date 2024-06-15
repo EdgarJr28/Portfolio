@@ -12,7 +12,7 @@ const Bio = () => {
         setModalOpen(false)
     }
     return (
-        <div className="container w-full mx-auto px-4 py-8 md:flex dark:text-white">
+        <div className="w-full mx-auto px-4 py-8 md:flex dark:text-white">
             <div className="md:w-1/2 p-4">
                 <div className="inline-flex items-center">
                     <Image src="/gifs/Hi.gif"
@@ -20,15 +20,16 @@ const Bio = () => {
                         width={45}
                         height={30}
                         quality={100}
-                        unoptimized={false}
+                        unoptimized={true}
                     />
                     <h2 className="text-2xl font-semibold mt-2">About me</h2>
                 </div>
 
                 <p className="text-baseGray dark:text-white">
-                I&apos;m a technology enthusiast with strong web development skills. My meticulous approach blends seamlessly with a fervent passion for solving complex problems. With a background in data analytics and teamwork, I am eager to contribute to innovative projects where I can apply my attention to detail and unwavering commitment to continuous learning.
+                    I&apos;m a technology enthusiast with strong web development skills. My meticulous approach blends seamlessly with a fervent passion for solving complex problems. With a background in data analytics and teamwork, I am eager to contribute to innovative projects where I can apply my attention to detail and unwavering commitment to continuous learning.&nbsp;
+                    <span className='text-xs text-baseBlue dark:text-yellow-400 cursor-pointer hover:text-base transition-all duration-300' onClick={handleOpenModal}>See more</span>
                 </p>
-                <span className='text-xs text-baseBlue dark:text-yellow-400 cursor-pointer hover:text-lg transition-all duration-300' onClick={handleOpenModal}>See more</span>
+
             </div>
             <div className="md:w-1/2 mt-4 md:mt-0">
                 <Image

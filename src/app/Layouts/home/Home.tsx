@@ -19,11 +19,11 @@ const Home = () => {
                         </p>
                         <div className="flex justify-center lg:justify-start gap-4">
                             <button className="bg-transparen dark:text-white border dark:border-white dark:hover:border-transparent border-baseBlack text-black py-2 px-4 rounded hover:bg-baseBlue hover:text-white transition-colors duration-300 hover:border-transparent">
-                                <FontAwesomeIcon icon={faFileLines} className='py-[0.5%] px-1'/>
+                                <FontAwesomeIcon icon={faFileLines} className='py-[0.5%] px-1' />
                                 Dowload Resume
                             </button>
                             <button className="bg-baseGray text-white py-2 px-4 rounded">
-                               Contact me
+                                Contact me
                             </button>
                         </div>
                     </div>

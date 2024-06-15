@@ -1,7 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     images: {
-        domains: ['via.placeholder.com', 'media.giphy.com'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'media.giphy.com',
+                pathname: '**',
+            },
+        ],
     },
     env: {
         MAP_API_KEY: process.env.MAP_API_KEY,
