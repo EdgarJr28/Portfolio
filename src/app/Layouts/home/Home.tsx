@@ -3,11 +3,12 @@ import ContactSection from './ContactSection';
 import Timeline from './Timeline';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons/faFileLines';
+import SkillCarousel from './Skills';
 
 const Home = () => {
     return (
         <>
-            <section className="bg-transparent pt-32 mdsm:pt-18 flex justify-center items-center transition-all">
+            <section className="bg-transparent pt-32 mdsm:pt-16 mdsm:px-12 flex justify-center items-center transition-all">
                 <div className="container mx-auto flex flex-col lg:flex-row items-center mdsm:mx-auto">
                     <div className="p-4 text-center lg:text-left lg:w-1/2 lg:pr-12">
                         <p className="text-baseGray dark:text-white">Welcome to my portfolio website! 🚀</p>
@@ -40,6 +41,9 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+            <div className="my-4" >
+                <SkillCarousel />
+            </div>
             <section>
                 <Timeline />
             </section>
