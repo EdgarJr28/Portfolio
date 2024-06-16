@@ -72,7 +72,7 @@ const Footer = () => {
                     {/* Newsletter Subscription */}
                     <div>
                         <h2 className="text-lg text-center font-bold mb-4">Subscribe to the newsletter</h2>
-                        <form>
+                        <form onSubmit={(e: any) => { e.preventDefault(); }}>
                             <InputWithLabel onChange={handleChange} type={"email"} name="email" placeholder={"Introduce tu correo"} label="E-mail" value={formData.email} className="w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white" />
                             <button
                                 type="submit"

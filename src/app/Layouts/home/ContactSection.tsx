@@ -23,10 +23,22 @@ const ContactSection = () => {
 
 
 
-    const handleSend = (e: any) => {
-        e.preventDefault();
-        // Aquí puedes agregar la lógica para enviar los datos del formulario
-        console.log(formData); // Ejemplo: muestra los datos en la consola
+    const handleSend = async (e: any) => {
+        try {
+            e.preventDefault();
+            const response = await fetch('/api/sendEmail', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            });
+
+            const data = await response.json();
+            console.log(data);
+        } catch (error: any) {
+            console.error('Error al enviar el formulario:', error);
+        }
     }
 
     return (
