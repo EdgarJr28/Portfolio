@@ -5,6 +5,7 @@ import InputWithLabel from '@/app/components/Inputs/InputWithLabel';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import Map from '@/app/components/Map/Map';
+import PopUp from '@/app/components/PopUps/PopUp';
 
 const ContactSection = () => {
     const [formData, setFormData] = useState({
@@ -12,6 +13,11 @@ const ContactSection = () => {
         name: '',
         message: ''
     });
+    const [PopUpStatus, setPopUpStatus] = useState(false)
+    const [propsPopUp, setPropsPopUp] = useState({
+        status: false,
+        message: ''
+    })
 
     const handleChange = useCallback((e: any) => {
         const { name, value } = e.target;
@@ -34,12 +40,28 @@ const ContactSection = () => {
                 body: JSON.stringify(formData),
             });
 
-            const data = await response.json();
-            console.log(data);
+            await response.json();
+            if (response.ok) {
+                setFormData({ email: '', name: '', message: '' });
+                setPopUpStatus(true);
+                setPropsPopUp({ status: true, message: 'Message sent successfully' })
+                setTimeout(() => {
+                    setPopUpStatus(false)
+                }, 4000);
+            }
         } catch (error: any) {
-            console.error('Error al enviar el formulario:', error);
+            setPopUpStatus(true);
+            setPropsPopUp({ status: false, message: 'Error sending message' })
+            setTimeout(() => {
+                setPopUpStatus(false)
+            }, 4000);
         }
     }
+
+    const handleCloseModal = () => {
+        setPopUpStatus(false);
+    };
+
 
     return (
         <div className="flex flex-col md:flex-row items-center my-10 md:items-start md:justify-between p-6 bg-transparent dark:bg-dark-100">
@@ -52,7 +74,7 @@ const ContactSection = () => {
                     <p>Email: Ed.dev28@gmail.com</p>
                 </div>
             </div>
-            <div className="w-full my-6 md:w-1/2 mx-2 rounded-lg hover:shadow-lg transition-all duration-300">
+            <div id="contact" className="w-full my-6 md:w-1/2 mx-2 rounded-lg hover:shadow-lg transition-all duration-300">
                 <h2 className="text-lg pt-4 font-semibold mb-4 text-center text-baseBlack dark:text-white">Interested to work together? Let&apos;s talk</h2>
                 <form className="p-6 rounded-lg" onSubmit={handleSend}>
                     <div className="mb-4">
@@ -103,6 +125,9 @@ const ContactSection = () => {
                         Contact Me
                     </Button>
                 </form>
+                {PopUpStatus && (
+                    <PopUp status={propsPopUp.status} message={`${propsPopUp.message}`} onClose={handleCloseModal} />
+                )}
             </div>
         </div>
     );

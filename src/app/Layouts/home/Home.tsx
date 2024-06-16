@@ -1,3 +1,4 @@
+'use client'
 import Image from 'next/image';
 import ContactSection from './ContactSection';
 import Timeline from './Timeline';
@@ -6,6 +7,17 @@ import { faFileLines } from '@fortawesome/free-solid-svg-icons/faFileLines';
 import SkillCarousel from './Skills';
 
 const Home = () => {
+
+    const scrollToSection = (id: any) => {
+        const section = document.getElementById(id);
+        if (section) {
+            const headerOffset = 80;
+            window.scrollTo({
+                top: section.offsetTop - headerOffset,
+                behavior: 'smooth'
+            });
+        }
+    };
     return (
         <>
             <section className="bg-transparent pt-32 mdsm:pt-16 mdsm:px-12 flex justify-center items-center transition-all">
@@ -23,7 +35,10 @@ const Home = () => {
                                 <FontAwesomeIcon icon={faFileLines} className='py-[0.5%] px-1' />
                                 Dowload Resume
                             </button>
-                            <button className="bg-baseGray text-white py-2 px-4 rounded">
+                            <button
+                                className="bg-baseGray text-white py-2 px-4 rounded"
+                                onClick={() => scrollToSection('contact')}
+                            >
                                 Contact me
                             </button>
                         </div>
@@ -47,7 +62,7 @@ const Home = () => {
             <section>
                 <Timeline />
             </section>
-            <section>
+            <section >
                 <ContactSection />
             </section>
         </>
