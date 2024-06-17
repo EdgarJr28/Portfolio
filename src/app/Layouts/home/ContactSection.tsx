@@ -53,7 +53,7 @@ const ContactSection = () => {
                 setErrors({}); // Clear errors if no errors found
             }
 
-            /* const response = await fetch('/api/sendEmail', {
+            const response = await fetch('/api/sendEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ const ContactSection = () => {
                 setTimeout(() => {
                     setPopUpStatus(false)
                 }, 4000);
-            } */
+            }
         } catch (error: any) {
             setPopUpStatus(true);
             setPropsPopUp({ status: false, message: 'Error sending message' })
