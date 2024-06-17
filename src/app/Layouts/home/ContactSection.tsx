@@ -8,6 +8,7 @@ import Map from '@/app/components/Map/Map';
 import PopUp from '@/app/components/PopUps/PopUp';
 
 const ContactSection = () => {
+    const [errors, setErrors] = useState<any>({});
     const [formData, setFormData] = useState({
         email: '',
         name: '',
@@ -20,6 +21,7 @@ const ContactSection = () => {
     })
 
     const handleChange = useCallback((e: any) => {
+        setErrors({});
         const { name, value } = e.target;
         setFormData(prevState => ({
             ...prevState,
@@ -32,7 +34,26 @@ const ContactSection = () => {
     const handleSend = async (e: any) => {
         try {
             e.preventDefault();
-            const response = await fetch('/api/sendEmail', {
+            const newErrors: any = {};
+            if (formData.email === '') {
+                newErrors.email = 'The email is required';
+            }
+            if (formData.name === '') {
+                newErrors.name = 'The name is required';
+            }
+            if (formData.message === '') {
+                newErrors.message = 'The message is required';
+            }
+
+            if (Object.keys(newErrors).length > 0) {
+                setErrors(newErrors);
+                return;
+            } else {
+                // Submit the form or perform further actions
+                setErrors({}); // Clear errors if no errors found
+            }
+
+            /* const response = await fetch('/api/sendEmail', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -48,7 +69,7 @@ const ContactSection = () => {
                 setTimeout(() => {
                     setPopUpStatus(false)
                 }, 4000);
-            }
+            } */
         } catch (error: any) {
             setPopUpStatus(true);
             setPropsPopUp({ status: false, message: 'Error sending message' })
@@ -74,9 +95,14 @@ const ContactSection = () => {
                     <p>Email: Ed.dev28@gmail.com</p>
                 </div>
             </div>
-            <div id="contact" className="w-full my-6 md:w-1/2 mx-2 rounded-lg hover:shadow-lg transition-all duration-300">
+            <div id="contact" className="w-full my-6 md:w-1/2 mx-2 rounded-lg transition-all duration-300">
                 <h2 className="text-lg pt-4 font-semibold mb-4 text-center text-baseBlack dark:text-white">Interested to work together? Let&apos;s talk</h2>
-                <form className="p-6 rounded-lg" onSubmit={handleSend}>
+                {Object.keys(errors).length > 0 && (
+                    <p className=" w-full ml-5 text-red-500 text-xs md:text-sm whitespace-nowrap">
+                        🚨 Fields are required
+                    </p>
+                )}
+                <form className="px-6 pb-6 pt-1 rounded-lg" onSubmit={handleSend}>
                     <div className="mb-4">
                         <InputWithLabel
                             onChange={handleChange}
@@ -85,7 +111,7 @@ const ContactSection = () => {
                             placeholder="Introduce tu nombre"
                             label="Name"
                             value={formData.name}
-                            className="w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white"
+                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.name ? 'border-2 border-red-400' : ''}`}
                         />
                     </div>
                     <div className="mb-4">
@@ -96,10 +122,10 @@ const ContactSection = () => {
                             placeholder="Introduce tu correo"
                             label="Email"
                             value={formData.email}
-                            className="w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white"
+                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.email ? 'border-2 border-red-400' : ''}`}
                         />
                     </div>
-                    <div className="mb-4 border border-baseGray rounded-md focus:outline-none text-sm dark:border-white dark:text-white">
+                    <div className={`mb-4 border border-baseGray rounded-md focus:outline-none text-sm dark:border-white dark:text-white ${errors.message ? 'border-2 border-red-400 ' : ''}`}>
                         <label htmlFor="message" className="p-1 px-2 block text-sm text-baseBlack dark:text-white">Message</label>
                         <textarea
                             id="message"
@@ -108,7 +134,7 @@ const ContactSection = () => {
                             name="message"
                             rows={4}
                             placeholder="Your message"
-                            className="w-full resize-none px-2 py-2 text-xs dark:bg-dark-100 focus-within:outline-none"
+                            className={`w-full resize-none px-2 py-2 text-xs dark:bg-dark-100 focus-within:outline-none`}
                             maxLength={150}
                         />
                     </div>

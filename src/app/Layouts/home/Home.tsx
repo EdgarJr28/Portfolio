@@ -5,9 +5,9 @@ import Timeline from './Timeline';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons/faFileLines';
 import SkillCarousel from './Skills';
+import { useEffect } from 'react';
 
 const Home = () => {
-
     const scrollToSection = (id: any) => {
         const section = document.getElementById(id);
         if (section) {

@@ -4,6 +4,7 @@ const DarkModeToggle = () => {
     const [darkMode, setDarkMode] = useState(false);
 
     useEffect(() => {
+        localStorage.getItem('darkMode') === 'dark' ? setDarkMode(true) : setDarkMode(false);
         // Aplicar la clase 'dark' al body cuando el modo oscuro está activado
         if (darkMode) {
             document.documentElement.classList.add('dark');
