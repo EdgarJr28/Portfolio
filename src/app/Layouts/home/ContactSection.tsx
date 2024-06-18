@@ -2,8 +2,6 @@
 import React, { useState, useCallback } from 'react';
 import Button from '@/app/components/Buttons/Button';
 import InputWithLabel from '@/app/components/Inputs/InputWithLabel';
-import dynamic from 'next/dynamic';
-import { useRouter } from 'next/router';
 import Map from '@/app/components/Map/Map';
 import PopUp from '@/app/components/PopUps/PopUp';
 
@@ -111,7 +109,7 @@ const ContactSection = () => {
                             placeholder="Introduce tu nombre"
                             label="Name"
                             value={formData.name}
-                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.name ? 'border-2 border-red-400' : ''}`}
+                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.name ? 'border-2 border-red-400 dark:border-red-500' : ''}`}
                         />
                     </div>
                     <div className="mb-4">
@@ -122,10 +120,10 @@ const ContactSection = () => {
                             placeholder="Introduce tu correo"
                             label="Email"
                             value={formData.email}
-                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.email ? 'border-2 border-red-400' : ''}`}
+                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.email ? 'border-2 border-red-400 dark:border-red-500' : ''}`}
                         />
                     </div>
-                    <div className={`mb-4 border border-baseGray rounded-md focus:outline-none text-sm dark:border-white dark:text-white ${errors.message ? 'border-2 border-red-400 ' : ''}`}>
+                    <div className={`mb-4 border border-baseGray rounded-md focus:outline-none text-sm dark:border-white dark:text-white ${errors.message ? 'border-2 border-red-400 dark:border-red-500' : ''}`}>
                         <label htmlFor="message" className="p-1 px-2 block text-sm text-baseBlack dark:text-white">Message</label>
                         <textarea
                             id="message"
@@ -135,7 +133,7 @@ const ContactSection = () => {
                             rows={4}
                             placeholder="Your message"
                             className={`w-full resize-none px-2 py-2 text-xs dark:bg-dark-100 focus-within:outline-none`}
-                            maxLength={150}
+                            maxLength={200}
                         />
                     </div>
                     <Button type="submit"

@@ -26,6 +26,18 @@ const Navbar = () => {
       document.body.classList.remove('overflow-hidden');
     }
 
+    // Validar si el scroll está abajo al cargar la página
+    const isScrolledToBottom = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      return scrollTop + windowHeight >= documentHeight;
+    };
+
+    if (isScrolledToBottom()) {
+      setScrolled(true);
+    }
+
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -61,8 +73,8 @@ const Navbar = () => {
         <div className="fixed top-16 left-0 right-0 h-screen bg-transparent bg-opacity-50 z-40 backdrop-blur-md transition-all duration-300">
           {/* Additional links for mobile menu */}
           <div className="flex flex-col items-center pt-8">
-            <Link href="/" className="text-baseBlack dark:text-white text-lg mb-4">Home</Link>
-            <Link href="/about" className="text-baseBlack dark:text-white text-lg mb-4">About</Link>
+            <Link href="/" onClick={handleClick} className="text-baseBlack dark:text-white text-lg mb-4">Home</Link>
+            <Link href="/about" onClick={handleClick} className="text-baseBlack dark:text-white text-lg mb-4">About</Link>
 
             {/* Add more links as needed */}
           </div>

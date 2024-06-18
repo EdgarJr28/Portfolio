@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons/faFileLines';
 import SkillCarousel from './Skills';
 import { useEffect } from 'react';
+import ProjectGallerySection from './proyectGalery/ProjectGallerySection';
 
 const Home = () => {
     const scrollToSection = (id: any) => {
@@ -45,13 +46,16 @@ const Home = () => {
                     </div>
                     <div className="mt-8 lg:mt-0 w-full lg:w-1/2 flex justify-center rounded-lg">
                         <div className="relative h-0 w-full pb-[66.67%]">
-                            <Image
-                                src="/gifs/developer.gif"
-                                alt="Illustration of a person at a desk"
-                                fill
-                                className="rounded object-cover drop-shadow-xl mdsm:hover:scale-105 transition-all duration-300"
-                                unoptimized={true}
-                            />
+                            <div className="relative w-full h-96">
+                                <Image
+                                    src="/gifs/developer.gif"
+                                    alt="Illustration of a person at a desk"
+                                    layout="fill"
+                                    className="rounded object-cover drop-shadow-xl mdsm:hover:scale-105 transition-all duration-300"
+                                    loading="lazy"
+                                    unoptimized
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -61,6 +65,9 @@ const Home = () => {
             </div>
             <section>
                 <Timeline />
+            </section>
+            <section>
+                <ProjectGallerySection />
             </section>
             <section >
                 <ContactSection />

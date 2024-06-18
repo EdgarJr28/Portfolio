@@ -4,6 +4,7 @@ import Navbar from "./Layouts/navbar/Navbar.component";
 import Head from "next/head";
 import Favicon from '/public/dev.ico';
 import Footer from "./Layouts/footer/Footer";
+import { CtxProvider } from "./context/context";
 
 export const metadata: Metadata = {
   title: "EdDev Portfolio / Innovative Developer Projects",
@@ -27,13 +28,15 @@ export default function RootLayout({
         <title>{String(metadata.title ?? "")}</title>
       </Head>
       <body className="dark:bg-dark-100">
-        <nav>
-          <Navbar />
-        </nav>
-        <div>
-          {children}
-        </div>
-        <Footer />
+        <CtxProvider>
+          <nav>
+            <Navbar />
+          </nav>
+          <div>
+            {children}
+          </div>
+          <Footer />
+        </CtxProvider>
       </body>
     </html>
   );

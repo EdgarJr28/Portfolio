@@ -1,7 +1,10 @@
+'use client'
+import { useCtx } from '@/app/context/context';
 import { useEffect, useState } from 'react';
 
 const DarkModeToggle = () => {
     const [darkMode, setDarkMode] = useState(false);
+    const { setColor }: any = useCtx();
 
     useEffect(() => {
         localStorage.getItem('darkMode') === 'dark' ? setDarkMode(true) : setDarkMode(false);
@@ -14,6 +17,7 @@ const DarkModeToggle = () => {
     }, [darkMode]);
 
     const toggleDarkMode = () => {
+        localStorage.getItem('darkMode') === 'dark' ? setColor('black') : setColor('white');
         setDarkMode((prevMode) => !prevMode);
         // Opcional: Guardar el estado en localStorage para persistencia
         localStorage.setItem('darkMode', !darkMode ? 'dark' : 'light');

@@ -7,13 +7,11 @@ import { CtxProvider } from "./context/context";
 export default function Index() {
   return (
     <>
-      <CtxProvider>
-        <main className="flex min-h-screen flex-col items-center">
-          <div>
-            <Home />
-          </div>
-        </main>
-      </CtxProvider>
+      <main className="flex min-h-screen flex-col items-center">
+        <div>
+          <Home />
+        </div>
+      </main>
     </>
   );
 }
