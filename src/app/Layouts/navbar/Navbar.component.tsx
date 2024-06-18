@@ -61,7 +61,7 @@ const Navbar = () => {
         </Link>
         <div className={`hidden md:flex items-center space-x-4 ${active ? 'fixed top-20 left-0 right-0 bg-gray-800 p-8 rounded-b-lg z-50' : 'md:relative'}`}>
           <Link href="/" className="text-baseBlack dark:text-white hover:text-baseBlue dark:hover:text-yellow-300 hover:scale-125 transition-all duration-300" >Home</Link>
-          <Link href="/about" className="text-baseBlack dark:text-white hover:text-baseBlue dark:hover:text-  yellow-300 hover:scale-125 transition-all duration-300">About</Link>
+          <Link href="/about" className="text-baseBlack dark:text-white hover:text-baseBlue dark:hover:text-yellow-300 hover:scale-125 transition-all duration-300">About</Link>
           <DarkModeToggle />
           {/* Add more links as needed */}
         </div>
