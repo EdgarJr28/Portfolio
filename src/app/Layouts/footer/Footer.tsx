@@ -2,6 +2,7 @@
 import InputWithLabel from '@/app/components/Inputs/InputWithLabel'
 import { faConnectdevelop } from '@fortawesome/free-brands-svg-icons'
 import { faGithubSquare } from '@fortawesome/free-brands-svg-icons/faGithubSquare'
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin'
 import { faSquareFacebook } from '@fortawesome/free-brands-svg-icons/faSquareFacebook'
 import { faSquareInstagram } from '@fortawesome/free-brands-svg-icons/faSquareInstagram'
 import { faSquareXTwitter } from '@fortawesome/free-brands-svg-icons/faSquareXTwitter'
@@ -57,6 +58,14 @@ const Footer = () => {
                                     width={30}
                                     height={30}
                                     className="text-4xl hover:text-purple-950 hover:scale-105 transition duration-300"
+                                />
+                            </a>
+                            <a target="_blank" rel="noopener noreferrer" href={'https://www.linkedin.com/in/edgar-maldonado-5619171a0/'}>
+                                <FontAwesomeIcon
+                                    icon={faLinkedin}
+                                    width={30}
+                                    height={30}
+                                    className="text-4xl hover:text-blue-700 hover:scale-105 transition duration-300"
                                 />
                             </a>
                         </div>

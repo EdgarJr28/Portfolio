@@ -19,7 +19,7 @@ const config: Config = {
         "baseGreen": "#32D583",
         'baseBlack': 'rgba(0, 0, 0, 0.9)',
         "baseBlue": "#037db8",
-        "alert": "#ff464a"
+        "baseAlert": "#ff464a"
       },
       screens: {
         'mdsm': '768px', //  breakpoint personalizado
