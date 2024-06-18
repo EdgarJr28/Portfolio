@@ -96,7 +96,7 @@ const ContactSection = () => {
             <div id="contact" className="w-full my-6 md:w-1/2 mx-2 rounded-lg transition-all duration-300">
                 <h2 className="text-lg pt-4 font-semibold mb-4 text-center text-baseBlack dark:text-white">Interested to work together? Let&apos;s talk</h2>
                 {Object.keys(errors).length > 0 && (
-                    <p className=" w-full ml-5 text-red-500 text-xs md:text-sm whitespace-nowrap">
+                    <p className=" w-full ml-5 text-alert text-xs md:text-sm whitespace-nowrap">
                         🚨 Fields are required
                     </p>
                 )}
@@ -109,7 +109,7 @@ const ContactSection = () => {
                             placeholder="Introduce tu nombre"
                             label="Name"
                             value={formData.name}
-                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.name ? 'border-2 border-red-400 dark:border-red-500' : ''}`}
+                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.name ? 'border-2 dark:border-alert border-alert' : ''}`}
                         />
                     </div>
                     <div className="mb-4">
@@ -120,10 +120,10 @@ const ContactSection = () => {
                             placeholder="Introduce tu correo"
                             label="Email"
                             value={formData.email}
-                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.email ? 'border-2 border-red-400 dark:border-red-500' : ''}`}
+                            className={`w-full p-2 mb-4 text-baseBlack border-baseGray dark:border-white ${errors.email ? 'border-2 dark:border-alert border-alert ' : ''}`}
                         />
                     </div>
-                    <div className={`mb-4 border border-baseGray rounded-md focus:outline-none text-sm dark:border-white dark:text-white ${errors.message ? 'border-2 border-red-400 dark:border-red-500' : ''}`}>
+                    <div className={`mb-4 border border-baseGray rounded-md focus:outline-none text-sm dark:border-white dark:text-white ${errors.message ? 'border-2 dark:border-alert border-alert' : ''}`}>
                         <label htmlFor="message" className="p-1 px-2 block text-sm text-baseBlack dark:text-white">Message</label>
                         <textarea
                             id="message"

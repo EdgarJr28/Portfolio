@@ -15,11 +15,10 @@ const About = () => {
                 </div>
                 <div className="container mx-auto py-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Columna 1: SpotifyProfileCard */}
+                        {/* Columna 1: SpotifyCard */}
                         <div>
                             <SpotifyProfileCard />
                         </div>
-
                         {/* Columna 2: Text */}
                         <div className="flex justify-center items-center">
                             <Quote />

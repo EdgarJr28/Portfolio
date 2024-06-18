@@ -38,6 +38,8 @@ const Navbar = () => {
       setScrolled(true);
     }
 
+    isScrolledToBottom();
+    handleScroll();
     window.addEventListener('scroll', handleScroll);
     return () => {
       window.removeEventListener('scroll', handleScroll);
@@ -58,8 +60,8 @@ const Navbar = () => {
           </h2>
         </Link>
         <div className={`hidden md:flex items-center space-x-4 ${active ? 'fixed top-20 left-0 right-0 bg-gray-800 p-8 rounded-b-lg z-50' : 'md:relative'}`}>
-          <Link href="/" className="text-baseBlack dark:text-white hover:text-baseBlue hover:scale-125 transition-all duration-300" >Home</Link>
-          <Link href="/about" className="text-baseBlack dark:text-white hover:text-baseBlue hover:scale-125 transition-all duration-300">About</Link>
+          <Link href="/" className="text-baseBlack dark:text-white hover:text-baseBlue dark:hover:text-yellow-300 hover:scale-125 transition-all duration-300" >Home</Link>
+          <Link href="/about" className="text-baseBlack dark:text-white hover:text-baseBlue dark:hover:text-  yellow-300 hover:scale-125 transition-all duration-300">About</Link>
           <DarkModeToggle />
           {/* Add more links as needed */}
         </div>
@@ -75,7 +77,6 @@ const Navbar = () => {
           <div className="flex flex-col items-center pt-8">
             <Link href="/" onClick={handleClick} className="text-baseBlack dark:text-white text-lg mb-4">Home</Link>
             <Link href="/about" onClick={handleClick} className="text-baseBlack dark:text-white text-lg mb-4">About</Link>
-
             {/* Add more links as needed */}
           </div>
         </div>

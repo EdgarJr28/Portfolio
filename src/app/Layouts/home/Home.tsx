@@ -5,10 +5,12 @@ import Timeline from './Timeline';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileLines } from '@fortawesome/free-solid-svg-icons/faFileLines';
 import SkillCarousel from './Skills';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ProjectGallerySection from './proyectGalery/ProjectGallerySection';
+import ModalDownloadResume from '@/app/components/Modals/ModalDownloadResume';
 
 const Home = () => {
+    const [modalOpen, setModalOpen] = useState(false);
     const scrollToSection = (id: any) => {
         const section = document.getElementById(id);
         if (section) {
@@ -19,6 +21,12 @@ const Home = () => {
             });
         }
     };
+
+
+    const handleModal = () => {
+        setModalOpen(!modalOpen);
+    }
+
     return (
         <>
             <section className="bg-transparent pt-32 mdsm:pt-16 mdsm:px-12 flex justify-center items-center transition-all">
@@ -32,7 +40,10 @@ const Home = () => {
                             Creating a successful product is a process that requires great energy and dedication. I specialize in designing exceptional user experiences, intuitive interfaces and high quality web development.
                         </p>
                         <div className="flex justify-center lg:justify-start gap-4">
-                            <button className="bg-transparen dark:text-white border dark:border-white dark:hover:border-transparent border-baseBlack text-black py-2 px-4 rounded hover:bg-baseBlue hover:text-white transition-colors duration-300 hover:border-transparent">
+                            <button
+                                className="bg-transparen dark:text-white border dark:border-white dark:hover:text-black dark:hover:bg-yellow-300 dark:hover:border-transparent border-baseBlack text-black py-2 px-4 rounded hover:bg-baseBlue hover:text-white transition-colors duration-300 hover:border-transparent"
+                                onClick={handleModal}
+                            >
                                 <FontAwesomeIcon icon={faFileLines} className='py-[0.5%] px-1' />
                                 Dowload Resume
                             </button>
@@ -44,14 +55,14 @@ const Home = () => {
                             </button>
                         </div>
                     </div>
-                    <div className="mt-8 lg:mt-0 w-full lg:w-1/2 flex justify-center rounded-lg">
-                        <div className="relative h-0 w-full pb-[66.67%]">
+                    <div className="mdsm:mt-8 lg:mt-0 w-full lg:w-1/2 flex justify-center rounded-lg">
+                        <div className="relative h-0 w-full pb-[60%]">
                             <div className="relative w-full h-96">
                                 <Image
                                     src="/gifs/developer.gif"
                                     alt="Illustration of a person at a desk"
-                                    layout="fill"
-                                    className="rounded object-cover drop-shadow-xl mdsm:hover:scale-105 transition-all duration-300"
+                                    fill
+                                    className="rounded object-cover drop-shadow-xl transition-all duration-300"
                                     loading="lazy"
                                     unoptimized
                                 />
@@ -60,7 +71,7 @@ const Home = () => {
                     </div>
                 </div>
             </section>
-            <div className="my-4" >
+            <div className="pt-14 mdsm:pt-0 my-4 mdsm:my-1" >
                 <SkillCarousel />
             </div>
             <section>
@@ -72,6 +83,7 @@ const Home = () => {
             <section >
                 <ContactSection />
             </section>
+            <ModalDownloadResume isOpen={modalOpen}  onClose={handleModal}/>
         </>
     );
 }

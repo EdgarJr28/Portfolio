@@ -27,7 +27,7 @@ const Bio = () => {
 
                 <p className="text-baseGray text-lg dark:text-white">
                     I&apos;m a technology enthusiast with strong web development skills. My meticulous approach blends seamlessly with a fervent passion for solving complex problems. With a background in data analytics and teamwork, I am eager to contribute to innovative projects where I can apply my attention to detail and unwavering commitment to continuous learning.&nbsp;
-                    <span className='text-xs text-baseBlue dark:text-yellow-400 cursor-pointer hover:text-base transition-all duration-300' onClick={handleOpenModal}>See more</span>
+                    <span className='text-xs text-baseBlue dark:text-yellow-300 cursor-pointer hover:text-base transition-all duration-300' onClick={handleOpenModal}>See more</span>
                 </p>
 
             </div>

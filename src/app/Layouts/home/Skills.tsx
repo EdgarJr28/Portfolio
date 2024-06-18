@@ -7,14 +7,14 @@ import 'slick-carousel/slick/slick-theme.css';
 import { faDatabase } from '@fortawesome/free-solid-svg-icons';
 
 const skills = [
-    { id: 1, name: 'JavaScript', icon: faJs, className: "text-yellow-400" },
+    { id: 1, name: 'JavaScript', icon: faJs, className: "text-yellow-300" },
     { id: 2, name: 'Node.js', icon: faNode, className: "text-green-400" },
     { id: 3, name: 'React', icon: faReact, className: "text-baseBlue" },
     { id: 4, name: 'HTML5', icon: faHtml5, className: "text-orange-500" },
     { id: 5, name: 'CSS3', icon: faCss3Alt, className: "text-blue-400" },
     { id: 7, name: 'Git', icon: faGithub, className: "text-black dark:text-white" },
     { id: 8, name: 'Angular', icon: faAngular, className: "text-red-500" },
-    { id: 9, name: 'AWS', icon: faAws, className: "dark:text-white" },  
+    { id: 9, name: 'AWS', icon: faAws, className: "dark:text-white" },
     { id: 10, name: 'Docker', icon: faDocker, className: "text-blue-400" },
     { id: 11, name: 'Sql', icon: faDatabase, className: "text-pink-400" },
 ];
@@ -58,6 +58,7 @@ const SkillCarousel = () => {
 
     return (
         <div className="w-full max-w-xs mdsm:max-w-lg mx-auto mt-10">
+            <p className="text-lg text-center dark:text-white " >Skills</p>
             <Slider {...settings}>
                 {skills.map((skill) => (
                     <div key={skill.id} className="flex flex-col items-center justify-center p-4">

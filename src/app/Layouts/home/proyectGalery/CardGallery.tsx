@@ -39,7 +39,7 @@ const CardGallery = ({ key, data }: any) => {
                     </div>
 
                     {/* Columna del título y la descripción */}
-                    <div className="md:w-2/4 p-4 h-full flex flex-col">
+                    <div className="md:w-2/4 p-4 m-auto h-full flex flex-col">
                         <div className="mb-2">
                             <h2 className="text-2xl font-semibold text-center">{data.title}</h2>
                         </div>
@@ -51,7 +51,19 @@ const CardGallery = ({ key, data }: any) => {
                             ></p>
                         </div>
                         <div className="w-full mx-auto border-t p-1 border-gray-200">
-                            <Button className="w-2/4 mx-[25%] mt-2 mdsm:mt-4 border border-black text-sm" onClick={handleModal}>
+                            <Button
+                                onClick={handleModal}
+                                className="w-2/4 mx-[25%] 
+                                 mt-2 mdsm:mt-4 border 
+                                 text-sm hover:border-transparent
+                               border-black dark:border-white
+                               text-black hover:text-white
+                               dark:text-white hover:bg-baseBlue
+                               dark:hover:text-dark-100 dark:hover:bg-yellow-300
+                                dark:hover:border-transparent
+                                 transition-colors duration-300
+                                "
+                            >
                                 More info
                             </Button>
                         </div>

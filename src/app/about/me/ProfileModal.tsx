@@ -34,10 +34,8 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
                         <Image
                             src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzVma3M5cTN6NGU1YmdvYnczbDQ0bmdxZTE0OHhvdmppbWk2NzQ1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LM51zyLF5ivI3JVCtL/giphy.gif"
                             alt="Imagen"
-                            width={120}
-                            height={120}
-                            layout='fixed'
-                            className="w-[60px] mx-auto rounded-md shadow-lg transition-all duration-300"
+                            fill
+                            className="w-6 h-10 mx-auto rounded-md shadow-lg transition-all duration-300"
                         />
                     </div>
                 </div>
