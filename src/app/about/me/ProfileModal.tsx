@@ -30,12 +30,14 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
                         <h2 className="text-2xl font-bold">Ed</h2>
                         <p className="text-baseGray text-base dark:text-white">Hello a pleasure, I am a cheerful and vibrant person, I really like music and art, I emphasize that I like quiet places and I have happiness as an engine of personal growth.</p>
                     </div>
-                    <div>
+                    <div className="">
                         <Image
                             src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzVma3M5cTN6NGU1YmdvYnczbDQ0bmdxZTE0OHhvdmppbWk2NzQ1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LM51zyLF5ivI3JVCtL/giphy.gif"
                             alt="Imagen"
-                            fill
-                            className="w-6 h-10 mx-auto rounded-md shadow-lg transition-all duration-300"
+                            width={200}
+                            height={100}
+                            className="w-20 h-16 mx-auto rounded-md shadow-lg transition-all duration-300"
+                            unoptimized
                         />
                     </div>
                 </div>
