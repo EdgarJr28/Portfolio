@@ -46,7 +46,7 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
                         </div>
 
                         <Image
-                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzVma3M5cTN6NGU1YmdvYnczbDQ0bmdxZTE0OHhvdmppbWk2NzQ1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LM51zyLF5ivI3JVCtL/giphy.gif"
+                            src="/gifs/aeom.gif"
                             alt="Imagen"
                             width={200}
                             height={100}
