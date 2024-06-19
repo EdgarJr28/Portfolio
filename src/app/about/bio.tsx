@@ -22,6 +22,7 @@ const Bio = () => {
                         quality={100}
                         unoptimized={true}
                         className='w-12 h-10 '
+                        unselectable='on'
                     />
                     <h2 className="text-2xl font-semibold mt-2">About me</h2>
                 </div>
@@ -40,6 +41,7 @@ const Bio = () => {
                     alt="Imagen"
                     className="object-cover w-full h-auto md:h-full rounded-lg"
                     quality={100}  // Ajusta la calidad según sea necesario, valor entre 1 y 100
+                    unoptimized
                 />
             </div>
             <ProfileModal isOpen={modalOpen} onClose={handleClose} />
