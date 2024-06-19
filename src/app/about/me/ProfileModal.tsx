@@ -16,7 +16,7 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
         <div className="fixed backdrop-blur-md inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
             <div className="relative w-auto max-w-3xl mx-auto my-6">
                 {/* Contenido del modal */}
-                <div className="bg-white rounded-lg shadow-lg relative flex flex-col w-full p-6 dark:bg-dark-100 dark:shadow-baseGray">
+                <div className="bg-white rounded-lg shadow-lg relative flex flex-col w-full py-6 mdsm:p-6 dark:bg-dark-100 dark:shadow-baseGray">
                     <button
                         className="absolute top-0 right-0 mt-4 mr-4 text-baseGray hover:text-gray-700 cursor-pointer"
                         onClick={onClose}
@@ -30,7 +30,7 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
                         <img
                             src="/images/me.jpg"
                             alt="Perfil"
-                            className="w-40 h-40 rounded-full shadow-lg object-cover hover:scale-110 transition-all duration-300"
+                            className="w-40 h-40 mdsm:w-40 mdsm:h-40 rounded-full shadow-lg object-cover hover:scale-110 transition-all duration-300"
                         />
                     </div>
                     <div className="text-center m-4 w-80">

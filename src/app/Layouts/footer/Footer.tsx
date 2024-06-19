@@ -26,7 +26,7 @@ const Footer = () => {
                     {/* Logo and Social Media */}
                     <div className="flex flex-col md:flex-col md:items-start items-center">
                         <h2 className="text-center dark:text-white font-bold lg:py-10 w-32 mb-4 lg:blur-md text-2xl text-baseBlack hover:blur-0 transition-all duration-500 ease-in-out hover:scale-105 cursor-pointer">
-                            <FontAwesomeIcon icon={faConnectdevelop} width={30} height={30} />
+                            <FontAwesomeIcon icon={faConnectdevelop} className='hover:animate-spin' width={30} height={30} />
                             EdDev
                         </h2>
                         <div className="flex space-x-2">

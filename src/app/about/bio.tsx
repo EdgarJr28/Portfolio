@@ -21,6 +21,7 @@ const Bio = () => {
                         height={30}
                         quality={100}
                         unoptimized={true}
+                        className='w-12 h-10 '
                     />
                     <h2 className="text-2xl font-semibold mt-2">About me</h2>
                 </div>
@@ -37,7 +38,6 @@ const Bio = () => {
                     height={250}
                     src="/images/developer_banner.jpg"
                     alt="Imagen"
-                    layout="responsive"
                     className="object-cover w-full h-auto md:h-full rounded-lg"
                     quality={100}  // Ajusta la calidad según sea necesario, valor entre 1 y 100
                 />
