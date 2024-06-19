@@ -59,7 +59,7 @@ const Timeline = () => {
                     </div>
 
                     {/* Education Section */}
-                    <div className={`mx-12 mx-20`}>
+                    <div className={`mx-12 mdsm:mx-20`}>
                         <h2 className="text-xl font-bold mb-4">Educations</h2>
                         <div className="relative">
                             {educations.map((education, index) => (
