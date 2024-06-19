@@ -7,12 +7,12 @@ const ModalDownloadResume = ({ isOpen, onClose }: any) => {
     if (!isOpen) return null;
 
     const handleDownload = (lg: any) => {
-       /*  const link = document.createElement('a');
+        const link = document.createElement('a');
         link.href = `/curriculum/resume${lg}.pdf`; // Ruta del recurso en el servidor
         link.setAttribute('download', 'Resume.pdf'); // Nombre con el que se descargará el archivo
         document.body.appendChild(link);
         link.click();
-        link.remove(); */
+        link.remove();
         onClose();
     };
     return (

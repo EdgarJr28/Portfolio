@@ -1,9 +1,16 @@
 'use client'
 import React from 'react';
 import Image from 'next/image';
+import Typewriter from '@/app/components/extras/TypeWriter';
 
 const ProfileModal = ({ isOpen, onClose }: any) => {
     if (!isOpen) return null;
+    const phrases = [
+        'Developing ideas, a moment...',
+        "Hello, it's wonderful to see you!",
+        'Wishing you a day full of positivity and joy!',
+        'Turn ideas into reality. Happy coding!',
+        'Hey! Nice to meet you.'];
 
     return (
         <div className="fixed backdrop-blur-md inset-0 z-50 flex items-center justify-center overflow-x-hidden overflow-y-auto outline-none focus:outline-none">
@@ -26,11 +33,18 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
                             className="w-40 h-40 rounded-full shadow-lg object-cover hover:scale-110 transition-all duration-300"
                         />
                     </div>
-                    <div className="text-center m-4 ">
+                    <div className="text-center m-4 w-80">
                         <h2 className="text-2xl font-bold">Ed</h2>
                         <p className="text-baseGray text-base dark:text-white">Hello a pleasure, I am a cheerful and vibrant person, I really like music and art, I emphasize that I like quiet places and I have happiness as an engine of personal growth.</p>
                     </div>
                     <div className="">
+                        <div className="bg-black text-green-400 px-1 rounded-lg max-w-64 mx-auto mb-4">
+                            <div className="flex items-center">
+                                <p className="text-green-400 text-lg mr-1">&gt;</p>
+                                <Typewriter phrases={phrases} typingSpeed={100} pauseTime={3000} className={`text-xs text-balance pb-1`} />
+                            </div>
+                        </div>
+
                         <Image
                             src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExNzVma3M5cTN6NGU1YmdvYnczbDQ0bmdxZTE0OHhvdmppbWk2NzQ1dCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/LM51zyLF5ivI3JVCtL/giphy.gif"
                             alt="Imagen"

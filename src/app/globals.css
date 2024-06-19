@@ -15,8 +15,12 @@
 
 }
 
-.dark svg text{
+.dark svg text {
     fill: white;
+}
+
+.dark .burguer span {
+    background-color: white !important;
 }
 
 input[type="number"]::-webkit-inner-spin-button,
@@ -51,7 +55,29 @@ input:-moz-autofill {
 .navbar.scrolled {
     transition: background-color 0.3s, backdrop-filter 0.3s;
     color: white;
-    backdrop-filter: blur(10px) !important;
+    --tw-backdrop-blur: blur(12px);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+}
+
+/* TypeWriter Effect */
+.blinking-cursor {
+    font-weight: 100;
+    font-size: 24px;
+    color: #333;
+    -webkit-animation: 1s blink step-end infinite;
+    animation: 1s blink step-end infinite;
+}
+
+@keyframes blink {
+
+    from,
+    to {
+        color: transparent;
+    }
+
+    50% {
+        color: black;
+    }
 }
 
 /* Estilos para la barra de desplazamiento */

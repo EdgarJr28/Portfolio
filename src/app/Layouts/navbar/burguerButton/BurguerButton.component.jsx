@@ -7,7 +7,7 @@ const BurguerButton = (props) => {
       <BurguerBtn>
         <div
           onClick={props.handleClick}
-          className={`dark:text-white icon nav-icon-1 ${props.active ? 'open' : ''}`}>
+          className={`dark:text-white icon nav-icon-1 burguer transition-all duration-300 ${props.active ? 'open' : ''}`}>
           <span></span>
           <span></span>
           <span></span>

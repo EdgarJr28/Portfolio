@@ -52,7 +52,7 @@ const Navbar = () => {
 
   return (
     <div>
-      <nav className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-2 ${scrolled ? 'backdrop-blur-lg' : 'bg-transparent'} transition-colors duration-300`}>
+      <nav className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-2 mdsm:py-4 ${scrolled ? 'backdrop-blur-md' : 'bg-transparent'} transition-colors duration-300`}>
         <Link href="/">
           <h2 className="text-xl font-medium text-baseBlack dark:text-white">
             <FontAwesomeIcon icon={faConnectdevelop} width={30} height={30} className="mr-2" />
@@ -72,11 +72,11 @@ const Navbar = () => {
 
       </nav>
       {active && (
-        <div className="fixed top-16 left-0 right-0 h-screen bg-transparent bg-opacity-50 z-40 backdrop-blur-md transition-all duration-300">
+        <div className="fixed top-20 left-0 right-0 h-screen bg-transparent bg-opacity-50 z-40 backdrop-blur-md transition-all duration-300">
           {/* Additional links for mobile menu */}
           <div className="flex flex-col items-center pt-8">
-            <Link href="/" onClick={handleClick} className="text-baseBlack dark:text-white text-lg mb-4">Home</Link>
-            <Link href="/about" onClick={handleClick} className="text-baseBlack dark:text-white text-lg mb-4">About</Link>
+            <Link href="/" onClick={handleClick} className="text-baseBlack dark:text-white text-2xl mb-4">Home</Link>
+            <Link href="/about" onClick={handleClick} className="text-baseBlack dark:text-white text-2xl mb-4">About</Link>
             {/* Add more links as needed */}
           </div>
         </div>
