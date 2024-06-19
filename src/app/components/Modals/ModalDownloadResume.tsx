@@ -8,7 +8,7 @@ const ModalDownloadResume = ({ isOpen, onClose }: any) => {
 
     const handleDownload = (lg: any) => {
         const link = document.createElement('a');
-        link.href = `/curriculum/resume${lg}.pdf`; // Ruta del recurso en el servidor
+        link.href = `/curriculum/resume-${lg}.pdf`; // Ruta del recurso en el servidor
         link.setAttribute('download', 'Resume.pdf'); // Nombre con el que se descargará el archivo
         document.body.appendChild(link);
         link.click();
@@ -24,7 +24,7 @@ const ModalDownloadResume = ({ isOpen, onClose }: any) => {
                 </p>
                 <div className="flex justify-around space-x-2">
                     <Button
-                        onClick={() => handleDownload('ES')}
+                        onClick={() => handleDownload('es')}
                         className="flex items-center
                          justify-center bg-transparent border
                          px-4 py-2 rounded-lg hover:border-transparent
@@ -39,7 +39,7 @@ const ModalDownloadResume = ({ isOpen, onClose }: any) => {
                         Spanish
                     </Button>
                     <Button
-                        onClick={() => handleDownload('EN')}
+                        onClick={() => handleDownload('en')}
                         className="flex items-center
                          justify-center bg-transparent border
                          px-4 py-2 rounded-lg hover:border-transparent
