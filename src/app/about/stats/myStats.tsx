@@ -11,10 +11,10 @@ const StatsCard = () => {
                 <div className="mb-6 dark:text-white rounded-lg">
                     <Nested
                         circles={[
-                            { text: 'Javascript', value: 80, color: '#037db8' },
-                            { text: 'Typescript', value: 60, color: '#037db8' },
+                            { text: 'Javascript', value: 90, color: '#037db8' },
+                            { text: 'Typescript', value: 80, color: '#037db8' },
                             { text: 'HTML', value: 80, color: '#037db8' },
-                            { text: 'CSS', value: 80, color: '#037db8' }
+                            { text: 'CSS', value: 70, color: '#037db8' }
                         ]}
                         sx={{
                             bgColor: '#cbd5e1',
@@ -38,7 +38,7 @@ const StatsCard = () => {
                             { text: 'REST', value: 100, color: '#037db8' },
                             { text: 'SQL', value: 80, color: '#037db8' },
                             { text: 'NoSQL', value: 70, color: '#037db8' },
-                            { text: 'JWT', value: 100, color: '#037db8' }
+                            { text: 'JWT', value: 90, color: '#037db8' }
                         ]}
                         sx={{
                             bgColor: '#cbd5e1',

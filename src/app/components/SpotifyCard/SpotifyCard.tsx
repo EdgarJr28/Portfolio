@@ -16,16 +16,16 @@ const SpotifyCard = ({ className }: any) => {
     const fetchCurrentTrack = async () => {
         try {
             const response = await axios.post('/api/current-track');
-            localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
             if (response.data.isPlaying) {
+                localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
                 setCurrentTrack(response.data.track);
                 setIsPlaying(response.data.isPlaying);
             } else {
                 const localLastTrack = localStorage.getItem('lastTrack') || ""
                 const lastTrack = response.data.lastTrack || JSON.parse(localLastTrack)
                 if (lastTrack) {
-                    console.group(lastTrack)
                     setCurrentTrack(lastTrack);
+                    setIsPlaying(false);
                 }
             }
         } catch (error) {
@@ -80,7 +80,11 @@ const SpotifyCard = ({ className }: any) => {
             <div className={`${className} rounded-lg w-80 p-6 `} >
                 <div className='text-center'>
 
-                    <h1 className='text-green-600 text-center p-2'> <FontAwesomeIcon size='1x' icon={faSpotify} color='#1DB954' /> Now Playing</h1>
+                    <h1 className='text-green-600 text-center p-2'>
+                        <FontAwesomeIcon size='1x' icon={faSpotify} color='#1DB954' />
+                        &nbsp;
+                        {isPlaying ? 'Now Playing' : 'Last Played'}
+                    </h1>
                 </div>
                 {currentTrack && (
                     <div className='flex w-full items-center justify-center backdrop-opacity-50 backdrop-blur-md rounded-lg'>

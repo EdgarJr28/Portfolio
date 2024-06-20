@@ -94,7 +94,7 @@ const SliderProjectGallery = () => {
                 <Slider  {...settings} className='mdsm:max-h-96 mdsm:p-4  rounded-lg' >
                     {proyects.map((proyect) => (
                         <>
-                            < CardGallery id={proyect.id} data={proyect} />
+                            < CardGallery key={proyect.id} id={proyect.id} data={proyect} />
                         </>
                     ))}
                 </Slider>

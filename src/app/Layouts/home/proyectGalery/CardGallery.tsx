@@ -5,7 +5,7 @@ import { useCtx } from '@/app/context/context';
 import Image from 'next/image'
 import React from 'react'
 
-const CardGallery = ({ id, data }: any) => {
+const CardGallery = ({ key, data }: any) => {
     const { modalGalery, setModalGalery }: any = useCtx();
 
 
@@ -19,7 +19,7 @@ const CardGallery = ({ id, data }: any) => {
 
     return (
         <>
-            <div key={id} className="bg-white m-2 rounded-lg shadow-lg overflow-hidden mx-auto max-w-[90%]  mdsm:max-w-full dark:bg-dark-200 dark:text-white">
+            <div className="bg-white m-2 rounded-lg shadow-lg overflow-hidden mx-auto max-w-[90%]  mdsm:max-w-full dark:bg-dark-200 dark:text-white">
                 <div className="md:flex h-full">
                     {/* Columna de la imagen y la fecha */}
                     <div className="md:w-2/3 mdsm:p-4">

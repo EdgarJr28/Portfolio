@@ -11,10 +11,10 @@ export async function POST(req: Request) {
         if (track) {
             return NextResponse.json({ track, isPlaying, lastTrack });
         } else {
-            return NextResponse.json({ error: 'Error al obtener la canción actual' }, { status: 500 });
+            return NextResponse.json({ isPlaying, lastTrack });
         }
     } catch (error) {
-        console.error('Error al obtener la canción actual:', error);
+       
         return NextResponse.json({ error: 'Error al obtener la canción actual' }, { status: 500 });
     }
 }

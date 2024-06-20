@@ -2,7 +2,7 @@ import React from 'react';
 
 
 const SoundBars = ({ barColor }: any) => {
-    const numberOfBars = Math.floor(218 / 3); // Ajuste del número de barras a un entero
+    const numberOfBars = Math.floor(218 / 3);
 
     const bars = Array.from({ length: numberOfBars }, (_, index) => {
         const left = index * 4 + 1;

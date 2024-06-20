@@ -46,16 +46,9 @@ export async function getPlaybackState() {
 
 export async function getLastPlayedTrack() {
     try {
-        // Llama a la API para obtener las pistas reproducidas recientemente
         const data = await spotifyApi.getMyRecentlyPlayedTracks({ limit: 1 });
-
-        // Extrae la información de la última pista reproducida
         const track = data.body.items[0].track;
 
-        // Muestra información sobre la pista
-        console.log('Última canción reproducida:', track.name);
-        console.log('Artista(s):', track.artists.map(artist => artist.name).join(', '));
-        console.log('Álbum:', track.album.name);
         return track;
     } catch (err) {
         console.error('Algo salió mal al obtener la última canción reproducida:', err);
