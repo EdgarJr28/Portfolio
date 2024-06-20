@@ -109,3 +109,31 @@ input:-moz-autofill {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
+
+/* components/SoundBars css */
+.bars {
+    height: 20px;
+    position: relative;
+    /* Cambiado a relativo */
+}
+
+.bar {
+    background: #666;
+    bottom: 1px;
+    height: 2px;
+    position: absolute;
+    width: 3px;
+    animation: sound 0ms -800ms linear infinite alternate;
+}
+
+@keyframes sound {
+    0% {
+        opacity: .35;
+        height: 3px;
+    }
+
+    100% {
+        opacity: 1;
+        height: 20px;
+    }
+}

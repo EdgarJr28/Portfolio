@@ -24,6 +24,8 @@
     "react-dom": "^18",
     "react-router-dom": "^6.23.1",
     "react-slick": "^0.30.2",
+    "spotify-web-api-node": "^5.0.2",
+    "fast-average-color": "^9.4.0",
     "slick-carousel": "^1.8.1",
     "styled-components": "^6.1.11"
   },
@@ -34,6 +36,7 @@
     "@types/react-dom": "^18",
     "@types/react-slick": "^0.23.13",
     "autoprefixer": "^10.4.19",
+    "@types/spotify-web-api-node": "^5.0.11",
     "eslint": "^8",
     "eslint-config-next": "14.2.4",
     "postcss": "^8",

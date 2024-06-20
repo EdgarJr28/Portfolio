@@ -15,6 +15,9 @@ const nextConfig = {
         EMAIL_USER: process.env.EMAIL_USER,
         EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
         TO_EMAIL_USER: process.env.TO_EMAIL_USER,
+        SPOTIFY_REFRESH_TOKEN: process.env.SPOTIFY_REFRESH_TOKEN,
+        SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
+        SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET
     },
 };
 
