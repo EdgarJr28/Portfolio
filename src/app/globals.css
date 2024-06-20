@@ -123,7 +123,7 @@ input:-moz-autofill {
     height: 2px;
     position: absolute;
     width: 3px;
-    animation: sound 0ms -800ms linear infinite alternate;
+    animation: sound 0ms -800ms ease-in-out infinite alternate;
 }
 
 @keyframes sound {

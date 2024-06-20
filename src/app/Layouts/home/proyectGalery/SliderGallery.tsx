@@ -91,10 +91,10 @@ const SliderProjectGallery = () => {
     return (
         <>
             <div className="w-full max-w-xs mdsm:max-w-5xl backdrop-opacity-10 backdrop-blur-sm max-h-96  mx-auto mt-10 rounded-lg">
-                <Slider {...settings} className='mdsm:max-h-96 mdsm:p-4  rounded-lg' >
+                <Slider  {...settings} className='mdsm:max-h-96 mdsm:p-4  rounded-lg' >
                     {proyects.map((proyect) => (
                         <>
-                            < CardGallery key={proyect.id} data={proyect} />
+                            < CardGallery id={proyect.id} data={proyect} />
                         </>
                     ))}
                 </Slider>

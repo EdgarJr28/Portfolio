@@ -22,7 +22,7 @@ const SoundBars = ({ barColor }: any) => {
     });
 
     return (
-        <div className={'bars w-full overflow-hidden bg-transparent dark:backdrop'}>
+        <div className={'bars w-full overflow-hidden bg-transparent'}>
             {bars}
         </div>
     );

@@ -1,13 +1,15 @@
+import { getCurrentTrack, getLastPlayedTrack, getPlaybackState } from '@/app/utils/spotify';
 import { NextResponse } from 'next/server';
-import { getCurrentTrack, getPlaybackState } from '../../utils/spotify';
+
 
 // Maneja las solicitudes POST para obtener la canción actual
 export async function POST(req: Request) {
     try {
         const track = await getCurrentTrack();
         const isPlaying = await getPlaybackState();
+        const lastTrack = await getLastPlayedTrack()
         if (track) {
-            return NextResponse.json({ track, isPlaying });
+            return NextResponse.json({ track, isPlaying, lastTrack });
         } else {
             return NextResponse.json({ error: 'Error al obtener la canción actual' }, { status: 500 });
         }
