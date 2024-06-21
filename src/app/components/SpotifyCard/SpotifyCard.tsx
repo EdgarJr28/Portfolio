@@ -22,11 +22,10 @@ const SpotifyCard = ({ className }: any) => {
                 setCurrentTrack(response.data.track);
                 setIsPlaying(true);
             } else {
-                const lastTrack = getLastTrack();
-                if (lastTrack) {
-                    setCurrentTrack(lastTrack);
-                    setIsPlaying(false);
-                }
+                const lastTrack = response.data.lastTrack ?? getLastTrack();
+                localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
+                setCurrentTrack(lastTrack);
+                setIsPlaying(false);
                 return; // Si no se está reproduciendo, salimos sin configurar el intervalo
             }
 
@@ -34,17 +33,20 @@ const SpotifyCard = ({ className }: any) => {
             const interval = setInterval(async () => {
                 try {
                     const response = await axios.post('/api/current-track');
+                    console.log(response.data)
                     if (response.data.isPlaying) {
                         localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
                         setCurrentTrack(response.data.track);
                         setIsPlaying(true);
                     } else {
-                        const lastTrack = getLastTrack();
-                        if (lastTrack) {
-                            setCurrentTrack(lastTrack);
-                            setIsPlaying(false);
-                        }
+                        console.log(response.data)
+                        const localLastTrack = localStorage.getItem('lastTrack') || ''
+                        const lastTrack = response.data.lastTrack ?? JSON.parse(localLastTrack);;
+                        setCurrentTrack(lastTrack);
+                        setIsPlaying(false);
                         clearInterval(interval); // Limpiar el intervalo si ya no se está reproduciendo
+                        ;
+
                     }
                 } catch (error) {
                     console.error('Error al obtener la canción actual:', error);

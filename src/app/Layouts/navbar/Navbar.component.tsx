@@ -54,8 +54,8 @@ const Navbar = () => {
     <div>
       <nav className={`fixed top-0 left-0 w-full z-50 flex items-center justify-between px-4 py-2 mdsm:py-4 ${scrolled ? 'backdrop-blur-md' : 'bg-transparent'} transition-colors duration-300`}>
         <Link href="/">
-          <h2 className="text-xl font-medium text-baseBlack dark:text-white">
-            <FontAwesomeIcon icon={faConnectdevelop} width={30} height={30} className="mr-2 hover:animate-spin transition-all duration-700" />
+          <h2 className="text-xl font-medium text-baseBlack dark:text-white transition-all duration-700">
+            <FontAwesomeIcon icon={faConnectdevelop} width={30} height={30} className="mr-2 hover:animate-spin transition-all duration-300" />
             EdDev
           </h2>
         </Link>
