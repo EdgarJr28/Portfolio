@@ -16,7 +16,6 @@ const SpotifyCard = ({ className }: any) => {
     const fetchCurrentTrack = async () => {
         try {
             const response = await axios.post('/api/current-track');
-
             if (response.data.isPlaying) {
                 localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
                 setCurrentTrack(response.data.track);
@@ -26,33 +25,30 @@ const SpotifyCard = ({ className }: any) => {
                 localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
                 setCurrentTrack(lastTrack);
                 setIsPlaying(false);
-                return; // Si no se está reproduciendo, salimos sin configurar el intervalo
+                /*  return; */ // Si no se está reproduciendo, salimos sin configurar el intervalo
             }
 
             // Configurar intervalo solo si isPlaying es true
             const interval = setInterval(async () => {
                 try {
                     const response = await axios.post('/api/current-track');
-                    console.log(response.data)
                     if (response.data.isPlaying) {
                         localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
                         setCurrentTrack(response.data.track);
                         setIsPlaying(true);
                     } else {
-                        console.log(response.data)
-                        const localLastTrack = localStorage.getItem('lastTrack') || ''
-                        const lastTrack = response.data.lastTrack ?? JSON.parse(localLastTrack);;
+                        const lastTrack = response.data.lastTrack ?? getLastTrack();
+                        localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
                         setCurrentTrack(lastTrack);
                         setIsPlaying(false);
-                        clearInterval(interval); // Limpiar el intervalo si ya no se está reproduciendo
+                      /*   clearInterval(interval); */ // Limpiar el intervalo si ya no se está reproduciendo
                         ;
-
                     }
                 } catch (error) {
                     console.error('Error al obtener la canción actual:', error);
                     clearInterval(interval); // Limpiar el intervalo en caso de error
                 }
-            }, 30000);
+            }, 20000);
 
         } catch (error) {
             console.error('Error al obtener la canción actual:', error);

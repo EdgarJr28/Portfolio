@@ -1,6 +1,8 @@
 'use client';
 import React, { useState } from 'react';
+import { AdvancedMarker, CollisionBehavior } from '@vis.gl/react-google-maps';
 import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+
 
 const containerStyle = {
     width: '100%',
@@ -54,6 +56,7 @@ const Map = () => {
         >
             {/* Marcador fijo inicial */}
             <Marker
+
                 position={initialCenter}
                 draggable={false} // El marcador no se puede arrastrar
             />
@@ -61,11 +64,14 @@ const Map = () => {
             {/* Marcadores adicionales */}
             {markers.map((marker: any) => (
                 <>
-                    <Marker
+                    <AdvancedMarker
+                        collisionBehavior={CollisionBehavior.REQUIRED_AND_HIDES_OPTIONAL}
                         key={marker.time}
                         position={{ lat: marker.lat, lng: marker.lng }}
                         onClick={() => handleMarkerRightClick(marker.time)}
-                    />
+                    >
+                        <p>Hi!</p>
+                    </AdvancedMarker>
                 </>
             ))}
 

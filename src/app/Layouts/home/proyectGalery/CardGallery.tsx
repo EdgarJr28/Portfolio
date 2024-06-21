@@ -5,7 +5,7 @@ import { useCtx } from '@/app/context/context';
 import Image from 'next/image'
 import React from 'react'
 
-const CardGallery = ({ key, data }: any) => {
+const CardGallery = ({ data }: any) => {
     const { modalGalery, setModalGalery }: any = useCtx();
 
 
