@@ -8,7 +8,7 @@ const Quote = () => {
     useEffect(() => {
     }, [])
     return (
-        <div className="text-center mdsm:pt-40">
+        <div className="text-center mdsm:pt-20">
             <p className="text-4xl font-mono text-baseGray dark:text-white">"all that hard work gonna pay off"</p>
             <div className="flex justify-center items-center mt-4">
                 <div className="h-32 w-40 mdsm:w-52 flex justify-center items-center relative">

@@ -58,7 +58,7 @@ const SkillCarousel = () => {
 
     return (
         <div className="w-full max-w-xs mdsm:max-w-lg mx-auto mt-10">
-            <p className="text-lg text-center dark:text-white " >Skills</p>
+            <p className="text-2xl font-semibold text-center dark:text-white p-4">Skills</p>
             <Slider {...settings}>
                 {skills.map((skill) => (
                     <div key={skill.id} className="flex flex-col items-center justify-center p-4">

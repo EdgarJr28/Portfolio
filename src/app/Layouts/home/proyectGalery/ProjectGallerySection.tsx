@@ -20,7 +20,7 @@ const ProjectGallerySection = () => {
 
     return (
         <div>
-            <p className="text-lg text-center dark:text-white " >Project Gallery</p>
+             <p className="text-2xl font-semibold text-center dark:text-white p-4">Project Gallery</p>
             <SliderProjectGallery />
             {/* Modal to see more info */}
             {modalGalery.status && (

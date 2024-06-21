@@ -16,30 +16,55 @@ const SpotifyCard = ({ className }: any) => {
     const fetchCurrentTrack = async () => {
         try {
             const response = await axios.post('/api/current-track');
+
             if (response.data.isPlaying) {
                 localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
                 setCurrentTrack(response.data.track);
-                setIsPlaying(response.data.isPlaying);
+                setIsPlaying(true);
             } else {
-                const localLastTrack = localStorage.getItem('lastTrack') || ""
-                const lastTrack = response.data.lastTrack || JSON.parse(localLastTrack)
+                const lastTrack = getLastTrack();
                 if (lastTrack) {
                     setCurrentTrack(lastTrack);
                     setIsPlaying(false);
                 }
+                return; // Si no se está reproduciendo, salimos sin configurar el intervalo
             }
+
+            // Configurar intervalo solo si isPlaying es true
+            const interval = setInterval(async () => {
+                try {
+                    const response = await axios.post('/api/current-track');
+                    if (response.data.isPlaying) {
+                        localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
+                        setCurrentTrack(response.data.track);
+                        setIsPlaying(true);
+                    } else {
+                        const lastTrack = getLastTrack();
+                        if (lastTrack) {
+                            setCurrentTrack(lastTrack);
+                            setIsPlaying(false);
+                        }
+                        clearInterval(interval); // Limpiar el intervalo si ya no se está reproduciendo
+                    }
+                } catch (error) {
+                    console.error('Error al obtener la canción actual:', error);
+                    clearInterval(interval); // Limpiar el intervalo en caso de error
+                }
+            }, 30000);
+
         } catch (error) {
             console.error('Error al obtener la canción actual:', error);
         }
     };
 
+
+    const getLastTrack = () => {
+        const localLastTrack = localStorage.getItem('lastTrack');
+        return localLastTrack ? JSON.parse(localLastTrack) : null;
+    };
+
     useEffect(() => {
-
-
         fetchCurrentTrack();
-        const interval = setInterval(fetchCurrentTrack, 50000);
-        return () => clearInterval(interval);
-
     }, []);
 
     // Función para actualizar las barras de sonido
@@ -56,7 +81,6 @@ const SpotifyCard = ({ className }: any) => {
 
         return () => clearInterval(interval);
     }, [soundLevels]);
-
 
     useEffect(() => {
         if (currentTrack) {
@@ -76,43 +100,37 @@ const SpotifyCard = ({ className }: any) => {
     }, [currentTrack]);
 
     return (
-        <>
-            <div className={`${className} rounded-lg w-80 p-6 `} >
-                <div className='text-center'>
-
-                    <h1 className='text-green-600 text-center p-2'>
-                        <FontAwesomeIcon size='1x' icon={faSpotify} color='#1DB954' />
-                        &nbsp;
-                        {isPlaying ? 'Now Playing' : 'Last Played'}
-                    </h1>
-                </div>
-                {currentTrack && (
-                    <div className='flex w-full items-center justify-center backdrop-opacity-50 backdrop-blur-md rounded-lg'>
-
-                        <div className="w-full">
-                            <div className="flex">
-                                {isPlaying && <SoundBars soundLevels={soundLevels} barColor={barColor} />}
-                            </div>
-                            {/* Aquí se agregan las barras de sonido */}
-                            <Image
-                                width={320}
-                                height={300}
-                                src={currentTrack.album.images[0].url}
-                                alt="Album Art"
-                                className='rounded-b-lg w-full shadow-lg dark:shadow-dark-200'
-                                unoptimized
-                                priority
-                            />
-                            <div className=' w-full text-center text-black dark:text-white pt-4 text-nowrap'>
-                                <h2 className='text-base font-semibold'>{currentTrack.name}</h2>
-                                <p className='text-sm text-baseGray dark:text-gray-400'>{currentTrack.artists[0].name}</p>
-                                {/* <p className="text-gray-300">{isPlaying ? 'Reproduciendo' : 'En pausa'}</p> */}
-                            </div>
+        <div className={`${className} rounded-lg w-80 p-6`}>
+            <div className='text-center'>
+                <h1 className='text-green-600 text-center p-2'>
+                    <FontAwesomeIcon size='1x' icon={faSpotify} color='#1DB954' />
+                    &nbsp;
+                    {isPlaying ? 'Now Playing' : 'Last Played'}
+                </h1>
+            </div>
+            {currentTrack && (
+                <div className='flex w-full items-center justify-center backdrop-opacity-50 backdrop-blur-md rounded-lg'>
+                    <div className="w-full">
+                        <div className="flex">
+                            {isPlaying && <SoundBars soundLevels={soundLevels} barColor={barColor} />}
+                        </div>
+                        <Image
+                            width={320}
+                            height={300}
+                            src={currentTrack.album.images[0].url}
+                            alt="Album Art"
+                            className='rounded-b-lg w-full shadow-lg dark:shadow-dark-200'
+                            unoptimized
+                            priority
+                        />
+                        <div className='w-full text-center text-black dark:text-white pt-4 text-nowrap'>
+                            <h2 className='text-base font-semibold'>{currentTrack.name}</h2>
+                            <p className='text-sm text-baseGray dark:text-gray-400'>{currentTrack.artists[0].name}</p>
                         </div>
                     </div>
-                )}
-            </div>
-        </>
+                </div>
+            )}
+        </div>
     );
 };
 
