@@ -7,7 +7,7 @@ import { CtxProvider } from "./context/context";
 export default function Index() {
   return (
     <>
-      <main className="flex min-h-screen flex-col items-center">
+      <main className="flex items-center">
         <div>
           <Home />
         </div>

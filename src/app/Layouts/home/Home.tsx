@@ -8,6 +8,7 @@ import SkillCarousel from './Skills';
 import { useEffect, useState } from 'react';
 import ProjectGallerySection from './proyectGalery/ProjectGallerySection';
 import ModalDownloadResume from '@/app/components/Modals/ModalDownloadResume';
+import CanOfferSection from '@/app/about/CanOfferSection';
 
 const Home = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -75,6 +76,9 @@ const Home = () => {
                 <SkillCarousel />
             </div>
             <section>
+                <CanOfferSection />
+            </section>
+            <section>
                 <Timeline />
             </section>
             <section>
@@ -83,7 +87,7 @@ const Home = () => {
             <section >
                 <ContactSection />
             </section>
-            <ModalDownloadResume isOpen={modalOpen}  onClose={handleModal}/>
+            <ModalDownloadResume isOpen={modalOpen} onClose={handleModal} />
         </>
     );
 }

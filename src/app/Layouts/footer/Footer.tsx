@@ -74,8 +74,8 @@ const Footer = () => {
                     <div className='text-center'>
                         <h2 className="text-lg font-bold mb-4">Shortcut Links</h2>
                         <ul className="space-y-2">
-                            <li><Link className='hover:text-baseBlue' href="/">Home</Link></li>
-                            <li><Link className='hover:text-baseBlue' href="/about">About</Link></li>
+                            <li><Link className='hover:text-baseBlue dark:hover:text-yellow-500' href="/">Home</Link></li>
+                            <li><Link className='hover:text-baseBlue dark:hover:text-yellow-500' href="/about">About</Link></li>
                         </ul>
                     </div>
                     {/* Newsletter Subscription */}

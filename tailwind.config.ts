@@ -9,6 +9,15 @@ const config: Config = {
   darkMode: 'class', // Habilita el modo oscuro basado en clases
   theme: {
     extend: {
+      animation: {
+        marquee: 'marquee 10s linear infinite',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(100%)' },
+          '100%': { transform: 'translateX(-100%)' },
+        },
+      },
       colors: {
         dark: {
           100: '#333333', // Define tus colores para modo oscuro

@@ -39,7 +39,7 @@ const CanOfferSection = () => {
         },
     ];
     return (
-        <div className="flex flex-col items-center p-14">
+        <div className="flex flex-col items-center md:mt-10 p-14">
             <p className="text-2xl font-semibold text-center dark:text-white p-4">What can I offer to the team?</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {cards.map((card, index) => (

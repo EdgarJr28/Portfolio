@@ -16,7 +16,6 @@ const About = () => {
                     <StatsCard />
                 </div>
                 <div className="container mx-auto py-4">
-                    <CanOfferSection />
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 py-4">
                         {/* Columna 1: SpotifyCard */}
                         <div className='mx-auto'>

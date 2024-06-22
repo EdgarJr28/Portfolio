@@ -110,7 +110,8 @@ input:-moz-autofill {
     -webkit-text-fill-color: transparent;
 }
 
-/* components/SoundBars css */
+/* components/ Spotify Card css */
+/* Bars sound */
 .bars {
     height: 20px;
     position: relative;
@@ -137,3 +138,18 @@ input:-moz-autofill {
         height: 20px;
     }
 }
+
+@keyframes marquee {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.animate-marquee {
+    animation: marquee 20s linear infinite;
+}
+

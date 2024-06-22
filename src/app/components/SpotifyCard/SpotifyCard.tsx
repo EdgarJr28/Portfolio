@@ -13,6 +13,8 @@ const SpotifyCard = ({ className }: any) => {
     const [soundLevels, setSoundLevels] = useState([50, 70, 30, 85, 60]);
     const [barColor, setBarColor] = useState('#666');
 
+    let currentInterval: any = null;
+
     const fetchCurrentTrack = async () => {
         try {
             const response = await axios.post('/api/current-track');
@@ -25,11 +27,16 @@ const SpotifyCard = ({ className }: any) => {
                 localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
                 setCurrentTrack(lastTrack);
                 setIsPlaying(false);
-                /*  return; */ // Si no se está reproduciendo, salimos sin configurar el intervalo
+                return; // Salimos sin configurar el intervalo si no se está reproduciendo
             }
 
-            // Configurar intervalo solo si isPlaying es true
-            const interval = setInterval(async () => {
+            // Limpiar cualquier intervalo existente antes de configurar uno nuevo
+            if (currentInterval) {
+                clearInterval(currentInterval);
+            }
+
+            // Configurar el intervalo solo si isPlaying es true
+            currentInterval = setInterval(async () => {
                 try {
                     const response = await axios.post('/api/current-track');
                     if (response.data.isPlaying) {
@@ -41,12 +48,11 @@ const SpotifyCard = ({ className }: any) => {
                         localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
                         setCurrentTrack(lastTrack);
                         setIsPlaying(false);
-                      /*   clearInterval(interval); */ // Limpiar el intervalo si ya no se está reproduciendo
-                        ;
+                        /*  clearInterval(currentInterval); */ // Limpiar el intervalo si ya no se está reproduciendo
                     }
                 } catch (error) {
                     console.error('Error al obtener la canción actual:', error);
-                    clearInterval(interval); // Limpiar el intervalo en caso de error
+                    clearInterval(currentInterval); // Limpiar el intervalo en caso de error
                 }
             }, 20000);
 
@@ -63,6 +69,12 @@ const SpotifyCard = ({ className }: any) => {
 
     useEffect(() => {
         fetchCurrentTrack();
+        return () => {
+            // Limpiar el intervalo cuando el componente se desmonte o se actualice
+            if (currentInterval) {
+                clearInterval(currentInterval);
+            }
+        };
     }, []);
 
     // Función para actualizar las barras de sonido
@@ -121,14 +133,22 @@ const SpotifyCard = ({ className }: any) => {
                             unoptimized
                             priority
                         />
-                        <div className='w-full text-center text-black dark:text-white pt-4 text-nowrap'>
-                            <h2 className='text-base font-semibold'>{currentTrack.name}</h2>
-                            <p className='text-sm text-baseGray dark:text-gray-400'>{currentTrack.artists[0].name}</p>
+                        <div className='w-full text-center text-black dark:text-white pt-1'>
+                            <div className='w-full overflow-hidden relative'>
+                                <div className={`overflow-hidden whitespace-nowrap relative ${currentTrack.name.length > 40 ? 'w-[360px] animate-marquee' : ''}`}>
+                                    <h2 className='text-sm font-semibold inline-block'>
+                                        {currentTrack.name}
+                                    </h2>
+                                </div>
+                            </div>
+                            <p className='text-xs text-baseGray dark:text-gray-400'>{currentTrack.artists[0].name}</p>
                         </div>
                     </div>
                 </div>
-            )}
-        </div>
+            )
+            }
+        </div >
+
     );
 };
 

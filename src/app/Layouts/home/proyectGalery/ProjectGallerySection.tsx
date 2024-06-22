@@ -19,15 +19,15 @@ const ProjectGallerySection = () => {
     }
 
     return (
-        <div>
-             <p className="text-2xl font-semibold text-center dark:text-white p-4">Project Gallery</p>
+        <div className='mt-40 mdsm:mt-20'>
+             <p className="text-2xl font-semibold text-center dark:text-white m-2">Project Gallery</p>
             <SliderProjectGallery />
             {/* Modal to see more info */}
             {modalGalery.status && (
                 <>
                     <ModalContainer onClose={handleModal} >
                         <div className="p-6">
-                            <div key={modalGalery.data.key} className="flex  justify-between items-center border-b pb-2 mb-4">
+                            <div key={modalGalery.data.key} className="flex justify-between items-center border-b pb-2 mb-4">
                                 <h2 className="text-xl font-semibold">{modalGalery.data.title}</h2>
                             </div>
                             <div className="flex justify-center">

@@ -34,7 +34,7 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
                         />
                     </div>
                     <div className="text-center m-4 w-80">
-                        <h2 className="text-2xl font-bold">Ed</h2>
+                        <h2 className="text-2xl font-bold dark:text-white">Ed</h2>
                         <p className="text-baseGray text-base dark:text-white">Hello a pleasure, I am a cheerful and vibrant person, I really like music and art, I emphasize that I like quiet places and I have happiness as an engine of personal growth.</p>
                     </div>
                     <div className="">

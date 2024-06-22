@@ -33,7 +33,7 @@ const educations = [
 
 const Timeline = () => {
     return (
-        <div className="flex items-center justify-center h-screen space-x-12">
+        <div className="flex items-center justify-center mt-20 h-96 sm:m-14 space-x-12">
             <div className="rounded-sm p-2 dark:text-white">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Experiences Section */}
