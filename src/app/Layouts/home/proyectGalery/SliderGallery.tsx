@@ -41,6 +41,15 @@ const proyects = [
     },
     {
         id: 5,
+        title: 'API Rating Videos',
+        shortDescription: 'REST API with role-based oAuth handling simulating a video library using Amazon RDS service to instantiate a relational database. ',
+        description: 'It is a backend REST API project with role-based oAuth management simulating a video library using the amazon RDS service to instantiate a relational database, which is responsible for rating the videos uploaded to the api and which also has protected paths to view public and private videos with registered and unregistered users.',
+        image: '/images/projects_galery/APIvideo.png',
+        date: '2023/01/28',
+        link: 'https://test-production-2d4b.up.railway.app/docs'
+    },
+    {
+        id: 6,
         title: 'Backend Projects',
         shortDescription: 'I have a lot of knowledge in the backend, possibly my forte, I have participated in many projects but due to privacy policies I can not show it, however I can specify my knowledge, hit me on more info and I&apos;ll tell you a little 😁.',
         description: 'As a backend I have participated in many projects taking care of SQL and NoSQL database management, also made use of technologies such as web socket and Rest, all this with JavaScript/Node, I invite you to review my public repos, the ones I have been able to share all are for personal development either by hobbit or technical testing. ',
