@@ -119,7 +119,7 @@ const SpotifyCard = ({ className }: any) => {
                 </h1>
             </div>
             {currentTrack && (
-                <div className='flex w-full items-center justify-center backdrop-opacity-50 backdrop-blur-md rounded-lg'>
+                <div className='flex w-full items-center justify-center rounded-lg'>
                     <div className="w-full">
                         <div className="flex">
                             {isPlaying && <SoundBars soundLevels={soundLevels} barColor={barColor} />}

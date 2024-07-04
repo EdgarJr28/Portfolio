@@ -56,3 +56,16 @@ export async function getLastPlayedTrack() {
 };
 
 
+export async function getPlaylist() {
+    await getAccessToken();
+
+    try {
+        const me = await spotifyApi.getMe();
+        const data = await spotifyApi.getUserPlaylists(me.body.id, { limit: 10 })
+        return data.body.items;
+    } catch (error) {
+        console.error('Error getting playlist:', error);
+        return null;
+    }
+}
+
