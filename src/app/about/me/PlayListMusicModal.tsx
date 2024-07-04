@@ -10,15 +10,19 @@ import PlayListCarousel from './PlayListCarousel';
 const PlayListMusicModal = ({ isOpen, onClose }: any) => {
     const [Playlists, setPlaylists] = useState<any>(null);
 
-    if (!isOpen) return null;
-    const fetchGetPlayList = async () => {
-        const response: any = await axios.post('/api/playlist');
-        setPlaylists(response.data.Playlists)
-    }
-
     useEffect(() => {
-        fetchGetPlayList()
+        const fetchGetPlayList = async () => {
+            const response: any = await axios.post('/api/playlist');
+            setPlaylists(response.data.Playlists)
+        }
+        if (isOpen) {
+            fetchGetPlayList();
+        }
     }, [])
+    
+    if (!isOpen) return null;
+
+
     return (
         <ModalContainer onClose={onClose}>
             <div className="bg-white dark:bg-dark-100 rounded-lg p-2 max-w-md w-full transition-all duration-300">
