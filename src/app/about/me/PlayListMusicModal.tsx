@@ -8,10 +8,9 @@ import PlayListCarousel from './PlayListCarousel';
 
 
 const PlayListMusicModal = ({ isOpen, onClose }: any) => {
-    if (!isOpen) return null;
     const [Playlists, setPlaylists] = useState<any>(null);
 
-
+    if (!isOpen) return null;
     const fetchGetPlayList = async () => {
         const response: any = await axios.post('/api/playlist');
         setPlaylists(response.data.Playlists)
