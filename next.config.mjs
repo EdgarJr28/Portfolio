@@ -12,6 +12,7 @@ const nextConfig = {
     },
     env: {
         MAP_API_KEY: process.env.MAP_API_KEY,
+        MAP_ID: process.env.MAP_ID,
         EMAIL_USER: process.env.EMAIL_USER,
         EMAIL_PASSWORD: process.env.EMAIL_PASSWORD,
         TO_EMAIL_USER: process.env.TO_EMAIL_USER,

@@ -4,6 +4,7 @@ import Button from '@/app/components/Buttons/Button';
 import InputWithLabel from '@/app/components/Inputs/InputWithLabel';
 import Map from '@/app/components/Map/Map';
 import PopUp from '@/app/components/PopUps/PopUp';
+import MapV2 from '@/app/components/Map/MapV2';
 
 const ContactSection = () => {
     const [errors, setErrors] = useState<any>({});
@@ -85,7 +86,8 @@ const ContactSection = () => {
     return (
         <div className="flex flex-col md:flex-row items-center my-10 md:items-start md:justify-between p-6 bg-transparent dark:bg-dark-100">
             <div className="w-full md:w-1/2 mb-6 md:mb-0 pt-12">
-                <Map />
+                {/* <Map /> */}
+                <MapV2 />
                 <div className="mt-4 dark:text-white">
                     <h2 className="text-xl font-semibold ">Hello! 👋🏻</h2>
                     <h3 className="text-md font-semibold mb-2 text-baseGray dark:text-white" >You can contact me here </h3>

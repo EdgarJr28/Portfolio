@@ -64,8 +64,8 @@ const Home = () => {
                                     alt="Illustration of a person at a desk"
                                     fill
                                     className="rounded object-cover drop-shadow-xl transition-all duration-300"
-                                    loading="lazy"
                                     unoptimized
+                                    priority
                                 />
                             </div>
                         </div>
