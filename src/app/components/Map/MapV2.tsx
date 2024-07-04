@@ -78,7 +78,7 @@ const MapTest = () => {
                         </div>
                     </InfoWindow>
                 )}
-            </Map>;
+            </Map>
         </APIProvider >
     );
 };
