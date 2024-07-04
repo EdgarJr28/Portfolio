@@ -10,10 +10,10 @@ export async function POST(req: Request) {
         if (Playlists) {
             return NextResponse.json({ Playlists });
         } else {
-            return null
+            return NextResponse.json({ error: 'No se encontro ninguna playlist' }, { status: 404 });
         }
     } catch (error) {
-        return NextResponse.json({ error: 'Error al obtener la canción actual' }, { status: 500 });
+        return NextResponse.json({ error: 'Error al obtener la playlist del usuario' }, { status: 500 });
     }
 }
 
