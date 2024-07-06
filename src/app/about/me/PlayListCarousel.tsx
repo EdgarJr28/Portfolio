@@ -51,8 +51,9 @@ const PlayListCarousel = ({ data }: any) => {
                                     alt={playlist.name}
                                     width={300}
                                     height={200}
-                                    className="rounded-lg object-cover max-w-full hover:scale-105 hover:shadow-lg hover:shadow-baseBlack transition-all duration-300" />
-                                <p className="text-center text-base font-semibold font-mono mt-4">{playlist.name}</p>
+                                    className="rounded-lg object-cover max-w-full hover:scale-105 shadow-xl shadow-baseBlack rotate-x-20 transition-all duration-700" />
+                                <p className="text-center text-lg    font-semibold font-mono mt-6">{playlist.name}</p>
+                                {playlist.description.length > 0 && <p className="text-center text-xs font-mono">{playlist.description}</p> }
                             </a>
                         </div>
                     </div>

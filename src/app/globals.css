@@ -153,3 +153,6 @@ input:-moz-autofill {
     animation: marquee 20s linear infinite;
 }
 
+.rotate-x-20 {
+    transform: perspective(1100px) rotateY(20deg) rotateX(15deg);
+}
