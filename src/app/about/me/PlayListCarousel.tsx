@@ -44,7 +44,7 @@ const PlayListCarousel = ({ data }: any) => {
             <Slider {...settings}>
                 {data.map((playlist: any) => (
                     <div key={playlist.id} className="flex flex-col items-center justify-center mx-auto">
-                        <div className="inline-block pt-2">
+                        <div className="inline-block pt-2 mx-6">
                             <a href={playlist.external_urls.spotify} target="_blank" rel="noopener noreferrer">
                                 <Image
                                     src={playlist.images[0].url}
@@ -52,7 +52,7 @@ const PlayListCarousel = ({ data }: any) => {
                                     width={300}
                                     height={200}
                                     className="rounded-lg object-cover max-w-full hover:scale-105 shadow-xl shadow-baseBlack rotate-x-20 transition-all duration-700" />
-                                <p className="text-center text-lg    font-semibold font-mono mt-6">{playlist.name}</p>
+                                <p className="text-center text-lg font-semibold font-mono mt-6">{playlist.name}</p>
                                 {playlist.description.length > 0 && <p className="text-center text-xs font-mono">{playlist.description}</p> }
                             </a>
                         </div>
