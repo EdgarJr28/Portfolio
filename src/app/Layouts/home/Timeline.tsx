@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // Importa los estilos de AOS
 
 const experiences = [
     {
@@ -32,6 +34,13 @@ const educations = [
 ];
 
 const Timeline = () => {
+    useEffect(() => {
+        AOS.init({
+            duration: 2000, // Duración de la animación en milisegundos
+            once: false, // Si true, la animación se ejecuta solo una vez
+        });
+    }, []);
+
     return (
         <div className="flex items-center justify-center mt-20 h-96 sm:m-14 space-x-12">
             <div className="rounded-sm p-2 dark:text-white">
@@ -41,7 +50,7 @@ const Timeline = () => {
                         <h2 className="text-xl font-bold mb-4">Experiences</h2>
                         <div className="relative">
                             {experiences.map((experience, index) => (
-                                <div key={index} className="relative">
+                                <div key={index} data-aos="fade-right" className="relative">
                                     <div className="absolute top-0 left-5 h-full border-l-2 border-gray-300"></div>
                                     <div className="flex items-center mb-2 2-full relative z-10">
                                         <span className="bg-baseGray text-white dark:bg-white dark:text-black rounded-full h-10 w-10 flex items-center justify-center">
@@ -63,7 +72,7 @@ const Timeline = () => {
                         <h2 className="text-xl font-bold mb-4">Educations</h2>
                         <div className="relative">
                             {educations.map((education, index) => (
-                                <div key={index} className=" relative">
+                                <div key={index} data-aos="fade-right" className="relative">
                                     <div className="absolute top-0 left-5 h-full border-l-2 border-gray-300"></div>
                                     <div className="flex items-center mb-2 relative z-10">
                                         <span className="bg-baseGray text-white dark:bg-white dark:text-black rounded-full h-10 w-10 flex items-center justify-center">

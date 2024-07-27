@@ -1,11 +1,19 @@
-import { } from '@fortawesome/free-solid-svg-icons/faCode';
+import React, { useEffect } from 'react';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // Importa los estilos de AOS
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDatabase, faCode, faServer, faClipboardList, faDesktop, faUserFriends, faHeart } from '@fortawesome/free-solid-svg-icons';
-import React from 'react'
+import { faDatabase, faCode, faServer, faClipboardList, faDesktop, faHeart } from '@fortawesome/free-solid-svg-icons';
 import CanOfferCard from '../components/Cards/CanOfferCard';
 
-
 const CanOfferSection = () => {
+    useEffect(() => {
+        AOS.init({
+            duration: 2000, // Duración de la animación en milisegundos
+            once: false, // Si true, la animación se ejecuta solo una vez
+        });
+    }, []);
+
     const cards = [
         {
             title: 'WEB DEVELOPMENT',
@@ -38,16 +46,19 @@ const CanOfferSection = () => {
             icon: <FontAwesomeIcon icon={faHeart} className="text-4xl text-red-500" />,
         },
     ];
+
     return (
         <div className="flex flex-col items-center md:mt-10 p-14">
             <p className="text-2xl font-semibold text-center dark:text-white p-4">What can I offer to the team?</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {cards.map((card, index) => (
-                    <CanOfferCard key={index} title={card.title} description={card.description} icon={card.icon} />
+                    <div key={index} data-aos="fade-up"> {/* Añade el atributo data-aos */}
+                        <CanOfferCard title={card.title} description={card.description} icon={card.icon} />
+                    </div>
                 ))}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default CanOfferSection
+export default CanOfferSection;

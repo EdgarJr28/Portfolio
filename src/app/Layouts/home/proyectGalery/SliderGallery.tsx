@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Slider from 'react-slick';
 import CardGallery from './CardGallery';
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // Importa los estilos de AOS
 
 const proyects = [
     {
@@ -63,6 +65,13 @@ const proyects = [
 
 const SliderProjectGallery = () => {
 
+    useEffect(() => {
+        AOS.init({
+            duration: 3000, // Duración de la animación en milisegundos
+            once: false, // Si true, la animación se ejecuta solo una vez
+        });
+    }, []);
+
     const settings = {
         dots: true,
         infinite: true,
@@ -99,7 +108,7 @@ const SliderProjectGallery = () => {
 
     return (
         <>
-            <div className="w-full max-w-xs mdsm:max-w-5xl backdrop-opacity-10 backdrop-blur-sm max-h-96  mx-auto rounded-lg">
+            <div data-aos="fade-up" className="w-full max-w-xs mdsm:max-w-5xl backdrop-opacity-10 backdrop-blur-sm max-h-96  mx-auto rounded-lg">
                 <Slider {...settings} className='mdsm:max-h-96 mdsm:p-4  rounded-lg' >
                     {proyects.map((proyect) => (
                         < CardGallery key={proyect.id} data={proyect} />
