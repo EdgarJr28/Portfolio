@@ -28,7 +28,7 @@ const ModalContainer = ({ children, className, onClose }: any) => {
   }, []);
 
   return (
-    <div className={`fixed p-0 justify-center flex items-center h-screen top-0 bottom-0 mdsm:p-6 w-full bg-baseBlack/20 z-50 backdrop-blur-sm dark:text-white`}>
+    <div className={`fixed p-0 justify-center flex items-center h-screen top-0 bottom-0 mdsm:px-6 mdsm:pb-6 w-full bg-baseBlack/20 z-50 backdrop-blur-sm dark:text-white`}>
       <div className={`${className} bg-white dark:bg-dark-100 sm:p-5 m-5 pb-0 relative rounded-lg modal-content transition-all ease-in-out duration-300`}>
         <div className='w-full px-4 sm:px-0 flex justify-end'>
           <button onClick={onClose} className="text-4xl z-10 dark:text-white hover:scale-110">
