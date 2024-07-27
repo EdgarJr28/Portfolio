@@ -4,7 +4,7 @@ import { Nested } from '@alptugidin/react-circular-progress-bar';
 
 const StatsCard = () => {
     return (
-        <div className="flex flex-col rounded-lg md:flex-row gap-4 max-w-[80%] py-12 mdsm:max-w-[40%] mx-auto text-black dark:text-white">
+        <div className="flex flex-col rounded-lg md:flex-row gap-4 max-w-[80%] py-12 md:max-w-[40%] mx-auto text-black dark:text-white">
             {/* Frontend Stats */}
             <div className="bg-transparent dark:text-white p-4 w-full md:w-1/2">
                 <h3 className="text-xl font-semibold mb-4 text-center">Frontend Stats</h3>
@@ -30,7 +30,7 @@ const StatsCard = () => {
             </div>
 
             {/* Backend Stats */}
-            <div className="bg-transparent dark:text-white  p-4 w-full md:w-1/2">
+            <div className="bg-transparent dark:text-white p-4 w-full md:w-1/2">
                 <h3 className="text-xl font-semibold mb-4 text-center">Backend Stats</h3>
                 <div className="mb-6">
                     <Nested
@@ -53,6 +53,7 @@ const StatsCard = () => {
                 </div>
             </div>
         </div>
+
     );
 };
 

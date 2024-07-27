@@ -26,10 +26,13 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
 
                     {/* Contenido del perfil */}
                     <div className="flex justify-center mb-2">
-                        <img
+                        <Image
                             src="/images/me.jpg"
-                            alt="Perfil"
-                            className="w-40 h-40 mdsm:w-40 mdsm:h-40 rounded-xl shadow-lg object-cover hover:scale-110 transition-all duration-300"
+                            alt="Me"
+                            width={200}
+                            height={100}
+                            className="w-36 h-36 mdsm:w-36 mdsm:h-36 rounded-xl shadow-lg object-cover"
+                            unoptimized
                         />
                     </div>
                     <div className="text-center p-2 w-full backdrop-blur-sm rounded-lg">

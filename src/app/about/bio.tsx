@@ -5,7 +5,7 @@ import ProfileModal from './me/ProfileModal';
 
 const Bio = () => {
     const [modalOpen, setModalOpen] = useState<boolean>();
-  
+
     const handleModal = () => {
         setModalOpen(!modalOpen);
     }
@@ -20,7 +20,7 @@ const Bio = () => {
                             height={30}
                             quality={100}
                             unoptimized={true}
-                            className='w-12 h-10 '
+                            className='w-12 h-10'
                             unselectable='on'
                         />
                         <h2 className="text-2xl font-semibold mt-2">About me</h2>
@@ -32,13 +32,13 @@ const Bio = () => {
                     </p>
 
                 </div>
-                <div className="md:w-1/2 mt-4 md:mt-0">
+                <div className="md:w-1/2 mt-4 md:mt-0 flex justify-center items-center">
                     <Image
                         width={200}
                         height={250}
                         src="/images/developer_banner.jpg"
                         alt="Imagen"
-                        className="object-cover w-full h-auto md:h-full rounded-lg"
+                        className="w-full sm:h-96 object-cover rounded-lg"
                         quality={100}  // Ajusta la calidad según sea necesario, valor entre 1 y 100
                         unoptimized
                     />
