@@ -45,7 +45,7 @@ const ModalImageContainer = ({ onClose, children, className }: any) => {
                     &times;
                 </button>
                 <div className="flex items-center justify-center h-full">
-                    <div data-aos="zoom-in-up" className="modal-content">
+                    <div data-aos="zoom-in-up" className="modal-content w-80 h-50 sm:w-3/4 sm:h-3/4 bg-gray-300 rounded-lg">
                         {children}
                     </div>
                 </div>

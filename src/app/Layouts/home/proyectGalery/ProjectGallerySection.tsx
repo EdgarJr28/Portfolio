@@ -49,8 +49,8 @@ const ProjectGallerySection = () => {
                                 </div>
                             </div>
 
-                            <div className=" w-full text-balance p-4 flex mx-auto">
-                                <p className="text-gray-800 dark:text-white text-sm text-wrap">{modalGalery.data.description}</p>
+                            <div className=" w-full py-4 flex mx-auto">
+                                <p className="text-gray-800 dark:text-white text-sm text-justify">{modalGalery.data.description}</p>
                             </div>
 
                             <div className="flex justify-between mt-4 space-x-1">
@@ -85,7 +85,7 @@ const ProjectGallerySection = () => {
                         <Image
                             width={500}
                             height={300}
-                            className="w-80 h-50 sm:w-3/4 sm:h-3/4 object-fill rounded-lg sm:mx-auto"
+                            className="w-full h-full object-fill rounded-lg sm:mx-auto"
                             src={modalImage.data.image}
                             alt="Project Image full"
                             quality={100}
