@@ -42,10 +42,10 @@ const Home = () => {
                         </p>
                         <div className="flex justify-center lg:justify-start gap-4">
                             <button
-                                className="bg-transparen dark:text-white border dark:border-white dark:hover:text-black dark:hover:bg-yellow-300 dark:hover:border-transparent border-baseBlack text-black py-2 px-4 rounded hover:bg-baseBlue hover:text-white transition-colors duration-300 hover:border-transparent"
+                                className="flex-inline bg-transparen dark:text-white border dark:border-white dark:hover:text-black dark:hover:bg-yellow-300 dark:hover:border-transparent border-baseBlack text-black py-2 px-4 rounded hover:bg-baseBlue hover:text-white transition-colors duration-300 hover:border-transparent"
                                 onClick={handleModal}
                             >
-                                <FontAwesomeIcon icon={faFileLines} className='py-[0.5%] px-1' />
+                                <FontAwesomeIcon icon={faFileLines} className='w-4 h-4 py-[0.5%] px-1' />
                                 Dowload Resume
                             </button>
                             <button
