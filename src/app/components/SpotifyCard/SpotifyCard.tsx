@@ -22,9 +22,18 @@ const SpotifyCard = ({ className }: any) => {
             const response = await axios.post('/api/current-track');
             const item = response.data.track || response.data.episode;
             if (response.data.isPlaying) {
-                localStorage.setItem('lastItem', JSON.stringify(item));
-                setCurrentItem(item);
-                setIsPlaying(true);
+                if (item) {
+                    localStorage.setItem('lastTrack', JSON.stringify(item));
+                    setCurrentItem(item);
+                    setIsPlaying(true);
+                    setLoading(false);
+                } else {
+                    const lastTrack = response.data.lastTrack ?? getlastTrack();
+                    localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
+                    setCurrentItem(lastTrack);
+                    setIsPlaying(false);
+                    setLoading(false);
+                }
             } else {
                 const lastTrack = response.data.lastTrack ?? getlastTrack();
                 localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
@@ -45,21 +54,31 @@ const SpotifyCard = ({ className }: any) => {
                     const response = await axios.post('/api/current-track');
                     const item = response.data.track || response.data.episode;
                     if (response.data.isPlaying) {
-                        localStorage.setItem('lastTrack', JSON.stringify(item));
-                        setCurrentItem(item);
-                        setIsPlaying(true);
+                        if (item) {
+                            localStorage.setItem('lastTrack', JSON.stringify(item));
+                            setCurrentItem(item);
+                            setIsPlaying(true);
+                            setLoading(false);
+                        } else {
+                            const lastTrack = response.data.lastTrack ?? getlastTrack();
+                            localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
+                            setCurrentItem(lastTrack);
+                            setIsPlaying(false);
+                            setLoading(false);
+                        }
                     } else {
                         const lastTrack = response.data.lastTrack ?? getlastTrack();
                         localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
                         setCurrentItem(lastTrack);
                         setIsPlaying(false);
+                        setLoading(false);
                         /*  clearInterval(currentInterval); */ // Limpiar el intervalo si ya no se está reproduciendo
                     }
                 } catch (error) {
                     console.error('Error al obtener la canción actual:', error);
                     clearInterval(currentInterval); // Limpiar el intervalo en caso de error
                 }
-            }, 20000);
+            }, 25000);
             setLoading(false);
         } catch (error) {
             console.error('Error al obtener la canción actual:', error);
