@@ -22,15 +22,9 @@ const SpotifyCard = ({ className }: any) => {
             const response = await axios.post('/api/current-track');
             const item = response.data.track || response.data.episode;
             if (response.data.isPlaying) {
-                if (!item) {
-                    localStorage.setItem('lastTrack', JSON.stringify(response.data.lastTrack));
-                    setCurrentItem(response.data.lastTrack);
-                    setIsPlaying(false);
-                } else {
-                    localStorage.setItem('lastTrack', JSON.stringify(item));
-                    setCurrentItem(item);
-                    setIsPlaying(true);
-                }
+                localStorage.setItem('lastItem', JSON.stringify(item));
+                setCurrentItem(item);
+                setIsPlaying(true);
             } else {
                 const lastTrack = response.data.lastTrack ?? getlastTrack();
                 localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
