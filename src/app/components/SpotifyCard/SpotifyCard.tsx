@@ -21,6 +21,12 @@ const SpotifyCard = ({ className }: any) => {
         try {
             const response = await axios.post('/api/current-track');
             const item = response.data.track || response.data.episode;
+            if (!item) {
+                const lastItem = getLastItem();
+                localStorage.setItem('lastItem', JSON.stringify(lastItem));
+                setCurrentItem(lastItem);
+                setIsPlaying(false);
+            }
             if (response.data.isPlaying) {
                 localStorage.setItem('lastItem', JSON.stringify(item));
                 setCurrentItem(item);
@@ -118,6 +124,16 @@ const SpotifyCard = ({ className }: any) => {
         return <SkeletonLoader />;
     }
 
+    // Validar si currentItem es nulo o indefinido
+    if (!currentItem) {
+        const lastItem = getLastItem();
+        if (lastItem) {
+            setCurrentItem(lastItem);
+        } else {
+            return null;
+        }
+    }
+
     const isTrack = currentItem.type === 'track';
     const isEpisode = currentItem.type === 'episode';
 
@@ -159,6 +175,13 @@ const SpotifyCard = ({ className }: any) => {
                         />
                         <div className='w-full text-center text-black dark:text-white pt-1'>
                             <div className='w-full overflow-hidden relative'>
+                                {currentItem.description && (
+                                    <div className={`overflow-hidden whitespace-nowrap relative ${currentItem.name.length > 40 ? 'w-[360px] animate-marquee' : ''}`}>
+                                        <h2 className='text-xs font-semibold inline-block'>
+                                            {currentItem.name}
+                                        </h2>
+                                    </div>
+                                )}
                                 <div className={`overflow-hidden whitespace-nowrap relative ${name.length > 40 ? 'w-[360px] animate-marquee' : ''}`}>
                                     <h2 className='text-sm font-semibold inline-block'>
                                         {name}
