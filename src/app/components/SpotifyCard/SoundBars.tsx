@@ -15,7 +15,8 @@ const SoundBars = ({ barColor }: any) => {
                 style={{
                     left: `${left}px`,
                     animationDuration: `${animationDuration}ms`,
-                    backgroundColor: barColor
+                    backgroundColor: barColor,
+                    backdropFilter: 'blur(10px)',
                 }}
             ></div>
         );
