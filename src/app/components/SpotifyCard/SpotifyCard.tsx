@@ -68,6 +68,7 @@ const SpotifyCard = ({ className }: any) => {
 
     const getLastItem = () => {
         const localLastItem = localStorage.getItem('lastItem');
+        setLoading(false);
         return localLastItem ? JSON.parse(localLastItem) : null;
     };
 
