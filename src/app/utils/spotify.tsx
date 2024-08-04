@@ -22,9 +22,12 @@ async function getAccessToken() {
 
 export async function getCurrentTrack() {
     await getAccessToken();
+    const options: any = {
+        additional_types: 'track,episode'
+    }
 
     try {
-        const data = await spotifyApi.getMyCurrentPlayingTrack();
+        const data = await spotifyApi.getMyCurrentPlayingTrack(options);
         return data.body.item; // Retorna la información de la canción actual
     } catch (error: any) {
         console.error('Error getting current track:', error.message);

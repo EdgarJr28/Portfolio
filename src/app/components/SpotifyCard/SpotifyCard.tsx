@@ -6,26 +6,29 @@ import SoundBars from './SoundBars';
 import { FastAverageColor } from 'fast-average-color';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSpotify } from '@fortawesome/free-brands-svg-icons/faSpotify';
+import SkeletonLoader from './SkeletonLoader';
 
 const SpotifyCard = ({ className }: any) => {
-    const [currentTrack, setCurrentTrack] = useState<any>(null);
-    const [isPlaying, setIsPlaying] = useState<any>(false);
+    const [currentItem, setCurrentItem] = useState<any>(null);
+    const [isPlaying, setIsPlaying] = useState<boolean>(false);
     const [soundLevels, setSoundLevels] = useState([50, 70, 30, 85, 60]);
     const [barColor, setBarColor] = useState('#666');
+    const [loading, setLoading] = useState(true);
 
     let currentInterval: any = null;
 
-    const fetchCurrentTrack = async () => {
+    const fetchCurrentItem = async () => {
         try {
             const response = await axios.post('/api/current-track');
+            const item = response.data.track || response.data.episode;
             if (response.data.isPlaying) {
-                localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
-                setCurrentTrack(response.data.track);
+                localStorage.setItem('lastItem', JSON.stringify(item));
+                setCurrentItem(item);
                 setIsPlaying(true);
             } else {
-                const lastTrack = response.data.lastTrack ?? getLastTrack();
-                localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
-                setCurrentTrack(lastTrack);
+                const lastItem = response.data.lastItem ?? getLastItem();
+                localStorage.setItem('lastItem', JSON.stringify(lastItem));
+                setCurrentItem(lastItem);
                 setIsPlaying(false);
                 return; // Salimos sin configurar el intervalo si no se está reproduciendo
             }
@@ -39,14 +42,15 @@ const SpotifyCard = ({ className }: any) => {
             currentInterval = setInterval(async () => {
                 try {
                     const response = await axios.post('/api/current-track');
+                    const item = response.data.track || response.data.episode;
                     if (response.data.isPlaying) {
-                        localStorage.setItem('lastTrack', JSON.stringify(response.data.track));
-                        setCurrentTrack(response.data.track);
+                        localStorage.setItem('lastItem', JSON.stringify(item));
+                        setCurrentItem(item);
                         setIsPlaying(true);
                     } else {
-                        const lastTrack = response.data.lastTrack ?? getLastTrack();
-                        localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
-                        setCurrentTrack(lastTrack);
+                        const lastItem = response.data.lastItem ?? getLastItem();
+                        localStorage.setItem('lastItem', JSON.stringify(lastItem));
+                        setCurrentItem(lastItem);
                         setIsPlaying(false);
                         /*  clearInterval(currentInterval); */ // Limpiar el intervalo si ya no se está reproduciendo
                     }
@@ -55,20 +59,20 @@ const SpotifyCard = ({ className }: any) => {
                     clearInterval(currentInterval); // Limpiar el intervalo en caso de error
                 }
             }, 20000);
-
+            setLoading(false);
         } catch (error) {
             console.error('Error al obtener la canción actual:', error);
+            setLoading(false);
         }
     };
 
-
-    const getLastTrack = () => {
-        const localLastTrack = localStorage.getItem('lastTrack');
-        return localLastTrack ? JSON.parse(localLastTrack) : null;
+    const getLastItem = () => {
+        const localLastItem = localStorage.getItem('lastItem');
+        return localLastItem ? JSON.parse(localLastItem) : null;
     };
 
     useEffect(() => {
-        fetchCurrentTrack();
+        fetchCurrentItem();
         return () => {
             // Limpiar el intervalo cuando el componente se desmonte o se actualice
             if (currentInterval) {
@@ -93,8 +97,8 @@ const SpotifyCard = ({ className }: any) => {
     }, [soundLevels]);
 
     useEffect(() => {
-        if (currentTrack) {
-            const imageUrl = currentTrack.album.images[0].url;
+        if (currentItem) {
+            const imageUrl = currentItem.album?.images[0].url || currentItem.show?.images[0].url;
             // Asegúrate de que la URL es válida
             if (imageUrl) {
                 const fac = new FastAverageColor();
@@ -107,7 +111,26 @@ const SpotifyCard = ({ className }: any) => {
                 console.error('URL de la imagen no válida:', imageUrl);
             }
         }
-    }, [currentTrack]);
+    }, [currentItem]);
+
+    if (loading) {
+        return <SkeletonLoader />;
+    }
+
+    const isTrack = currentItem.type === 'track';
+    const isEpisode = currentItem.type === 'episode';
+
+    const imageUrl = isTrack
+        ? currentItem.album.images[0].url
+        : currentItem.show.images[0].url;
+
+    const name = isTrack
+        ? currentItem.name
+        : currentItem.show.name;
+
+    const artistOrPublisher = isTrack
+        ? currentItem.artists[0].name
+        : currentItem.show.publisher;
 
     return (
         <div className={`${className} rounded-lg w-80 p-6`}>
@@ -118,7 +141,7 @@ const SpotifyCard = ({ className }: any) => {
                     {isPlaying ? 'Now Playing' : 'Last Played'}
                 </h1>
             </div>
-            {currentTrack && (
+            {currentItem && (
                 <div className='flex w-full items-center justify-center rounded-lg'>
                     <div className="w-full">
                         <div className="flex">
@@ -127,7 +150,7 @@ const SpotifyCard = ({ className }: any) => {
                         <Image
                             width={320}
                             height={300}
-                            src={currentTrack.album.images[0].url}
+                            src={imageUrl}
                             alt="Album Art"
                             className='rounded-b-lg w-full shadow-lg dark:shadow-dark-200'
                             unoptimized
@@ -135,20 +158,18 @@ const SpotifyCard = ({ className }: any) => {
                         />
                         <div className='w-full text-center text-black dark:text-white pt-1'>
                             <div className='w-full overflow-hidden relative'>
-                                <div className={`overflow-hidden whitespace-nowrap relative ${currentTrack.name.length > 40 ? 'w-[360px] animate-marquee' : ''}`}>
+                                <div className={`overflow-hidden whitespace-nowrap relative ${name.length > 40 ? 'w-[360px] animate-marquee' : ''}`}>
                                     <h2 className='text-sm font-semibold inline-block'>
-                                        {currentTrack.name}
+                                        {name}
                                     </h2>
                                 </div>
                             </div>
-                            <p className='text-xs text-baseGray dark:text-gray-400'>{currentTrack.artists[0].name}</p>
+                            <p className='text-xs text-baseGray dark:text-gray-400'>{artistOrPublisher}</p>
                         </div>
                     </div>
                 </div>
-            )
-            }
-        </div >
-
+            )}
+        </div>
     );
 };
 
