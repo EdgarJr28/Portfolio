@@ -21,21 +21,29 @@ const SpotifyCard = ({ className }: any) => {
         try {
             const response = await axios.post('/api/current-track');
             const item = response.data.track || response.data.episode;
+            console.log(response.data);
             if (!item) {
-                const lastItem = getLastItem();
-                localStorage.setItem('lastItem', JSON.stringify(lastItem));
-                setCurrentItem(lastItem);
+                const lastTrack = response.data.lastTrack ?? getlastTrack();
+                localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
+                setCurrentItem(lastTrack);
                 setIsPlaying(false);
             }
             if (response.data.isPlaying) {
-                localStorage.setItem('lastItem', JSON.stringify(item));
-                setCurrentItem(item);
-                setIsPlaying(true);
+                if (!item) {
+                    localStorage.setItem('lastTrack', JSON.stringify(response.data.lastTrack));
+                    setCurrentItem(response.data.lastTrack);
+                    setIsPlaying(false);
+                } else {
+                    localStorage.setItem('lastTrack', JSON.stringify(item));
+                    setCurrentItem(item);
+                    setIsPlaying(true);
+                }
             } else {
-                const lastItem = response.data.lastItem ?? getLastItem();
-                localStorage.setItem('lastItem', JSON.stringify(lastItem));
-                setCurrentItem(lastItem);
+                const lastTrack = response.data.lastTrack ?? getlastTrack();
+                localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
+                setCurrentItem(lastTrack);
                 setIsPlaying(false);
+                setLoading(false);
                 return; // Salimos sin configurar el intervalo si no se está reproduciendo
             }
 
@@ -50,13 +58,13 @@ const SpotifyCard = ({ className }: any) => {
                     const response = await axios.post('/api/current-track');
                     const item = response.data.track || response.data.episode;
                     if (response.data.isPlaying) {
-                        localStorage.setItem('lastItem', JSON.stringify(item));
+                        localStorage.setItem('lastTrack', JSON.stringify(item));
                         setCurrentItem(item);
                         setIsPlaying(true);
                     } else {
-                        const lastItem = response.data.lastItem ?? getLastItem();
-                        localStorage.setItem('lastItem', JSON.stringify(lastItem));
-                        setCurrentItem(lastItem);
+                        const lastTrack = response.data.lastTrack ?? getlastTrack();
+                        localStorage.setItem('lastTrack', JSON.stringify(lastTrack));
+                        setCurrentItem(lastTrack);
                         setIsPlaying(false);
                         /*  clearInterval(currentInterval); */ // Limpiar el intervalo si ya no se está reproduciendo
                     }
@@ -72,10 +80,15 @@ const SpotifyCard = ({ className }: any) => {
         }
     };
 
-    const getLastItem = () => {
-        const localLastItem = localStorage.getItem('lastItem');
-        setLoading(false);
-        return localLastItem ? JSON.parse(localLastItem) : null;
+    const getlastTrack = () => {
+        const locallastTrack = localStorage.getItem('lastTrack');
+        console.log('locallastTrack', locallastTrack);
+        if (locallastTrack && locallastTrack !== "undefined") {
+            return JSON.parse(locallastTrack);
+
+        }
+
+        return null;
     };
 
     useEffect(() => {
@@ -126,9 +139,9 @@ const SpotifyCard = ({ className }: any) => {
 
     // Validar si currentItem es nulo o indefinido
     if (!currentItem) {
-        const lastItem = getLastItem();
-        if (lastItem) {
-            setCurrentItem(lastItem);
+        const lastTrack = getlastTrack();
+        if (lastTrack) {
+            setCurrentItem(lastTrack);
         } else {
             return null;
         }
