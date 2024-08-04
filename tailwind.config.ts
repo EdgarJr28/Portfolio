@@ -34,7 +34,7 @@ const config: Config = {
         'mdsm': '768px', //  breakpoint personalizado
       },
       boxShadow: {
-        white: '0 4px .5px rgba(255, 255, 255, 0.1)',
+        white: '0 4px .5px rgba(255, 255, 255, 0.9)',
       },
     },
   },

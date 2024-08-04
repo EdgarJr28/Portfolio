@@ -11,7 +11,7 @@ const SoundBars = ({ barColor }: any) => {
         return (
             <div
                 key={index}
-                className={'bar dark:shadow-white'}
+                className={'bar shadow-white'}
                 style={{
                     left: `${left}px`,
                     animationDuration: `${animationDuration}ms`,
