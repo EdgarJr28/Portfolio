@@ -4,7 +4,7 @@ import { faConnectdevelop } from '@fortawesome/free-brands-svg-icons';
 
 const LoaderLanding = () => {
     return (
-        <div className="flex flex-col justify-center items-center min-h-screen">
+        <div className="flex flex-col justify-center items-center min-h-screen dark:text-white">
             <FontAwesomeIcon
                 icon={faConnectdevelop}
                 width={90}

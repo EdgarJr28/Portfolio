@@ -1,4 +1,3 @@
-// components/ClientOnlyWrapper.js
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -15,7 +14,7 @@ const ClientOnlyWrapper = ({
     useEffect(() => {
         const timer = setTimeout(() => {
             setLoading(false);
-        }, 1200);
+        }, 2000);
 
         return () => clearTimeout(timer);
     }, []);
