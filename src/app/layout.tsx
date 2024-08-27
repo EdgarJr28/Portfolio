@@ -6,6 +6,7 @@ import Favicon from '/public/dev.ico';
 import Footer from "./Layouts/footer/Footer";
 import { CtxProvider } from "./context/context";
 import { Analytics } from "@vercel/analytics/react"
+import ClientOnlyWrapper from "./components/Loaders/ClientOnlyWrapper";
 
 export const metadata: Metadata = {
   title: "EdDev Portfolio / Innovative Developer Projects",
@@ -30,14 +31,16 @@ export default function RootLayout({
       </Head>
       <body className="dark:bg-dark-100">
         <CtxProvider>
-          <nav>
-            <Navbar />
-          </nav>
-          <div>
-            {children}
-            <Analytics />
-          </div>
-          <Footer />
+          <ClientOnlyWrapper>
+            <nav>
+              <Navbar />
+            </nav>
+            <div>
+              {children}
+              <Analytics />
+            </div>
+            <Footer />
+          </ClientOnlyWrapper>
         </CtxProvider>
       </body>
     </html>
