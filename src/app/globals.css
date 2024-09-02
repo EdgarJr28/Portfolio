@@ -181,3 +181,56 @@ input:-moz-autofill {
 .rotate-x-20 {
     transform: perspective(1100px) rotateY(20deg) rotateX(15deg);
 }
+
+/* Animation Loading pulsating */
+.pulsating {
+    animation: pulse 2.1s linear infinite;
+}
+
+.pulsatingText {
+    animation: TextPulse 2.1s linear infinite;
+}
+
+@keyframes pulse {
+
+    0% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+
+    25% {
+        transform: scale(1.1) rotate(90deg);
+        opacity: 0.5;
+    }
+
+    50% {
+        transform: scale(0.9) rotate(180deg);
+        opacity: 0.6;
+    }
+
+    75% {
+        transform: scale(1.1) rotate(270deg);
+        opacity: 0.7;
+    }
+
+    100% {
+        transform: scale(1) rotate(360deg);
+        opacity: 1;
+    }
+
+}
+@keyframes TextPulse {
+
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+
+}
