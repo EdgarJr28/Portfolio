@@ -17,6 +17,11 @@ const experiences = [
         position: "Developer",
         company: "Intra Technology",
         year: "2022 - 2023"
+    },
+    {
+        position: "Developer",
+        company: "Ludycom",
+        year: "2024 - Current"
     }
 ];
 

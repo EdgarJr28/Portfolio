@@ -20,8 +20,8 @@ const config: Config = {
       },
       colors: {
         dark: {
-          100: '#333333', // Define tus colores para modo oscuro
-          200: '#555555',
+          100: '#121212', // Define tus colores para modo oscuro
+          200: '#1a1a1a', // Agrega más colores según sea necesario
           // Agrega más colores según sea necesario
         },
         "baseGray": "#686868",
