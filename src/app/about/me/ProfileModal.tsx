@@ -32,7 +32,7 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
                             width={200}
                             height={100}
                             className="w-36 h-36 mdsm:w-36 mdsm:h-36 rounded-xl shadow-lg object-cover"
-                            unoptimized
+                             
                         />
                     </div>
                     <div className="text-center p-2 w-full backdrop-blur-sm rounded-lg">
@@ -53,7 +53,7 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
                             width={200}
                             height={100}
                             className="w-20 h-16 mx-auto rounded-md shadow-lg transition-all duration-300"
-                            unoptimized
+                             
                         />
                     </div>
                 </div >

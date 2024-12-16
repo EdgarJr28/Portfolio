@@ -89,7 +89,6 @@ const ProjectGallerySection = () => {
                             src={modalImage.data.image}
                             alt="Project Image full"
                             quality={100}
-                            unoptimized={true}
                         />
                     </ModalImageContainer>
                 </>

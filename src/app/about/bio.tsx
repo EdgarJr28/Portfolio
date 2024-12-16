@@ -19,7 +19,6 @@ const Bio = () => {
                             width={45}
                             height={30}
                             quality={100}
-                            unoptimized={true}
                             className='w-12 h-10'
                             unselectable='on'
                         />
@@ -40,7 +39,6 @@ const Bio = () => {
                         alt="Imagen"
                         className="w-full sm:h-96 object-cover rounded-lg"
                         quality={100}  // Ajusta la calidad según sea necesario, valor entre 1 y 100
-                        unoptimized
                     />
                 </div>
 

@@ -188,7 +188,7 @@ const SpotifyCard = ({ className }: any) => {
                             src={imageUrl}
                             alt="Album Art"
                             className='rounded-b-lg w-full shadow-lg dark:shadow-dark-200'
-                            unoptimized
+                             
                             priority
                         />
                         <div className='w-full text-center text-black dark:text-white pt-1'>

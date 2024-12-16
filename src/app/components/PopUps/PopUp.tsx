@@ -14,9 +14,9 @@ export default function PopUp({ onClose, message, status }: any) {
                         </svg>
                     </button>
                     {status ? (
-                        <Image className={'mx-auto'} src={"/gifs/ok.gif"} width={180} height={180} alt="succefull" unoptimized />
+                        <Image className={'mx-auto'} src={"/gifs/ok.gif"} width={180} height={180} alt="succefull"   />
                     ) : (
-                        <Image className={'mx-auto'} src={"/gifs/error.gif"} width={180} height={180} alt="wrong" unoptimized/>
+                        <Image className={'mx-auto'} src={"/gifs/error.gif"} width={180} height={180} alt="wrong"  />
                     )}
                     <div className="bg-baseBlack/20 border-t m-1 mb-4 divide-black" >
                     </div>
