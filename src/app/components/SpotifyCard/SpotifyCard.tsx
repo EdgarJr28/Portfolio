@@ -142,30 +142,24 @@ const SpotifyCard = ({ className }: any) => {
         return <SkeletonLoader />;
     }
 
-    // Validar si currentItem es nulo o indefinido
-    if (!currentItem) {
-        const lastTrack = getlastTrack();
-        if (lastTrack) {
-            setCurrentItem(lastTrack);
-        } else {
-            return null;
-        }
-    }
+    // Compute display item without calling setState during render
+    const displayItem = currentItem ?? getlastTrack();
+    if (!displayItem) return null;
 
-    const isTrack = currentItem.type === 'track';
-    const isEpisode = currentItem.type === 'episode';
+    const isTrack = displayItem.type === 'track';
+    const isEpisode = displayItem.type === 'episode';
 
     const imageUrl = isTrack
-        ? currentItem.album.images[0].url
-        : currentItem.show.images[0].url;
+        ? displayItem.album.images[0].url
+        : displayItem.show.images[0].url;
 
     const name = isTrack
-        ? currentItem.name
-        : currentItem.show.name;
+        ? displayItem.name
+        : displayItem.show.name;
 
     const artistOrPublisher = isTrack
-        ? currentItem.artists[0].name
-        : currentItem.show.publisher;
+        ? displayItem.artists[0].name
+        : displayItem.show.publisher;
 
     return (
         <div className={`${className} rounded-lg w-80 p-6`}>
@@ -176,41 +170,39 @@ const SpotifyCard = ({ className }: any) => {
                     {isPlaying ? 'Now Playing' : 'Last Played'}
                 </h1>
             </div>
-            {currentItem && (
-                <div className='flex w-full items-center justify-center rounded-lg'>
-                    <div className="w-full">
-                        <div className="flex">
-                            {isPlaying && <SoundBars soundLevels={soundLevels} barColor={barColor} />}
-                        </div>
-                        <Image
-                            width={320}
-                            height={300}
-                            src={imageUrl}
-                            alt="Album Art"
-                            className='rounded-b-lg w-full shadow-lg dark:shadow-dark-200'
-                             
-                            priority
-                        />
-                        <div className='w-full text-center text-black dark:text-white pt-1'>
-                            <div className='w-full overflow-hidden relative'>
-                                {currentItem.description && (
-                                    <div className={`overflow-hidden whitespace-nowrap relative ${currentItem.name.length > 40 ? 'w-[360px] animate-marquee' : ''}`}>
-                                        <h2 className='text-xs font-semibold inline-block'>
-                                            {currentItem.name}
-                                        </h2>
-                                    </div>
-                                )}
-                                <div className={`overflow-hidden whitespace-nowrap relative ${name.length > 40 ? 'w-[360px] animate-marquee' : ''}`}>
-                                    <h2 className='text-sm font-semibold inline-block'>
-                                        {name}
+            <div className='flex w-full items-center justify-center rounded-lg'>
+                <div className="w-full">
+                    <div className="flex">
+                        {isPlaying && <SoundBars soundLevels={soundLevels} barColor={barColor} />}
+                    </div>
+                    <Image
+                        width={320}
+                        height={300}
+                        src={imageUrl}
+                        alt="Album Art"
+                        className='rounded-b-lg w-full shadow-lg dark:shadow-dark-200'
+
+                        priority
+                    />
+                    <div className='w-full text-center text-black dark:text-white pt-1'>
+                        <div className='w-full overflow-hidden relative'>
+                            {displayItem.description && (
+                                <div className={`overflow-hidden whitespace-nowrap relative ${displayItem.name.length > 40 ? 'w-90 animate-marquee' : ''}`}>
+                                    <h2 className='text-xs font-semibold inline-block'>
+                                        {displayItem.name}
                                     </h2>
                                 </div>
+                            )}
+                            <div className={`overflow-hidden whitespace-nowrap relative ${name.length > 40 ? 'w-90 animate-marquee' : ''}`}>
+                                <h2 className='text-sm font-semibold inline-block'>
+                                    {name}
+                                </h2>
                             </div>
-                            <p className='text-xs text-baseGray dark:text-gray-400'>{artistOrPublisher}</p>
                         </div>
+                        <p className='text-xs text-baseGray dark:text-gray-400'>{artistOrPublisher}</p>
                     </div>
                 </div>
-            )}
+            </div>
         </div>
     );
 };
