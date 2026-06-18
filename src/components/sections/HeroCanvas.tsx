@@ -1,145 +1,187 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, Suspense } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { useGLTF, useAnimations, Float, Environment } from "@react-three/drei";
 import * as THREE from "three";
 
-// Objeto compartido para posición del mouse — evita re-renders en cada movimiento
+// ─── Configuración del modelo ─────────────────────────────────────────────────
+// Cambia este valor por tu URL de ReadyPlayerMe o la ruta a tu .glb local:
+//   ReadyPlayerMe:  "https://models.readyplayer.me/TU_ID.glb"
+//   Local:          "/models/avatar.glb"
+const MODEL_URL = "/models/avatar.glb";
+
+// Ajusta estos valores según tu modelo
+const MODEL_SCALE = 2.2;          // Tamaño general
+const MODEL_POSITION: [number, number, number] = [0.8, -2.2, 0]; // [x, y, z] — desplaza a la derecha
+
+// ─── Mouse compartido (evita re-renders) ─────────────────────────────────────
 const mouse = { x: 0, y: 0 };
-
-// ─── TorusKnot principal ──────────────────────────────────────────────────────
-function TorusKnot({
-  reducedMotion,
-}: {
-  reducedMotion: boolean;
-}) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const smooth = useRef({ x: 0, y: 0 });
-
-  useFrame((_, delta) => {
-    const m = meshRef.current;
-    if (!m) return;
-
-    if (!reducedMotion) {
-      m.rotation.y += delta * 0.18;
-      m.rotation.x += delta * 0.07;
-    }
-
-    // Suavizar y aplicar influencia del mouse
-    smooth.current.x += (mouse.x * 0.4 - smooth.current.x) * 0.04;
-    smooth.current.y += (mouse.y * 0.4 - smooth.current.y) * 0.04;
-    m.rotation.y += smooth.current.x * delta * 0.5;
-    m.rotation.x += smooth.current.y * delta * 0.5;
-  });
-
-  return (
-    <mesh ref={meshRef}>
-      <torusKnotGeometry args={[1, 0.32, 180, 20]} />
-      <meshStandardMaterial
-        color="#ffffff"
-        metalness={1}
-        roughness={0.08}
-      />
-    </mesh>
-  );
-}
 
 // ─── Esfera wireframe de fondo ────────────────────────────────────────────────
 function WireframeSphere({ reducedMotion }: { reducedMotion: boolean }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  useFrame((_, delta) => {
-    if (!meshRef.current || reducedMotion) return;
-    meshRef.current.rotation.y += delta * 0.04;
-    meshRef.current.rotation.x += delta * 0.02;
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame((_, dt) => {
+    if (!ref.current || reducedMotion) return;
+    ref.current.rotation.y += dt * 0.035;
+    ref.current.rotation.x += dt * 0.015;
   });
-
   return (
-    <mesh ref={meshRef} scale={2.8}>
+    <mesh ref={ref} scale={3.5}>
       <icosahedronGeometry args={[1, 1]} />
-      <meshBasicMaterial
-        color="#ffffff"
-        wireframe
-        transparent
-        opacity={0.04}
-      />
+      <meshBasicMaterial color="#ffffff" wireframe transparent opacity={0.035} />
     </mesh>
   );
 }
 
-// ─── Icosaedro simplificado para mobile ──────────────────────────────────────
-function MobileShape({ reducedMotion }: { reducedMotion: boolean }) {
-  const meshRef = useRef<THREE.Mesh>(null);
+// ─── Fallback geométrico mientras carga el .glb ───────────────────────────────
+function LoadingShape() {
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame((_, dt) => {
+    if (ref.current) ref.current.rotation.y += dt * 0.6;
+  });
+  return (
+    <mesh ref={ref}>
+      <octahedronGeometry args={[1.2, 0]} />
+      <meshStandardMaterial color="#ffffff" metalness={1} roughness={0.1} wireframe />
+    </mesh>
+  );
+}
 
-  useFrame((_, delta) => {
-    if (!meshRef.current || reducedMotion) return;
-    meshRef.current.rotation.y += delta * 0.2;
-    meshRef.current.rotation.x += delta * 0.08;
+// ─── Modelo GLTF animado ──────────────────────────────────────────────────────
+function AvatarModel({
+  reducedMotion,
+  isMobile,
+}: {
+  reducedMotion: boolean;
+  isMobile: boolean;
+}) {
+  const group = useRef<THREE.Group>(null);
+  const { scene, animations } = useGLTF(MODEL_URL);
+  const { actions, names } = useAnimations(animations, group);
+  const smooth = useRef({ x: 0, y: 0 });
+
+  // Reproducir la primera animación disponible
+  useEffect(() => {
+    if (names.length === 0) return;
+    const action = actions[names[0]];
+    action?.reset().fadeIn(0.6).play();
+    return () => { action?.fadeOut(0.3); };
+  }, [actions, names]);
+
+  // Rotación suave con el mouse
+  useFrame((_, dt) => {
+    if (!group.current || reducedMotion || isMobile) return;
+    smooth.current.x += (mouse.x * 0.25 - smooth.current.x) * 0.06;
+    smooth.current.y += (mouse.y * 0.08 - smooth.current.y) * 0.06;
+    group.current.rotation.y = smooth.current.x;
+    group.current.rotation.x = smooth.current.y;
   });
 
   return (
-    <mesh ref={meshRef}>
+    <Float
+      speed={reducedMotion ? 0 : 1.2}
+      floatIntensity={reducedMotion ? 0 : 0.4}
+      rotationIntensity={0}
+    >
+      <primitive
+        ref={group}
+        object={scene}
+        scale={MODEL_SCALE}
+        position={isMobile ? [0, -2, 0] : MODEL_POSITION}
+      />
+    </Float>
+  );
+}
+
+// Pre-carga el modelo para que Suspense sea instantáneo en navegaciones
+useGLTF.preload(MODEL_URL);
+
+// ─── Fallback mobile simple ───────────────────────────────────────────────────
+function MobileShape({ reducedMotion }: { reducedMotion: boolean }) {
+  const ref = useRef<THREE.Mesh>(null);
+  useFrame((_, dt) => {
+    if (!ref.current || reducedMotion) return;
+    ref.current.rotation.y += dt * 0.18;
+  });
+  return (
+    <mesh ref={ref}>
       <icosahedronGeometry args={[1.5, 1]} />
       <meshStandardMaterial color="#ffffff" metalness={0.9} roughness={0.15} />
     </mesh>
   );
 }
 
-// ─── Componente principal exportado ──────────────────────────────────────────
+// ─── Canvas principal ─────────────────────────────────────────────────────────
 export default function HeroCanvas() {
   const [isMobile, setIsMobile] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [modelReady, setModelReady] = useState(false);
 
   useEffect(() => {
-    // Preferencias de movimiento
     const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
     setReducedMotion(mq.matches);
-    const onMqChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
-    mq.addEventListener("change", onMqChange);
+    const onMq = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener("change", onMq);
 
-    // Tamaño de pantalla
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
 
-    // Tracking del mouse (solo desktop)
-    const onMouseMove = (e: MouseEvent) => {
+    const onMove = (e: MouseEvent) => {
       if (window.innerWidth < 768) return;
       mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
       mouse.y = -((e.clientY / window.innerHeight) * 2 - 1);
     };
-    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mousemove", onMove);
+
+    // Verificar si el archivo del modelo existe antes de intentar cargarlo
+    fetch(MODEL_URL, { method: "HEAD" })
+      .then((r) => { if (r.ok) setModelReady(true); })
+      .catch(() => {});
 
     return () => {
-      mq.removeEventListener("change", onMqChange);
+      mq.removeEventListener("change", onMq);
       window.removeEventListener("resize", checkMobile);
-      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mousemove", onMove);
     };
   }, []);
 
   return (
     <Canvas
-      camera={{ position: [0, 0, 5], fov: 50 }}
+      camera={{ position: [0, 0.5, 5], fov: 45 }}
       dpr={[1, 1.5]}
       gl={{ alpha: true, antialias: true }}
       onCreated={({ gl }) => gl.setClearColor(0x000000, 0)}
-      style={{
-        position: "absolute",
-        inset: 0,
-        background: "transparent",
-      }}
+      style={{ position: "absolute", inset: 0, background: "transparent" }}
+      shadows
     >
-      <ambientLight intensity={0.15} />
-      <pointLight position={[3, 3, 3]} intensity={2.5} color="#ffffff" />
-      <pointLight position={[-3, -1, 2]} intensity={0.4} color="#8888ff" />
+      {/* Iluminación optimizada para modelos de personaje */}
+      <ambientLight intensity={0.4} />
+      <directionalLight
+        position={[3, 5, 3]}
+        intensity={1.5}
+        castShadow
+        shadow-mapSize={[1024, 1024]}
+      />
+      <directionalLight position={[-3, 2, -2]} intensity={0.4} color="#6688ff" />
 
+      {/* Environment para reflejos (no visible, solo iluminación) */}
+      <Environment preset="city" />
+
+      {/* Esfera wireframe de fondo — siempre visible */}
+      <WireframeSphere reducedMotion={reducedMotion} />
+
+      {/* Modelo 3D con Suspense — fallback geométrico mientras carga */}
       {isMobile ? (
         <MobileShape reducedMotion={reducedMotion} />
+      ) : modelReady ? (
+        <Suspense fallback={<LoadingShape />}>
+          <AvatarModel reducedMotion={reducedMotion} isMobile={isMobile} />
+        </Suspense>
       ) : (
-        <>
-          <TorusKnot reducedMotion={reducedMotion} />
-          <WireframeSphere reducedMotion={reducedMotion} />
-        </>
+        // Placeholder hasta que el modelo esté disponible
+        <LoadingShape />
       )}
     </Canvas>
   );
