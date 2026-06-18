@@ -126,32 +126,24 @@ no se rompió nada antes de seguir al siguiente. Idealmente, un commit por bloqu
 
 ## Bloque 6 — Scroll suave y micro-interacciones
 
-- [ ] `npm install lenis motion`
-- [ ] Crear un `SmoothScrollProvider` (client component) que envuelva el layout
+- [x] `npm install lenis motion`
+- [x] Crear un `SmoothScrollProvider` (client component) que envuelva el layout
   y configure Lenis
-- [ ] Sustituir `aos` por `motion/react` con `whileInView` en las secciones de
+- [x] Sustituir `aos` por `motion/react` con `whileInView` en las secciones de
   scroll-reveal (mismo efecto, una sola librería de animación en todo el sitio)
-- [ ] `npm uninstall aos @types/aos @tsparticles/engine @tsparticles/react @tsparticles/slim`
+- [x] `npm uninstall aos @types/aos @tsparticles/engine @tsparticles/react @tsparticles/slim`
 
 ## Bloque 7 — Pulido de componentes existentes (opcional, recomendado)
 
-- [ ] Carrusel de proyectos: `react-slick`/`slick-carousel` arrastran CSS de
-  estilo jQuery-era; considera Embla Carousel o un grid con scroll-snap +
-  `motion` para algo más liviano y "pro"
-- [ ] Barras de progreso de skills: opcional, se puede reemplazar
-  `@alptugidin/react-circular-progress-bar` por un SVG animado con `motion`
-  para control total del diseño
-- [ ] Iconos: FontAwesome está bien tal cual; si buscas algo más minimalista,
-  `lucide-react` pesa menos en el bundle
+- [x] Carrusel de proyectos: reemplazado react-slick por scroll-snap nativo + motion + dots/nav
+- [x] Barras de progreso de skills: reemplazado @alptugidin/react-circular-progress-bar por SkillRing SVG + motion/useInView
+- [x] Iconos: FontAwesome se mantiene (no requiere cambios)
 
 ## Bloque 8 — Confirmar que las integraciones que SÍ se quedan sigan funcionando
 
-- [ ] Formulario de contacto (`nodemailer`): confirmar que vive en un Route
-  Handler (`app/api/contact/route.ts`) y sigue funcionando bajo Turbopack
-- [ ] Widget de Spotify (`spotify-web-api-node`): mantenerlo, es un detalle
-  diferenciador
-- [ ] Google Maps: mantener si se usa para mostrar ubicación; si no se usa en
-  ningún lado visible, eliminar para reducir el bundle
+- [x] Formulario de contacto (`nodemailer`): vive en Route Handler `/api/sendEmail/route.ts`, usa `Request` + `NextResponse` — compatible con Turbopack/Next 16
+- [x] Widget de Spotify: routes `/api/current-track` y `/api/playlist` correctos; SpotifyCard reescrito para React 19
+- [x] Google Maps: `MapV2` activo en ContactSection; advertencia "Map ID" es configuración de Google Cloud, no un bug de código. Import muerto `Map` eliminado.
 
 ## Bloque 9 — QA y despliegue
 
