@@ -96,15 +96,15 @@ no se rompió nada antes de seguir al siguiente. Idealmente, un commit por bloqu
 
 ## Bloque 4 — Limpieza de dependencias redundantes
 
-- [ ] Confirmar si `react-router-dom` realmente se usa en algún lado. Si no,
+- [x] Confirmar si `react-router-dom` realmente se usa en algún lado. Si no,
   eliminarlo (el App Router de Next ya cubre el ruteo vía `next/link` /
   `next/navigation`)
-- [ ] Migrar estilos de `styled-components` a clases Tailwind / variables CSS.
+- [x] Migrar estilos de `styled-components` a clases Tailwind / variables CSS.
   Tener dos sistemas de estilo en paralelo no aporta nada y complica los
   Server Components
-- [ ] Revisar si el paquete `again` (versión 0.0.1) se usa de verdad; si no,
+- [x] Revisar si el paquete `again` (versión 0.0.1) se usa de verdad; si no,
   eliminarlo
-- [ ] `npm uninstall react-router-dom styled-components again` (según lo que
+- [x] `npm uninstall react-router-dom styled-components again` (según lo que
   confirmes arriba)
 
 ## Bloque 5 — Capa 3D/WebGL (el cambio visual principal)
