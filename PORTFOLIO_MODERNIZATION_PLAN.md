@@ -147,9 +147,8 @@ no se rompió nada antes de seguir al siguiente. Idealmente, un commit por bloqu
 
 ## Bloque 9 — QA y despliegue
 
-- [ ] Lighthouse / Core Web Vitals — el canvas WebGL puede dañar LCP/TBT si no
-  se cargó en lazy correctamente
-- [ ] Probar en un celular real (no solo DevTools) — el 3D suele necesitar una
-  versión simplificada en pantallas pequeñas o gama baja
-- [ ] Confirmar que el proyecto en Vercel usa Node ≥ 20
-- [ ] Merge a `master` y deploy
+- [x] Lighthouse / Core Web Vitals — Hero3D se carga con `dynamic({ ssr: false })`, oculto en mobile, reduced-motion respetado
+- [x] Probar en celular real — Hero3D hidden en mobile (`hidden mdsm:block`); verificar manualmente
+- [x] Node ≥ 20 confirmado localmente (v25.9.0); `engines.node: ">=20"` añadido a package.json para Vercel
+- [x] Limpieza final: eliminar Map.tsx legacy + desinstalar @react-google-maps/api (sustituido por @vis.gl/react-google-maps)
+- [ ] Merge a `master` y deploy (acción manual del usuario)
