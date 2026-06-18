@@ -3,8 +3,6 @@ import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Typewriter from '@/app/components/extras/TypeWriter';
 import ModalContainer from '@/app/components/Modals/ModalContainer';
-import ParticlesBackground from '@/app/components/Background/Particles';
-
 const ProfileModal = ({ isOpen, onClose }: any) => {
     if (!isOpen) return null;
     const phrases = [
@@ -21,7 +19,6 @@ const ProfileModal = ({ isOpen, onClose }: any) => {
     return (
         <ModalContainer className={`sm:w-96`} onClose={onClose}>
             <div className="w-full h-full flex justify-center items-center rounded-lg">
-                <ParticlesBackground />
                 <div className="relative z-10 p-6 rounded-lg">
 
                     {/* Contenido del perfil */}

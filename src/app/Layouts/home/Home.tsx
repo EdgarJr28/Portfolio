@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import ContactSection from './ContactSection';
 import Timeline from './Timeline';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,6 +10,13 @@ import { useEffect, useState } from 'react';
 import ProjectGallerySection from './proyectGalery/ProjectGallerySection';
 import ModalDownloadResume from '@/app/components/Modals/ModalDownloadResume';
 import CanOfferSection from '@/app/about/CanOfferSection';
+
+const Hero3D = dynamic(() => import('@/app/components/Hero3D'), {
+    ssr: false,
+    loading: () => (
+        <div className="absolute inset-0 -z-10 bg-linear-to-br from-zinc-950 to-zinc-900" />
+    ),
+});
 
 const Home = () => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -30,7 +38,8 @@ const Home = () => {
 
     return (
         <>
-            <section className="bg-transparent pt-32 mdsm:pt-16 mdsm:px-12 flex justify-center items-center transition-all">
+            <section className="relative bg-transparent pt-32 mdsm:pt-16 mdsm:px-12 flex justify-center items-center transition-all">
+                <Hero3D />
                 <div className="container mx-auto flex flex-col lg:flex-row items-center mdsm:mx-auto">
                     <div className="p-4 text-center lg:text-left lg:w-1/2 lg:pr-12">
                         <p className="text-baseGray dark:text-white">Welcome to my portfolio website! 🚀</p>

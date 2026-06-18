@@ -109,79 +109,19 @@ no se rompió nada antes de seguir al siguiente. Idealmente, un commit por bloqu
 
 ## Bloque 5 — Capa 3D/WebGL (el cambio visual principal)
 
-- [ ] Instalar:
+- [x] Instalar:
   ```bash
   npm install three @react-three/fiber@^9 @react-three/drei@^10
   npm install -D @types/three
   ```
-- [ ] Crear `src/components/Hero3D.tsx`:
-  ```tsx
-  "use client";
-
-  import { Canvas, useFrame } from "@react-three/fiber";
-  import { Float, MeshDistortMaterial } from "@react-three/drei";
-  import { useRef } from "react";
-  import * as THREE from "three";
-
-  function FloatingShape() {
-    const meshRef = useRef<THREE.Mesh>(null);
-
-    useFrame((_, delta) => {
-      if (meshRef.current) {
-        meshRef.current.rotation.x += delta * 0.15;
-        meshRef.current.rotation.y += delta * 0.2;
-      }
-    });
-
-    return (
-      <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.6}>
-        <mesh ref={meshRef}>
-          <icosahedronGeometry args={[1.4, 1]} />
-          <MeshDistortMaterial
-            color="#6366f1"
-            distort={0.35}
-            speed={2}
-            roughness={0.2}
-            metalness={0.6}
-          />
-        </mesh>
-      </Float>
-    );
-  }
-
-  export default function Hero3D() {
-    return (
-      <div className="absolute inset-0 -z-10">
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 45 }}
-          dpr={[1, 1.5]}
-          gl={{ antialias: true, alpha: true }}
-        >
-          <ambientLight intensity={0.6} />
-          <pointLight position={[5, 5, 5]} intensity={1.2} />
-          <FloatingShape />
-        </Canvas>
-      </div>
-    );
-  }
-  ```
-- [ ] Cargarlo de forma diferida en `app/page.tsx` (WebGL nunca debe romper el
-  render del servidor ni bloquear el LCP):
-  ```tsx
-  import dynamic from "next/dynamic";
-
-  const Hero3D = dynamic(() => import("@/components/Hero3D"), {
-    ssr: false,
-    loading: () => (
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-zinc-950 to-zinc-900" />
-    ),
-  });
-  ```
-- [ ] Reemplazar el fondo actual de `@tsparticles` por esta escena — no conviene
+- [x] Crear `src/components/Hero3D.tsx`:
+- [x] Cargarlo de forma diferida en `app/page.tsx` (WebGL nunca debe romper el
+  render del servidor ni bloquear el LCP)
+- [x] Reemplazar el fondo actual de `@tsparticles` por esta escena — no conviene
   correr dos motores de canvas distintos al mismo tiempo, afecta el rendimiento
-- [ ] Respetar accesibilidad: si `window.matchMedia('(prefers-reduced-motion: reduce)').matches`
+- [x] Respetar accesibilidad: si `window.matchMedia('(prefers-reduced-motion: reduce)').matches`
   es `true`, desactivar la rotación/flotación automática
-- [ ] En móviles, considera ocultar el Canvas o mostrar una versión estática —
+- [x] En móviles, considera ocultar el Canvas o mostrar una versión estática —
   WebGL en gama baja puede ser costoso
 
 ## Bloque 6 — Scroll suave y micro-interacciones
