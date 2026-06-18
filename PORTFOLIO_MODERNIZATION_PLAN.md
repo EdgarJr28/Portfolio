@@ -58,8 +58,8 @@ no se rompió nada antes de seguir al siguiente. Idealmente, un commit por bloqu
 
 ## Bloque 2 — ESLint 8 → 9 (flat config)
 
-- [ ] `npm install -D eslint@9 eslint-config-next@16`
-- [ ] Eliminar `.eslintrc.json`, crear `eslint.config.mjs`:
+- [x] `npm install -D eslint@9 eslint-config-next@16`
+- [x] Eliminar `.eslintrc.json`, crear `eslint.config.mjs`:
   ```js
   import { dirname } from "path";
   import { fileURLToPath } from "url";

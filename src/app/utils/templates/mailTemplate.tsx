@@ -1,5 +1,5 @@
 export function Template(name: any, mail: any, message: any) {
-    let template = `
+    const template = `
     <!DOCTYPE html>
 <html lang="en">
 
