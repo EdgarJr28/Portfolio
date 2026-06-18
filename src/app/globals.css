@@ -221,6 +221,15 @@ input:-moz-autofill {
     animation: marquee 20s linear infinite;
 }
 
+@keyframes marquee-loop {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+}
+
+.animate-marquee-loop {
+    animation: marquee-loop 18s linear infinite;
+}
+
 .rotate-x-20 {
     transform: perspective(1100px) rotateY(20deg) rotateX(15deg);
 }

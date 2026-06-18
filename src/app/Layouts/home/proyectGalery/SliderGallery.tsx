@@ -1,7 +1,7 @@
-import React from 'react'
-import Slider from 'react-slick';
-import CardGallery from './CardGallery';
+'use client';
+import React, { useRef, useState } from 'react';
 import { motion } from 'motion/react';
+import CardGallery from './CardGallery';
 
 const proyects = [
     {
@@ -52,70 +52,80 @@ const proyects = [
     {
         id: 6,
         title: 'Backend Projects',
-        shortDescription: 'I have a lot of knowledge in the backend, possibly my forte, I have participated in many projects but due to privacy policies I can not show it, however I can specify my knowledge, hit me on more info and I&apos;ll tell you a little 😁.',
+        shortDescription: 'I have a lot of knowledge in the backend, possibly my forte, I have participated in many projects but due to privacy policies I can not show it, however I can specify my knowledge, hit me on more info and I\'ll tell you a little 😁.',
         description: 'As a backend I have participated in many projects taking care of SQL and NoSQL database management, also made use of technologies such as web socket and Rest, all this with JavaScript/Node, I invite you to review my public repos, the ones I have been able to share all are for personal development either by hobbit or technical testing. ',
         image: '/images/me-icon.png',
         date: '2019 - Current',
         link: 'https://github.com/EdgarJr28'
     },
-
 ];
 
-
 const SliderProjectGallery = () => {
+    const scrollRef = useRef<HTMLDivElement>(null);
+    const [current, setCurrent] = useState(0);
+    const total = proyects.length;
 
-    const settings = {
-        dots: true,
-        infinite: true,
-        speed: 500,
-        slidesToShow: 1,
-        autoplay: false,
-        slidesToScroll: 1,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1,
-                    initialSlide: 1
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                }
-            }
-        ]
+    const scrollTo = (index: number) => {
+        if (!scrollRef.current) return;
+        const width = scrollRef.current.clientWidth;
+        scrollRef.current.scrollTo({ left: index * width, behavior: 'smooth' });
+        setCurrent(index);
     };
 
+    const prev = () => scrollTo(Math.max(current - 1, 0));
+    const next = () => scrollTo(Math.min(current + 1, total - 1));
 
     return (
-        <>
-            <motion.div
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: false, margin: '-60px' }}
-                transition={{ duration: 0.7 }}
-                className="w-full max-w-xs mdsm:max-w-5xl backdrop-opacity-10 backdrop-blur-sm max-h-96  mx-auto rounded-lg"
+        <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: false, margin: '-60px' }}
+            transition={{ duration: 0.7 }}
+            className="w-full max-w-xs mdsm:max-w-5xl mx-auto"
+        >
+            <div
+                ref={scrollRef}
+                className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide rounded-lg"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
-                <Slider {...settings} className='mdsm:max-h-96 mdsm:p-4  rounded-lg' >
-                    {proyects.map((proyect) => (
-                        < CardGallery key={proyect.id} data={proyect} />
+                {proyects.map((proyect) => (
+                    <div key={proyect.id} className="snap-center shrink-0 w-full max-h-96">
+                        <CardGallery data={proyect} />
+                    </div>
+                ))}
+            </div>
+
+            {/* Navigation */}
+            <div className="flex items-center justify-center gap-4 mt-4">
+                <button
+                    onClick={prev}
+                    disabled={current === 0}
+                    className="w-8 h-8 rounded-full bg-baseGreen/20 hover:bg-baseGreen/40 disabled:opacity-30 transition-colors text-white font-bold flex items-center justify-center"
+                    aria-label="Previous"
+                >
+                    ‹
+                </button>
+                <div className="flex gap-2">
+                    {proyects.map((_, i) => (
+                        <button
+                            key={i}
+                            onClick={() => scrollTo(i)}
+                            className={`w-2 h-2 rounded-full transition-colors ${i === current ? 'bg-baseGreen' : 'bg-gray-400/50'}`}
+                            aria-label={`Go to slide ${i + 1}`}
+                        />
                     ))}
-                </Slider>
-            </motion.div>
-        </>
+                </div>
+                <button
+                    onClick={next}
+                    disabled={current === total - 1}
+                    className="w-8 h-8 rounded-full bg-baseGreen/20 hover:bg-baseGreen/40 disabled:opacity-30 transition-colors text-white font-bold flex items-center justify-center"
+                    aria-label="Next"
+                >
+                    ›
+                </button>
+            </div>
+        </motion.div>
+    );
+};
 
-    )
-}
-
-export default SliderProjectGallery
+export default SliderProjectGallery;
