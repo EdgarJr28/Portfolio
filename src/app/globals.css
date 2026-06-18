@@ -227,7 +227,7 @@ input:-moz-autofill {
 }
 
 .animate-marquee-loop {
-    animation: marquee-loop 18s linear infinite;
+    animation: marquee-loop 14s linear infinite;
 }
 
 .rotate-x-20 {

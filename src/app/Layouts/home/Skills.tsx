@@ -29,7 +29,7 @@ const SkillItem = ({ skill }: { skill: typeof skills[number] }) => (
 
 const SkillCarousel = () => {
     return (
-        <div className="w-full max-w-xs mdsm:max-w-lg mx-auto mt-10 overflow-hidden">
+        <div className="w-full overflow-hidden mt-10">
             <p className="text-2xl font-semibold text-center dark:text-white p-4">Skills</p>
             <div className="flex animate-marquee-loop w-max">
                 {[...skills, ...skills].map((skill, i) => (
