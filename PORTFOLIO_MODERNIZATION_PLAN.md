@@ -44,17 +44,17 @@ no se rompió nada antes de seguir al siguiente. Idealmente, un commit por bloqu
 
 ## Bloque 1 — Next.js 14 → 16 + React 19
 
-- [ ] Ejecutar el codemod oficial: `npx @next/codemod@canary upgrade latest`
-- [ ] Instalar React 19 explícitamente:
+- [x] Ejecutar el codemod oficial: `npx @next/codemod@canary upgrade latest`
+- [x] Instalar React 19 explícitamente:
   ```bash
   npm install react@19 react-dom@19
   npm install -D @types/react@19 @types/react-dom@19
   ```
-- [ ] Revisar `next.config.mjs`: eliminar flags experimentales que ya quedaron
+- [x] Revisar `next.config.mjs`: eliminar flags experimentales que ya quedaron
   estables o se removieron entre Next 14 y 16
-- [ ] Revisar cualquier uso síncrono de `cookies()`, `headers()` o `params` —
+- [x] Revisar cualquier uso síncrono de `cookies()`, `headers()` o `params` —
   en Next 16 estas APIs son **async-only**
-- [ ] `npm run build` y resolver errores de tipos que aparezcan
+- [x] `npm run build` y resolver errores de tipos que aparezcan
 
 ## Bloque 2 — ESLint 8 → 9 (flat config)
 

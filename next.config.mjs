@@ -1,8 +1,4 @@
 // next.config.mjs
-import { fileURLToPath } from 'url';
-import path from 'path';
-
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const nextConfig = {
   reactStrictMode: false,
@@ -50,10 +46,6 @@ const nextConfig = {
     SPOTIFY_CLIENT_ID: process.env.SPOTIFY_CLIENT_ID,
     SPOTIFY_CLIENT_SECRET: process.env.SPOTIFY_CLIENT_SECRET,
   },
-  webpack(config) {
-    config.resolve.alias['@'] = path.resolve(__dirname, 'src');
-    return config;
-  }
 };
 
 export default nextConfig;
