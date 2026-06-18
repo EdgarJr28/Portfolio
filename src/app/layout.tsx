@@ -1,43 +1,48 @@
 import type { Metadata } from "next";
+import { Syne, Inter } from "next/font/google";
 import "./globals.css";
-import Navbar from "./Layouts/navbar/Navbar.component";
-import Footer from "./Layouts/footer/Footer";
-import { CtxProvider } from "./context/context";
-import { Analytics } from "@vercel/analytics/react"
-import ClientOnlyWrapper from "./components/Loaders/ClientOnlyWrapper";
-import SmoothScrollProvider from "./components/SmoothScrollProvider";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import CustomCursor from "@/components/layout/CustomCursor";
+import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
+import { Analytics } from "@vercel/analytics/react";
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-display",
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  weight: ["300", "400", "500"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
-  title: "EdDev Portfolio / Innovative Developer Projects",
-  description: "Welcome to EdDev Portfolio - Showcasing Innovative Web Development Projects. Explore my latest designs, coding skills and professional tech insights.",
-  icons: [
-    { rel: 'icon', url: '/dev.ico' },
-    { rel: 'apple-touch-icon', sizes: '180x180', url: '/dev.ico' }
-  ]
+  title: "Ed Maldonado — Frontend Developer",
+  description:
+    "Frontend developer especializado en React y Next.js, construyendo interfaces rápidas, accesibles y visualmente memorables.",
+  icons: [{ rel: "icon", url: "/dev.ico" }],
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="en">
-      <body className="dark:bg-dark-100">
-        <CtxProvider>
-          <SmoothScrollProvider>
-            <ClientOnlyWrapper>
-              <nav>
-                <Navbar />
-              </nav>
-              <div>
-                {children}
-                <Analytics />
-              </div>
-              <Footer />
-            </ClientOnlyWrapper>
-          </SmoothScrollProvider>
-        </CtxProvider>
+    <html lang="es" className={`${syne.variable} ${inter.variable}`}>
+      <body>
+        <SmoothScrollProvider>
+          <CustomCursor />
+          <Navbar />
+          {children}
+          <Footer />
+          <Analytics />
+        </SmoothScrollProvider>
       </body>
     </html>
   );

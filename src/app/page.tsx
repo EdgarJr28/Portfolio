@@ -1,17 +1,23 @@
-'use client'
-import Image from "next/image";
-import Home from "./Layouts/home/Home";
-import Footer from "./Layouts/footer/Footer";
-import { CtxProvider } from "./context/context";
+import Hero from "@/components/sections/Hero";
+import About from "@/components/sections/About";
+import Skills from "@/components/sections/Skills";
+import Experience from "@/components/sections/Experience";
+import Projects from "@/components/sections/Projects";
+import SpotifyWidget from "@/components/sections/SpotifyWidget";
+import Blog from "@/components/sections/Blog";
+import Contact from "@/components/sections/Contact";
 
-export default function Index() {
+export default function Home() {
   return (
-    <>
-      <main className="flex items-center">
-        <div>
-          <Home />
-        </div>
-      </main>
-    </>
+    <main>
+      <Hero />
+      <About />
+      <Skills />
+      <Experience />
+      <Projects />
+      <SpotifyWidget />
+      <Blog />
+      <Contact />
+    </main>
   );
 }
