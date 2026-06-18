@@ -1,11 +1,55 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
+layer(base);
 /* slick-carousel styles */
-@import "slick-carousel/slick/slick.css";
-@import "slick-carousel/slick/slick-theme.css";
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'slick-carousel/slick/slick.css' layer(base);
+@import 'slick-carousel/slick/slick-theme.css' layer(base);
+@import 'tailwindcss';
 
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --animate-marquee: marquee 10s linear infinite;
+
+  --color-dark-100: #121212;
+  --color-dark-200: #1a1a1a;
+
+  --color-baseGray: #686868;
+  --color-baseGreen: #32d583;
+  --color-baseBlack: rgba(0, 0, 0, 0.9);
+  --color-baseBlue: #037db8;
+  --color-baseAlert: #ff464a;
+
+  --breakpoint-mdsm: 768px;
+
+  --shadow-white: 0 4px 0.5px rgba(255, 255, 255, 0.9);
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 * {
     margin: 0;

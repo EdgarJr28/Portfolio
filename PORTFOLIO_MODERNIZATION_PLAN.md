@@ -74,8 +74,8 @@ no se rompió nada antes de seguir al siguiente. Idealmente, un commit por bloqu
 
 ## Bloque 3 — Tailwind v3 → v4
 
-- [ ] Ejecutar el codemod oficial: `npx @tailwindcss/upgrade`
-- [ ] Eliminar `tailwind.config.ts`. Mover tokens de diseño a `globals.css`:
+- [x] Ejecutar el codemod oficial: `npx @tailwindcss/upgrade`
+- [x] Eliminar `tailwind.config.ts`. Mover tokens de diseño a `globals.css`:
   ```css
   @import "tailwindcss";
 
@@ -84,14 +84,14 @@ no se rompió nada antes de seguir al siguiente. Idealmente, un commit por bloqu
     --font-display: "Inter", sans-serif;
   }
   ```
-- [ ] Reemplazar `postcss.config.mjs`:
+- [x] Reemplazar `postcss.config.mjs`:
   ```js
   const config = {
     plugins: { "@tailwindcss/postcss": {} },
   };
   export default config;
   ```
-- [ ] El codemod migra solo la mayoría de clases renombradas
+- [x] El codemod migra solo la mayoría de clases renombradas
   (ej. `bg-gradient-to-r` → `bg-linear-to-r`); revisar visualmente los gradientes
 
 ## Bloque 4 — Limpieza de dependencias redundantes
