@@ -5,6 +5,7 @@ import Footer from "./Layouts/footer/Footer";
 import { CtxProvider } from "./context/context";
 import { Analytics } from "@vercel/analytics/react"
 import ClientOnlyWrapper from "./components/Loaders/ClientOnlyWrapper";
+import SmoothScrollProvider from "./components/SmoothScrollProvider";
 
 export const metadata: Metadata = {
   title: "EdDev Portfolio / Innovative Developer Projects",
@@ -24,16 +25,18 @@ export default function RootLayout({
     <html lang="en">
       <body className="dark:bg-dark-100">
         <CtxProvider>
-          <ClientOnlyWrapper>
-            <nav>
-              <Navbar />
-            </nav>
-            <div>
-              {children}
-              <Analytics />
-            </div>
-            <Footer />
-          </ClientOnlyWrapper>
+          <SmoothScrollProvider>
+            <ClientOnlyWrapper>
+              <nav>
+                <Navbar />
+              </nav>
+              <div>
+                {children}
+                <Analytics />
+              </div>
+              <Footer />
+            </ClientOnlyWrapper>
+          </SmoothScrollProvider>
         </CtxProvider>
       </body>
     </html>

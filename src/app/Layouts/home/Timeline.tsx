@@ -1,83 +1,59 @@
-import React, { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // Importa los estilos de AOS
+'use client';
+import React from 'react';
+import { motion } from 'motion/react';
 
 const experiences = [
-    {
-        position: "Jr Developer",
-        company: "Soluciona Ingeinería SAS",
-        year: "2019 - 2020"
-    },
-    {
-        position: "Developer Freelancer",
-        company: "",
-        year: "2021 - 2022"
-    },
-    {
-        position: "Developer",
-        company: "Intra Technology",
-        year: "2022 - 2023"
-    },
-    {
-        position: "Developer",
-        company: "Ludycom",
-        year: "2024 - Current"
-    }
+    { position: "Jr Developer", company: "Soluciona Ingeinería SAS", year: "2019 - 2020" },
+    { position: "Developer Freelancer", company: "", year: "2021 - 2022" },
+    { position: "Developer", company: "Intra Technology", year: "2022 - 2023" },
+    { position: "Developer", company: "Ludycom", year: "2024 - Current" },
 ];
 
 const educations = [
-    {
-        title: "Systems Analyst",
-        university: "SENA",
-        year: "2020"
-    },
-    {
-        title: "Systems Engineer",
-        university: "CUC University",
-        year: "2021 - Current"
-    },
+    { title: "Systems Analyst", university: "SENA", year: "2020" },
+    { title: "Systems Engineer", university: "CUC University", year: "2021 - Current" },
 ];
 
-const Timeline = () => {
-    useEffect(() => {
-        AOS.init({
-            duration: 2000, // Duración de la animación en milisegundos
-            once: false, // Si true, la animación se ejecuta solo una vez
-        });
-    }, []);
+const fadeRight = {
+    initial: { opacity: 0, x: -30 },
+    whileInView: { opacity: 1, x: 0 },
+    viewport: { once: false, margin: '-40px' },
+    transition: { duration: 0.5 },
+};
 
+const Timeline = () => {
     return (
         <div className="flex items-center justify-center mt-20 h-96 sm:m-14 space-x-12">
             <div className="rounded-sm p-2 dark:text-white">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {/* Experiences Section */}
-                    <div className={`mx-12 mdsm:mx-20`}>
+                    <div className="mx-12 mdsm:mx-20">
                         <h2 className="text-xl font-bold mb-4">Experiences</h2>
                         <div className="relative">
                             {experiences.map((experience, index) => (
-                                <div key={index} data-aos="fade-right" className="relative">
+                                <motion.div key={index} {...fadeRight} transition={{ duration: 0.5, delay: index * 0.1 }} className="relative">
                                     <div className="absolute top-0 left-5 h-full border-l-2 border-gray-300"></div>
                                     <div className="flex items-center mb-2 2-full relative z-10">
                                         <span className="bg-baseGray text-white dark:bg-white dark:text-black rounded-full h-10 w-10 flex items-center justify-center">
                                             {experience.year.split(' ')[0]}
                                         </span>
-                                        <h3 className="ml-4 text-lg  font-semibold text-nowrap">{experience.position}</h3>
+                                        <h3 className="ml-4 text-lg font-semibold text-nowrap">{experience.position}</h3>
                                     </div>
                                     <div className="ml-14 relative z-10">
                                         <p className="font-normal text-nowrap">{experience.company}</p>
                                         <p className="font-light text-sm text-nowrap">{experience.year}</p>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
 
                     {/* Education Section */}
-                    <div className={`mx-12 mdsm:mx-20`}>
+                    <div className="mx-12 mdsm:mx-20">
                         <h2 className="text-xl font-bold mb-4">Educations</h2>
                         <div className="relative">
                             {educations.map((education, index) => (
-                                <div key={index} data-aos="fade-right" className="relative">
+                                <motion.div key={index} {...fadeRight} transition={{ duration: 0.5, delay: index * 0.1 }} className="relative">
                                     <div className="absolute top-0 left-5 h-full border-l-2 border-gray-300"></div>
                                     <div className="flex items-center mb-2 relative z-10">
                                         <span className="bg-baseGray text-white dark:bg-white dark:text-black rounded-full h-10 w-10 flex items-center justify-center">
@@ -89,14 +65,13 @@ const Timeline = () => {
                                         <p className="font-normal text-nowrap">{education.university}</p>
                                         <p className="font-light text-sm text-nowrap">{education.year}</p>
                                     </div>
-                                </div>
+                                </motion.div>
                             ))}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     );
 };
 

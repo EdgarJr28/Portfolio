@@ -1,28 +1,19 @@
-import React, { useEffect } from 'react';
-import AOS from 'aos';
-import 'aos/dist/aos.css'; // Importa los estilos de AOS
+'use client';
+import { useEffect } from 'react';
+import { motion } from 'motion/react';
 
 const ModalImageContainer = ({ onClose, children, className }: any) => {
-    // Función para manejar el clic fuera del modal
     const handleOutsideClick = (e: any) => {
         if (!e.target.closest('.modal-content')) {
-            onClose(); // Cerrar el modal
+            onClose();
         }
     };
 
-    // Función para manejar el evento de teclado
     const handleEscapeKey = (e: any) => {
         if (e.key === 'Escape') {
             onClose();
         }
     };
-
-    useEffect(() => {
-        AOS.init({
-            duration: 500, // Duración de la animación en milisegundos
-            once: false, // Permitir que las animaciones se repitan
-        });
-    }, []);
 
     useEffect(() => {
         document.addEventListener('mousedown', handleOutsideClick);
@@ -45,9 +36,14 @@ const ModalImageContainer = ({ onClose, children, className }: any) => {
                     &times;
                 </button>
                 <div className="flex items-center justify-center h-full">
-                    <div data-aos="zoom-in-up" className="modal-content w-80 h-50 sm:w-3/4 sm:h-3/4 bg-gray-300 rounded-lg">
+                    <motion.div
+                        initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        transition={{ duration: 0.3, ease: 'easeOut' }}
+                        className={`modal-content w-80 h-50 sm:w-3/4 sm:h-3/4 bg-gray-300 rounded-lg ${className ?? ''}`}
+                    >
                         {children}
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </div>
