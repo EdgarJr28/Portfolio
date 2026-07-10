@@ -17,7 +17,8 @@ export async function getCurrentTrack() {
     const data = await spotifyApi.getMyCurrentPlayingTrack({
       additional_types: "track,episode",
     } as Parameters<typeof spotifyApi.getMyCurrentPlayingTrack>[0]);
-    return data.body.item ?? null;
+    if (!data.body.item) return null;
+    return { ...data.body.item, progress_ms: data.body.progress_ms ?? 0 };
   } catch {
     return null;
   }
@@ -39,6 +40,18 @@ export async function getLastPlayedTrack() {
     const data = await spotifyApi.getMyRecentlyPlayedTracks({ limit: 1 });
     return data.body.items[0]?.track ?? null;
   } catch {
+    return null;
+  }
+}
+
+export async function getPlaylists() {
+  await getAccessToken();
+  try {
+    const me = await spotifyApi.getMe();
+    const data = await spotifyApi.getUserPlaylists(me.body.id, { limit: 12 });
+    return data.body.items.filter((p) => p.images?.[0]?.url);
+  } catch (err) {
+    console.error("[getPlaylists]", err);
     return null;
   }
 }

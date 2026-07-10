@@ -52,7 +52,7 @@ export default function Footer() {
           color: "rgba(240,240,240,0.3)",
         }}
       >
-        Ed Maldonado © 2026
+        Edgar Maldonado © 2026
       </p>
       <div style={{ display: "flex", gap: "1.25rem", alignItems: "center" }}>
         {SOCIALS.map(({ icon, href, label }) => (

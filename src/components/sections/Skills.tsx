@@ -1,8 +1,15 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { motion } from "motion/react";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { skills, type SkillCategory } from "@/lib/data";
+
+// Laboratorio 3D giratorio — decorativo, solo desktop
+const SkillsLabCanvas = dynamic(() => import("./SkillsLabCanvas"), {
+  ssr: false,
+  loading: () => null,
+});
 
 const SECTION_STYLE = {
   padding: "160px clamp(1.25rem, 5vw, 3rem)",
@@ -65,7 +72,19 @@ export default function Skills() {
     <section id="skills" style={SECTION_STYLE}>
       <SectionTitle number="02" title="Skills" />
 
-      <div style={{ display: "flex", flexDirection: "column", gap: "3.5rem" }}>
+      <div
+        className="md:grid md:grid-cols-[480px_1fr]"
+        style={{ gap: "3rem", alignItems: "center" }}
+      >
+        {/* Avatar 3D — decorativo, solo desktop */}
+        <div
+          className="hidden md:block"
+          style={{ position: "relative", height: "540px" }}
+        >
+          <SkillsLabCanvas />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "3.5rem" }}>
         {CATEGORY_ORDER.map((category, ci) => (
           <motion.div
             key={category}
@@ -93,6 +112,7 @@ export default function Skills() {
             </div>
           </motion.div>
         ))}
+        </div>
       </div>
     </section>
   );

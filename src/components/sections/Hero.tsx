@@ -1,24 +1,19 @@
 "use client";
 
-import dynamic from "next/dynamic";
-import { motion, AnimatePresence } from "motion/react";
 import { useState } from "react";
+import dynamic from "next/dynamic";
+import { motion } from "motion/react";
+import Button from "@/components/ui/Button";
+import NameEasterEggModal from "./NameEasterEggModal";
 
-// Spline — solo desktop, carga diferida para no bloquear LCP
-const HeroSpline = dynamic(() => import("./HeroSpline"), {
-  ssr: false,
-  loading: () => null,
-});
-
-// Canvas Three.js — fallback en mobile y mientras carga Spline
-const HeroCanvas = dynamic(() => import("./HeroCanvas"), {
+// Avatar 3D — carga diferida, sin SSR (WebGL solo en cliente)
+const IntroCanvas = dynamic(() => import("./HeroIntroCanvas"), {
   ssr: false,
   loading: () => null,
 });
 
 export default function Hero() {
-  const [splineLoaded, setSplineLoaded] = useState(false);
-
+  const [nameEggOpen, setNameEggOpen] = useState(false);
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -30,112 +25,37 @@ export default function Hero() {
         position: "relative",
         minHeight: "100vh",
         background: "#0a0a0a",
-        display: "grid",
-        // Desktop: dos columnas. Mobile: una columna
-        gridTemplateColumns: "1fr",
+        display: "flex",
+        alignItems: "center",
         overflow: "hidden",
       }}
     >
-      {/* ── Desktop: layout split ── */}
       <div
-        className="hidden md:grid"
         style={{
-          gridTemplateColumns: "1fr 1fr",
-          minHeight: "100vh",
-          alignItems: "center",
+          display: "flex",
           width: "100%",
+          alignItems: "center",
         }}
       >
-        {/* Columna izquierda — texto */}
-        <TextContent scrollTo={scrollTo} />
+        <div style={{ flex: 1 }}>
+          <TextContent scrollTo={scrollTo} onNameClick={() => setNameEggOpen(true)} />
+        </div>
 
-        {/* Columna derecha — escena Spline */}
+        {/* Columna derecha — avatar 3D (oculto en mobile) */}
         <div
+          className="hidden md:block"
           style={{
+            flex: 1,
             position: "relative",
             height: "100vh",
-            overflow: "hidden",
+            transform: "translateY(-50px)",
           }}
         >
-          {/* Canvas Three.js visible hasta que Spline cargue */}
-          <AnimatePresence>
-            {!splineLoaded && (
-              <motion.div
-                key="canvas-fallback"
-                initial={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.8 }}
-                style={{ position: "absolute", inset: 0 }}
-              >
-                <HeroCanvas />
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Spline — se muestra al terminar de cargar */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: splineLoaded ? 1 : 0 }}
-            transition={{ duration: 0.8 }}
-            style={{ position: "absolute", inset: 0 }}
-          >
-            <HeroSpline onLoad={() => setSplineLoaded(true)} />
-          </motion.div>
-
-          {/* Gradiente izquierdo para fusionar con el texto */}
-          <div
-            aria-hidden="true"
-            style={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              bottom: 0,
-              width: "120px",
-              background:
-                "linear-gradient(to right, #0a0a0a, transparent)",
-              pointerEvents: "none",
-              zIndex: 2,
-            }}
-          />
+          <IntroCanvas />
         </div>
       </div>
 
-      {/* ── Mobile: texto centrado + canvas de fondo ── */}
-      <div
-        className="md:hidden"
-        style={{
-          position: "relative",
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {/* Canvas Three.js como fondo en mobile */}
-        <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
-          <HeroCanvas />
-        </div>
-
-        {/* Gradiente encima del canvas */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(ellipse at center, rgba(10,10,10,0.3) 0%, rgba(10,10,10,0.7) 100%)",
-            zIndex: 1,
-            pointerEvents: "none",
-          }}
-        />
-
-        {/* Texto centrado en mobile */}
-        <div style={{ position: "relative", zIndex: 2, textAlign: "center", padding: "0 1.5rem" }}>
-          <TextContent scrollTo={scrollTo} centered />
-        </div>
-      </div>
-
-      {/* Gradiente inferior (ambos layouts) */}
+      {/* Gradiente inferior */}
       <div
         aria-hidden="true"
         style={{
@@ -149,6 +69,8 @@ export default function Hero() {
           zIndex: 3,
         }}
       />
+
+      <NameEasterEggModal open={nameEggOpen} onClose={() => setNameEggOpen(false)} />
     </section>
   );
 }
@@ -156,9 +78,11 @@ export default function Hero() {
 // ─── Contenido de texto (compartido entre mobile y desktop) ──────────────────
 function TextContent({
   scrollTo,
+  onNameClick,
   centered = false,
 }: {
   scrollTo: (id: string) => void;
+  onNameClick?: () => void;
   centered?: boolean;
 }) {
   return (
@@ -182,10 +106,12 @@ function TextContent({
           marginBottom: "1.25rem",
         }}
       >
-        Frontend Developer
+        Developer
       </motion.p>
 
       <motion.h1
+        onClick={onNameClick}
+        data-cursor-hover
         initial={{ opacity: 0, y: 22 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
@@ -198,9 +124,10 @@ function TextContent({
           letterSpacing: "-0.03em",
           margin: 0,
           marginBottom: "2.5rem",
+          cursor: onNameClick ? "pointer" : undefined,
         }}
       >
-        Ed<br />Maldonado
+        Edgar<br />Maldonado
       </motion.h1>
 
       <motion.div
@@ -214,14 +141,8 @@ function TextContent({
           flexWrap: "wrap",
         }}
       >
-        <GhostButton
-          onClick={() => scrollTo("projects")}
-          label="Ver proyectos"
-        />
-        <GhostButton
-          onClick={() => scrollTo("contact")}
-          label="Contactar"
-        />
+        <Button onClick={() => scrollTo("projects")}>Ver proyectos</Button>
+        <Button onClick={() => scrollTo("contact")}>Contactar</Button>
       </motion.div>
 
       {/* Indicador de scroll — solo en desktop (no centrado) */}
@@ -244,7 +165,8 @@ function TextContent({
             style={{
               width: "1px",
               height: "36px",
-              background: "linear-gradient(to bottom, rgba(255,255,255,0.35), transparent)",
+              background:
+                "linear-gradient(to bottom, rgba(255,255,255,0.35), transparent)",
             }}
           />
           <span
@@ -260,34 +182,5 @@ function TextContent({
         </motion.div>
       )}
     </div>
-  );
-}
-
-function GhostButton({
-  onClick,
-  label,
-}: {
-  onClick: () => void;
-  label: string;
-}) {
-  return (
-    <motion.button
-      onClick={onClick}
-      whileHover={{ borderColor: "rgba(255,255,255,0.65)" }}
-      style={{
-        background: "transparent",
-        border: "1px solid rgba(255,255,255,0.25)",
-        padding: "0.7rem 1.6rem",
-        color: "#f0f0f0",
-        fontFamily: "var(--font-body)",
-        fontSize: "0.875rem",
-        fontWeight: 400,
-        letterSpacing: "0.04em",
-        cursor: "pointer",
-        transition: "border-color 0.2s",
-      }}
-    >
-      {label}
-    </motion.button>
   );
 }

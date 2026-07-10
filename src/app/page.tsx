@@ -1,11 +1,12 @@
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
+// TEMP: resto de secciones deshabilitadas, se reactivan una por una — no borrar.
+ import Skills from "@/components/sections/Skills";
 import Experience from "@/components/sections/Experience";
 import Projects from "@/components/sections/Projects";
 import SpotifyWidget from "@/components/sections/SpotifyWidget";
-import Blog from "@/components/sections/Blog";
-import Contact from "@/components/sections/Contact";
+// import Blog from "@/components/sections/Blog";
+// import Contact from "@/components/sections/Contact";
 
 export default function Home() {
   return (
@@ -16,8 +17,8 @@ export default function Home() {
       <Experience />
       <Projects />
       <SpotifyWidget />
-      <Blog />
-      <Contact />
+      {/* <Blog />
+      <Contact /> */}
     </main>
   );
 }

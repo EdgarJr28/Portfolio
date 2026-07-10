@@ -22,9 +22,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Ed Maldonado — Frontend Developer",
+  title: "Edgar Maldonado — Developer",
   description:
-    "Frontend developer especializado en React y Next.js, construyendo interfaces rápidas, accesibles y visualmente memorables.",
+    "Frontend developer, construyendo interfaces rápidas, accesibles y visualmente memorables.",
   icons: [{ rel: "icon", url: "/dev.ico" }],
 };
 

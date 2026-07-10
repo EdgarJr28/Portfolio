@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +11,14 @@ import {
   faInstagram,
 } from "@fortawesome/free-brands-svg-icons";
 import SectionTitle from "@/components/ui/SectionTitle";
+import Button from "@/components/ui/Button";
+import TextField from "@/components/ui/TextField";
+
+// Isla flotante 3D — decorativa, carga diferida
+const ContactIslandCanvas = dynamic(() => import("./ContactIslandCanvas"), {
+  ssr: false,
+  loading: () => null,
+});
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
@@ -41,20 +50,6 @@ const SOCIALS = [
     label: "Instagram",
   },
 ];
-
-const inputBase: React.CSSProperties = {
-  width: "100%",
-  background: "transparent",
-  border: "none",
-  borderBottom: "1px solid rgba(255,255,255,0.12)",
-  padding: "0.75rem 0",
-  color: "#f0f0f0",
-  fontFamily: "var(--font-body)",
-  fontSize: "0.9rem",
-  fontWeight: 300,
-  outline: "none",
-  boxSizing: "border-box",
-};
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -143,6 +138,14 @@ export default function Contact() {
               </a>
             ))}
           </div>
+
+          {/* Isla flotante 3D — solo desktop */}
+          <div
+            className="hidden md:block"
+            style={{ position: "relative", height: "280px", marginTop: "2rem" }}
+          >
+            <ContactIslandCanvas />
+          </div>
         </div>
 
         {/* ── Columna derecha: formulario ── */}
@@ -150,56 +153,42 @@ export default function Contact() {
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
         >
-          <input
+          <TextField
             type="text"
             name="name"
             placeholder="Nombre"
             value={formData.name}
             onChange={handleChange}
             required
-            style={inputBase}
           />
 
-          <input
+          <TextField
             type="email"
             name="email"
             placeholder="Email"
             value={formData.email}
             onChange={handleChange}
             required
-            style={inputBase}
           />
 
-          <textarea
+          <TextField
+            as="textarea"
             name="message"
             placeholder="Mensaje"
             value={formData.message}
             onChange={handleChange}
             required
             rows={5}
-            style={{ ...inputBase, resize: "none" }}
           />
 
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
-            <button
+            <Button
               type="submit"
               disabled={status === "loading"}
-              style={{
-                background: "transparent",
-                border: "1px solid rgba(255,255,255,0.25)",
-                padding: "0.75rem 2rem",
-                color: "#f0f0f0",
-                fontFamily: "var(--font-body)",
-                fontSize: "0.875rem",
-                fontWeight: 400,
-                letterSpacing: "0.04em",
-                cursor: status === "loading" ? "default" : "pointer",
-                opacity: status === "loading" ? 0.6 : 1,
-                transition: "opacity 0.2s, border-color 0.2s",
-              }}
+              style={{ padding: "0.75rem 2rem" }}
             >
               {status === "loading" ? "Enviando…" : "Enviar mensaje"}
-            </button>
+            </Button>
 
             <AnimatePresence mode="wait">
               {status === "success" && (

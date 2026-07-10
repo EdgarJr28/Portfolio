@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faConnectdevelop } from "@fortawesome/free-brands-svg-icons";
 
 const NAV_LINKS = [
   { href: "#about", label: "About" },
@@ -73,13 +75,17 @@ export default function Navbar() {
         }}
       >
         {/* Logo */}
-        <a
+        <motion.a
           href="#hero"
           onClick={(e) => {
             e.preventDefault();
             handleNavClick("#hero");
           }}
+          whileHover="hover"
           style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
             fontFamily: "var(--font-display)",
             fontSize: "1.25rem",
             fontWeight: 700,
@@ -88,8 +94,15 @@ export default function Navbar() {
             letterSpacing: "-0.02em",
           }}
         >
-          EM
-        </a>
+          <motion.span
+            variants={{ hover: { rotate: 360 } }}
+            transition={{ duration: 0.6, ease: "easeInOut" }}
+            style={{ display: "flex" }}
+          >
+            <FontAwesomeIcon icon={faConnectdevelop} width={22} height={22} />
+          </motion.span>
+          EdDev
+        </motion.a>
 
         {/* Desktop links */}
         <div
@@ -139,24 +152,6 @@ export default function Navbar() {
               </a>
             );
           })}
-
-          <a
-            href="/cv.pdf"
-            download
-            style={{
-              border: "1px solid rgba(255,255,255,0.25)",
-              padding: "0.35rem 1rem",
-              color: "#f0f0f0",
-              fontSize: "0.8125rem",
-              fontFamily: "var(--font-body)",
-              fontWeight: 400,
-              textDecoration: "none",
-              letterSpacing: "0.05em",
-              transition: "border-color 0.2s",
-            }}
-          >
-            CV
-          </a>
         </div>
 
         {/* Mobile hamburger */}
@@ -245,24 +240,6 @@ export default function Navbar() {
                 {label}
               </motion.a>
             ))}
-            <a
-              href="/cv.pdf"
-              download
-              onClick={() => setMenuOpen(false)}
-              style={{
-                display: "inline-block",
-                width: "fit-content",
-                border: "1px solid rgba(255,255,255,0.25)",
-                padding: "0.5rem 1.25rem",
-                color: "#f0f0f0",
-                fontSize: "0.875rem",
-                fontFamily: "var(--font-body)",
-                textDecoration: "none",
-                marginTop: "0.5rem",
-              }}
-            >
-              Descargar CV
-            </a>
           </motion.div>
         )}
       </AnimatePresence>

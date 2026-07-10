@@ -37,12 +37,21 @@ export async function GET() {
       (source as { external_urls?: { spotify?: string } }).external_urls
         ?.spotify ?? "";
 
+    const progressMs: number =
+      isPlaying && track
+        ? (source as { duration_ms?: number; progress_ms?: number }).progress_ms ?? 0
+        : 0;
+    const durationMs: number =
+      (source as { duration_ms?: number }).duration_ms ?? 0;
+
     return NextResponse.json({
       isPlaying: !!(isPlaying && track),
       title,
       artist,
       albumImage,
       songUrl,
+      progressMs,
+      durationMs,
     });
   } catch (err) {
     console.error("[/api/spotify]", err);
