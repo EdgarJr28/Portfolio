@@ -150,6 +150,16 @@ export default function SpotifyPlaylistModal({
                   justDraggedRef.current = false;
                 }, 100);
               }}
+              // `drag` hace preventDefault() en pointerdown, lo que suprime el
+              // click nativo del <a> de abajo (spec de Pointer Events: cancela
+              // los eventos de mouse de compatibilidad). Por eso la navegación
+              // se dispara acá con el gesto `onTap` propio de Framer Motion,
+              // que sí distingue tap de drag sin depender del click nativo.
+              onTap={() => {
+                if (Math.abs(dragXRef.current) <= 8 && playlist.url) {
+                  window.open(playlist.url, "_blank", "noopener,noreferrer");
+                }
+              }}
               variants={{
                 enter: (dir: number) => ({ opacity: 0, x: dir * 60 }),
                 center: { opacity: 1, x: 0 },

@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
 
@@ -31,6 +32,16 @@ export default function Modal({
   contentStyle,
   showCloseButton = true,
 }: ModalProps) {
+  // Cerrar con la tecla Escape
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open, onClose]);
+
   return (
     <AnimatePresence>
       {open && (

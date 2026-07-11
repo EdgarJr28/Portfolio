@@ -87,7 +87,7 @@ export default function Contact() {
 
   return (
     <section id="contact" style={SECTION_STYLE}>
-      <SectionTitle number="07" title="Contact" />
+      <SectionTitle number="06" title="Contact" />
 
       <div
         style={{
