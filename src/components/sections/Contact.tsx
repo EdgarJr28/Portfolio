@@ -139,10 +139,10 @@ export default function Contact() {
             ))}
           </div>
 
-          {/* Isla flotante 3D — solo desktop */}
+          {/* Diorama 3D — solo desktop */}
           <div
             className="hidden md:block"
-            style={{ position: "relative", height: "280px", marginTop: "2rem" }}
+            style={{ position: "relative", height: "440px", marginTop: "-2rem" }}
           >
             <ContactIslandCanvas />
           </div>

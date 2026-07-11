@@ -5,10 +5,10 @@ import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "../useReducedMotion";
 
-// Horneado en Blender: caminar + saludo + reposo combinados en un único
-// clip continuo (root motion incluido, sin cortes de posición entre tramos).
+// Horneado en Blender: dos clips separados — "intro" (caminar + saludo,
+// se reproduce una sola vez) e "idle" (parado con maletín, hecho para
+// loopear indefinidamente al terminar el saludo).
 const AVATAR_URL = "/models/intro-avatar.glb";
-const HOLD_FRAME_SECONDS = 144 / 30; // duración total horneada a 30fps
 
 export default function IntroAvatarScene() {
   const group = useRef<THREE.Group>(null);
@@ -17,21 +17,36 @@ export default function IntroAvatarScene() {
   const reduced = useReducedMotion();
 
   useEffect(() => {
-    const action = actions["Animation"] ?? Object.values(actions)[0];
-    if (!action) return;
+    const intro = actions["intro"];
+    const idle = actions["briefcase_idle"];
+    if (!intro || !idle) return;
 
-    action.setLoop(THREE.LoopOnce, 1);
-    action.clampWhenFinished = true;
+    intro.setLoop(THREE.LoopOnce, 1);
+    intro.clampWhenFinished = true;
+    idle.setLoop(THREE.LoopRepeat, Infinity);
 
     if (reduced) {
-      action.play();
-      action.time = HOLD_FRAME_SECONDS;
+      // Pose estática de reposo, sin animar (nada de loop para motion reducido).
+      idle.play();
+      idle.paused = true;
     } else {
-      action.reset().fadeIn(0.3).play();
+      intro.reset().fadeIn(0.3).play();
+      const mixer = intro.getMixer();
+      const onFinished = (e: { action: THREE.AnimationAction }) => {
+        if (e.action !== intro) return;
+        idle.reset().fadeIn(0.4).play();
+      };
+      mixer.addEventListener("finished", onFinished);
+      return () => {
+        mixer.removeEventListener("finished", onFinished);
+        intro.fadeOut(0.2);
+        idle.fadeOut(0.2);
+      };
     }
 
     return () => {
-      action.fadeOut(0.2);
+      intro.fadeOut(0.2);
+      idle.fadeOut(0.2);
     };
   }, [actions, reduced]);
 
