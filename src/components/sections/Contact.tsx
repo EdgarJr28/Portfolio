@@ -1,15 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "motion/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faGithub,
-  faLinkedin,
-  faSquareXTwitter,
-  faInstagram,
-} from "@fortawesome/free-brands-svg-icons";
+import ReCAPTCHA from "react-google-recaptcha";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import TextField from "@/components/ui/TextField";
@@ -20,36 +14,13 @@ const ContactIslandCanvas = dynamic(() => import("./ContactIslandCanvas"), {
   loading: () => null,
 });
 
-type FormStatus = "idle" | "loading" | "success" | "error";
+type FormStatus = "idle" | "loading" | "success" | "error" | "captcha";
 
 const SECTION_STYLE = {
   padding: "160px clamp(1.25rem, 5vw, 3rem)",
   maxWidth: "1200px",
   margin: "0 auto",
 };
-
-const SOCIALS = [
-  {
-    icon: faGithub,
-    href: "https://github.com/EdgarJr28",
-    label: "GitHub",
-  },
-  {
-    icon: faLinkedin,
-    href: "https://linkedin.com/in/edgar-maldonado-5619171a0",
-    label: "LinkedIn",
-  },
-  {
-    icon: faSquareXTwitter,
-    href: "https://x.com/ed__28",
-    label: "X",
-  },
-  {
-    icon: faInstagram,
-    href: "https://instagram.com/ed__2898",
-    label: "Instagram",
-  },
-];
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -58,6 +29,7 @@ export default function Contact() {
     message: "",
   });
   const [status, setStatus] = useState<FormStatus>("idle");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -68,20 +40,30 @@ export default function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("loading");
+
+    const captchaToken = recaptchaRef.current?.getValue();
+    if (!captchaToken) {
+      setStatus("captcha");
+      return;
+    }
+
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, captchaToken }),
       });
       if (res.ok) {
         setStatus("success");
         setFormData({ name: "", email: "", message: "" });
+        recaptchaRef.current?.reset();
       } else {
         setStatus("error");
+        recaptchaRef.current?.reset();
       }
     } catch {
       setStatus("error");
+      recaptchaRef.current?.reset();
     }
   };
 
@@ -118,26 +100,6 @@ export default function Contact() {
           >
             ed.dev28@gmail.com
           </a>
-
-          <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
-            {SOCIALS.map(({ icon, href, label }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                style={{
-                  color: "rgba(240,240,240,0.4)",
-                  transition: "color 0.2s",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <FontAwesomeIcon icon={icon} width={22} height={22} />
-              </a>
-            ))}
-          </div>
 
           {/* Diorama 3D — solo desktop */}
           <div
@@ -180,6 +142,13 @@ export default function Contact() {
             rows={5}
           />
 
+          {/* reCAPTCHA v2 */}
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""}
+            theme="dark"
+          />
+
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
             <Button
               type="submit"
@@ -218,6 +187,21 @@ export default function Contact() {
                   }}
                 >
                   Error al enviar. Inténtalo de nuevo.
+                </motion.p>
+              )}
+              {status === "captcha" && (
+                <motion.p
+                  key="captcha"
+                  initial={{ opacity: 0, x: 8 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0 }}
+                  style={{
+                    fontFamily: "var(--font-body)",
+                    fontSize: "0.875rem",
+                    color: "rgba(255,200,50,0.85)",
+                  }}
+                >
+                  Completa el captcha primero.
                 </motion.p>
               )}
             </AnimatePresence>

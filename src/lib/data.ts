@@ -1,6 +1,6 @@
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-export type SkillCategory = "Frontend" | "Herramientas" | "Aprendiendo";
+export type SkillCategory = "Frontend" | "Services" | "Aprendiendo";
 
 export interface Skill {
   name: string;
@@ -36,22 +36,36 @@ export interface BlogPost {
 export const skills: Skill[] = [
   { name: "React", category: "Frontend" },
   { name: "Next.js", category: "Frontend" },
+  { name: "Angular", category: "Frontend" },
   { name: "TypeScript", category: "Frontend" },
   { name: "JavaScript", category: "Frontend" },
   { name: "HTML5", category: "Frontend" },
   { name: "CSS3", category: "Frontend" },
   { name: "Tailwind CSS", category: "Frontend" },
   { name: "Three.js", category: "Frontend" },
-  { name: "Node.js", category: "Herramientas" },
-  { name: "Git", category: "Herramientas" },
-  { name: "Docker", category: "Herramientas" },
-  { name: "AWS", category: "Herramientas" },
-  { name: "SQL", category: "Herramientas" },
-  { name: "REST APIs", category: "Herramientas" },
-  { name: "Angular", category: "Herramientas" },
+  { name: "Node.js", category: "Services" },
+  { name: "FastAPI", category: "Services" },
+  { name: "NestJS", category: "Services" },
+  { name: "Git", category: "Services" },
+  { name: "Docker", category: "Services" },
+  { name: "AWS", category: "Services" },
+  { name: "SQL", category: "Services" },
+  { name: "Firebase", category: "Services" },
+  { name: "MongoDB", category: "Services" },
+  { name: "PostgreSQL", category: "Services" },
+  { name: "MySQL", category: "Services" },
+  { name: "Redis", category: "Services" },
+  { name: "GraphQL", category: "Services" },
+  { name: "WebSockets", category: "Services" },
+  { name: "REST APIs", category: "Services" },
   { name: "WebGL", category: "Aprendiendo" },
   { name: "Rust", category: "Aprendiendo" },
   { name: "WebAssembly", category: "Aprendiendo" },
+  { name: "Unreal Engine", category: "Aprendiendo" },
+  { name: "Blender", category: "Aprendiendo" },
+  { name: "Three.js Advanced", category: "Aprendiendo" },
+  { name: "CyberSecurity", category: "Aprendiendo" },
+  
 ];
 
 // ─── Experience ───────────────────────────────────────────────────────────────

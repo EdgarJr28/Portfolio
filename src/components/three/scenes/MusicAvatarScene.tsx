@@ -6,6 +6,7 @@ import { useGLTF, useAnimations, Text } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "../useReducedMotion";
 import { useIsMobile } from "@/components/three/useIsMobile";
+import { scale } from "motion";
 
 // Horneado en Blender: mesh+esqueleto con dos clips ("music" y "standing"),
 // ambos cierran en loop perfecto (mismo hips en el primer/último frame).
@@ -79,7 +80,7 @@ export default function MusicAvatarScene({ playing }: { playing: boolean }) {
 
   return (
     // agregar un grupo para poder mover el avatar y las notas juntas para movil y desktop
-    <group position={isMobile ? [-0.6, -.85, 0] : [-0.55, -0.95, 0]} scale={0.68}>
+    <group position={isMobile ? [-0.7, -1 , 0] : [-0.55, -0.95, 0]} scale={ 0.8 }>
       <primitive ref={group} object={scene} />
       <MusicNotes active={playing && !reduced} />
     </group>

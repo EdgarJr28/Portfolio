@@ -19,7 +19,7 @@ const SECTION_STYLE = {
 
 const CATEGORY_ORDER: SkillCategory[] = [
   "Frontend",
-  "Herramientas",
+  "Services",
   "Aprendiendo",
 ];
 

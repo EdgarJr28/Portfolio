@@ -7,6 +7,7 @@ import SectionTitle from "@/components/ui/SectionTitle";
 import Modal from "@/components/ui/Modal";
 import InfoRow from "@/components/ui/InfoRow";
 import Blessed from "../../../public/svg/blessed";
+import { useIsMobile } from "@/components/three/useIsMobile";
 
 // Escena 3D del escritorio (room + avatar escribiendo) — carga diferida
 const AboutDeskCanvas = dynamic(() => import("./AboutDeskCanvas"), {
@@ -33,6 +34,7 @@ export default function About() {
   const [easterEggOpen, setEasterEggOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [miniOsOpen, setMiniOsOpen] = useState(false);
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("debugOS")) setMiniOsOpen(true);
@@ -80,8 +82,11 @@ export default function About() {
           ej. la placa Iceman). */}
       <div
         className="relative z-[2] w-full pt-8 pb-12 md:pt-24 md:pb-16 md:pointer-events-none"
-        style={{
-          paddingLeft: "clamp(1.25rem, 5vw, 4rem)",
+        style={isMobile ? {
+          paddingLeft: "clamp(1.5rem, 5vw, 4rem)",
+          paddingRight: "clamp(1.25rem, 5vw, 4rem)",
+        } : {
+          paddingLeft: "clamp(12rem, 5vw, 4rem)",
           paddingRight: "clamp(1.25rem, 5vw, 4rem)",
         }}
       >
@@ -184,7 +189,7 @@ function EasterEggModal({ open, onClose }: { open: boolean; onClose: () => void 
         setPercent(pct);
         if (pct >= 99) {
           setLoaded(true);
-          video.play().catch(() => {});
+          video.play().catch(() => { });
         }
       }
     };
@@ -192,7 +197,7 @@ function EasterEggModal({ open, onClose }: { open: boolean; onClose: () => void 
     const handleCanPlayThrough = () => {
       setPercent(100);
       setLoaded(true);
-      video.play().catch(() => {});
+      video.play().catch(() => { });
     };
     const handleEnded = () => setEnded(true);
 
