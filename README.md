@@ -48,3 +48,16 @@ I welcome contributions to improve this project. If you have suggestions, find a
 ## License
 @EdDev
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+
+## Third-Party Assets & Disclaimer
+
+### MiniOS (Windows XP-inspired UI)
+
+The desktop environment component (`MiniOS`) is a **non-commercial, personal-use** reimplementation of visual concepts inspired by the Windows XP "Luna" theme. It is developed solely as a UI/UX showcase and does not reproduce, distribute, or sublicense any proprietary Microsoft software, binaries, or copyrighted assets.
+
+- Bitmap icons are sourced from [ShizukuIchi/winXP](https://github.com/ShizukuIchi/winXP) under the **MIT License** (see `public/images/os/icons/CREDITS.md`).
+- Audio player functionality is provided by [Webamp](https://github.com/captbaritone/webamp) under the **MIT License**.
+- Demo audio tracks are from the *netBloc Vol. 24* compilation, used under their respective open licenses.
+- No Windows source code, DLLs, or proprietary binaries are included or redistributed.
+
+This component is intended exclusively for **personal, non-commercial portfolio demonstration purposes**. It does not constitute an attempt to replicate, replace, or commercially exploit any Microsoft product. All trademarks remain the property of their respective owners.
