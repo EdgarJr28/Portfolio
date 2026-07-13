@@ -6,8 +6,9 @@ import { motion } from "motion/react";
 import Button from "@/components/ui/Button";
 import NameEasterEggModal from "./NameEasterEggModal";
 import { useIsMobile } from "@/components/three/useIsMobile";
+import { useLang } from "@/context/LangContext";
+import { t, tr } from "@/lib/i18n";
 
-// Avatar 3D — carga diferida, sin SSR (WebGL solo en cliente)
 const IntroCanvas = dynamic(() => import("./HeroIntroCanvas"), {
   ssr: false,
   loading: () => null,
@@ -16,6 +17,7 @@ const IntroCanvas = dynamic(() => import("./HeroIntroCanvas"), {
 export default function Hero() {
   const [nameEggOpen, setNameEggOpen] = useState(false);
   const isMobile = useIsMobile();
+  const { lang } = useLang();
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -33,17 +35,15 @@ export default function Hero() {
       }}
     >
       {isMobile ? (
-        /* Mobile: columna — escena arriba, texto abajo */
         <div style={{ display: "flex", flexDirection: "column", width: "100%", minHeight: "100vh" }}>
           <div style={{ position: "relative", height: "65vh", flexShrink: 0 }}>
             <IntroCanvas />
           </div>
           <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-            <TextContent scrollTo={scrollTo} onNameClick={() => setNameEggOpen(true)} centered />
+            <TextContent scrollTo={scrollTo} onNameClick={() => setNameEggOpen(true)} lang={lang} centered />
           </div>
         </div>
       ) : (
-        /* Desktop: fila — texto izquierda, avatar derecha */
         <div
           style={{
             display: "flex",
@@ -54,7 +54,7 @@ export default function Hero() {
           }}
         >
           <div style={{ flex: 1 }}>
-            <TextContent scrollTo={scrollTo} onNameClick={() => setNameEggOpen(true)} />
+            <TextContent scrollTo={scrollTo} onNameClick={() => setNameEggOpen(true)} lang={lang} />
           </div>
           <div
             style={{
@@ -69,34 +69,22 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Gradiente inferior */}
-      <div
-        aria-hidden="true"
-        style={{
-          position: "absolute",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          height: "160px",
-          background: "linear-gradient(to bottom, transparent, #0a0a0a)",
-          pointerEvents: "none",
-          zIndex: 3,
-        }}
-      />
+      {/* fade removed */}
 
       <NameEasterEggModal open={nameEggOpen} onClose={() => setNameEggOpen(false)} />
     </section>
   );
 }
 
-// ─── Contenido de texto (compartido entre mobile y desktop) ──────────────────
 function TextContent({
   scrollTo,
   onNameClick,
+  lang,
   centered = false,
 }: {
   scrollTo: (id: string) => void;
   onNameClick?: () => void;
+  lang: "es" | "en";
   centered?: boolean;
 }) {
   return (
@@ -120,7 +108,7 @@ function TextContent({
           marginBottom: "1.25rem",
         }}
       >
-        Developer
+        {tr(t.hero.tag, lang)}
       </motion.p>
 
       <motion.h1
@@ -138,8 +126,6 @@ function TextContent({
           marginBottom: "2.5rem",
         }}
       >
-        {/* El easter egg solo se activa clickeando "Edgar" — no en
-            "Maldonado" ni en el espacio vacío del resto del heading. */}
         <span
           onClick={onNameClick}
           data-cursor-hover
@@ -162,11 +148,10 @@ function TextContent({
           flexWrap: "wrap",
         }}
       >
-        <Button onClick={() => scrollTo("projects")}>Ver proyectos</Button>
-        <Button onClick={() => scrollTo("contact")}>Contactar</Button>
+        <Button onClick={() => scrollTo("projects")}>{tr(t.hero.cta_work, lang)}</Button>
+        <Button onClick={() => scrollTo("contact")}>{tr(t.hero.cta_contact, lang)}</Button>
       </motion.div>
 
-      {/* Indicador de scroll — solo en desktop (no centrado) */}
       {!centered && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -186,8 +171,7 @@ function TextContent({
             style={{
               width: "1px",
               height: "36px",
-              background:
-                "linear-gradient(to bottom, rgba(255,255,255,0.35), transparent)",
+              background: "linear-gradient(to bottom, rgba(255,255,255,0.35), transparent)",
             }}
           />
           <span
@@ -198,7 +182,7 @@ function TextContent({
               textTransform: "uppercase",
             }}
           >
-            Scroll
+            {tr(t.hero.scroll, lang)}
           </span>
         </motion.div>
       )}

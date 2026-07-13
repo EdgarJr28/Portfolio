@@ -27,6 +27,9 @@ import {
   type WinRect,
   type DesktopIconId,
 } from "@/store/miniOsStore";
+import { useLang } from "@/context/LangContext";
+import type { Lang } from "@/context/LangContext";
+import { t, tr } from "@/lib/i18n";
 
 const ICONS = "/images/os/icons";
 
@@ -125,13 +128,13 @@ const WEBAMP_TRACKS = [
   },
 ];
 
-// Widget decorativo del menú de inicio — contenido de muestra, no viene de
-// una API real.
-const TRENDING_ITEMS = [
-  "React 20 llega con Compiler estable por defecto",
-  "WebGPU ya corre en todos los navegadores mayores",
-  "TypeScript 6.0: inferencia más rápida en monorepos",
-];
+/** Returns the localized label for an app icon/taskbar/menu entry. */
+function getLabel(appId: AppId, lang: Lang): string {
+  if (appId === "private-folder") return tr(t.os.private_folder, lang);
+  if (appId === "photos") return tr(t.os.photos, lang);
+  if (appId === "image-viewer") return tr(t.os.images, lang);
+  return APP_META[appId].label;
+}
 
 // Todas las apps del mini-OS, para el flyout "All Programs" del menú de
 // inicio (incluye las que ya están fijadas arriba, igual que en Windows real).
@@ -897,6 +900,7 @@ function AppWindow({
   zIndex,
   minimized,
   focused,
+  lang,
   onClose,
   onFocus,
   onMinimize,
@@ -910,6 +914,7 @@ function AppWindow({
   zIndex: number;
   minimized: boolean;
   focused: boolean;
+  lang: Lang;
   onClose: () => void;
   onFocus: () => void;
   onMinimize: () => void;
@@ -1039,12 +1044,12 @@ function AppWindow({
           draggable={false}
           style={{ marginLeft: "2px", marginRight: "5px", flexShrink: 0 }}
         />
-        <span className="mos-header-title">{meta.label}</span>
+        <span className="mos-header-title">{getLabel(appId, lang)}</span>
         <div className={`mos-header-btns ${focused ? "" : "mos-unfocused"}`}>
           <button
             data-no-drag
             className="mos-header-btn mos-header-btn--minimize"
-            aria-label="Minimizar"
+            aria-label={tr(t.os.minimize, lang)}
             onClick={onMinimize}
           />
           <button
@@ -1052,13 +1057,13 @@ function AppWindow({
             className={`mos-header-btn ${
               maximized ? "mos-header-btn--maximized" : "mos-header-btn--maximize"
             }`}
-            aria-label={maximized ? "Restaurar" : "Maximizar"}
+            aria-label={maximized ? tr(t.os.restore, lang) : tr(t.os.maximize, lang)}
             onClick={toggleMaximize}
           />
           <button
             data-no-drag
             className="mos-header-btn mos-header-btn--close"
-            aria-label="Cerrar ventana"
+            aria-label={tr(t.os.close_win, lang)}
             onClick={onClose}
           />
         </div>
@@ -1560,6 +1565,7 @@ function StartMenuItem({
 
 function StartMenu({
   recentApps,
+  lang,
   onOpenApp,
   onGoToSection,
   onShowFakeError,
@@ -1567,6 +1573,7 @@ function StartMenu({
   onShutdown,
 }: {
   recentApps: AppId[];
+  lang: Lang;
   onOpenApp: (key: AppId) => void;
   onGoToSection: (sectionId: string) => void;
   onShowFakeError: () => void;
@@ -1658,8 +1665,8 @@ function StartMenu({
           />
           <StartMenuItem
             icon={`${ICONS}/mail-32.png`}
-            text="Contacto"
-            subtext="Enviame un mensaje"
+            text={tr(t.os.contact_text, lang)}
+            subtext={tr(t.os.contact_sub, lang)}
             bold
             onClick={() => onGoToSection("contact")}
           />
@@ -1694,7 +1701,7 @@ function StartMenu({
             icon={faArrowTrendUp}
             iconColor="#fff"
             tile="linear-gradient(135deg, #ff8a75 0%, #b3251b 100%)"
-            text="Trending"
+            text={tr(t.os.trending, lang)}
             bold
             hasFlyout
             compact
@@ -1716,7 +1723,7 @@ function StartMenu({
                   zIndex: 40,
                 }}
               >
-                {TRENDING_ITEMS.map((item) => (
+                {[...t.os.news[lang]].map((item) => (
                   <div
                     key={item}
                     style={{
@@ -1739,7 +1746,7 @@ function StartMenu({
             icon={faListUl}
             iconColor="#fff"
             tile="linear-gradient(135deg, #cfcfcf 0%, #8a8a8a 100%)"
-            text="All Programs"
+            text={tr(t.os.all_programs, lang)}
             bold
             hasFlyout
             onMouseEnter={() => setHovering("programs")}
@@ -1778,7 +1785,7 @@ function StartMenu({
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={APP_META[key].iconSmall} alt="" width={16} height={16} draggable={false} />
-                    {APP_META[key].label}
+                    {getLabel(key, lang)}
                   </div>
                 ))}
               </div>
@@ -1798,7 +1805,7 @@ function StartMenu({
         >
           <StartMenuItem
             icon={`${ICONS}/recent-documents.png`}
-            text="Recientes"
+            text={tr(t.os.recent, lang)}
             compact
             hasFlyout
             onMouseEnter={() => setHovering("recent")}
@@ -1822,7 +1829,7 @@ function StartMenu({
               >
                 {recentApps.length === 0 ? (
                   <div style={{ fontSize: "0.68rem", color: "#555", padding: "0.25rem" }}>
-                    (Vacío)
+                    ({lang === "es" ? "Vacío" : "Empty"})
                   </div>
                 ) : (
                   recentApps.map((key) => (
@@ -1842,7 +1849,7 @@ function StartMenu({
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={APP_META[key].iconSmall} alt="" width={13} height={13} draggable={false} />
-                      {APP_META[key].label}
+                      {getLabel(key, lang)}
                     </div>
                   ))
                 )}
@@ -1852,7 +1859,7 @@ function StartMenu({
           <div style={{ height: "7px", borderTop: "1px solid rgba(0,0,0,0.15)", margin: "4px 0" }} />
           <StartMenuItem
             icon={`${ICONS}/recycle-bin2-32.png`}
-            text="Recycle Bin"
+            text={tr(t.os.recycle_bin, lang)}
             compact
             onClick={onShowFakeError}
           />
@@ -1890,7 +1897,7 @@ function StartMenu({
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`${ICONS}/lock.png`} alt="" width={20} height={20} draggable={false} style={{ borderRadius: "3px" }} />
-          Suspender
+          {lang === "es" ? "Suspender" : "Sleep"}
         </button>
         <button
           onClick={onShutdown}
@@ -1912,14 +1919,14 @@ function StartMenu({
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`${ICONS}/shutdown.png`} alt="" width={20} height={20} draggable={false} style={{ borderRadius: "3px" }} />
-          Apagar
+          {lang === "es" ? "Apagar" : "Shut down"}
         </button>
       </footer>
     </motion.div>
   );
 }
 
-function FakeErrorDialog({ onClose }: { onClose: () => void }) {
+function FakeErrorDialog({ onClose, lang }: { onClose: () => void; lang: Lang }) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -1949,7 +1956,7 @@ function FakeErrorDialog({ onClose }: { onClose: () => void }) {
           <button
             data-no-drag
             className="mos-header-btn mos-header-btn--close"
-            aria-label="Cerrar"
+            aria-label={tr(t.os.close, lang)}
             onClick={onClose}
           />
         </div>
@@ -1961,9 +1968,9 @@ function FakeErrorDialog({ onClose }: { onClose: () => void }) {
         <FontAwesomeIcon icon={faTriangleExclamation} color="#e6b800" width={38} />
         <div style={{ fontFamily: WIN_FONT, fontSize: "0.75rem" }}>
           <p style={{ margin: "0 0 0.75rem" }}>
-            No se puede vaciar la Papelera de reciclaje: contiene los bugs de
-            producción de 2024. Eliminarlos podría causar una crisis
-            existencial.
+            {lang === "es"
+              ? "No se puede vaciar la Papelera de reciclaje: contiene los bugs de producción de 2024. Eliminarlos podría causar una crisis existencial."
+              : "Cannot empty Recycle Bin: it contains production bugs from 2024. Deleting them could trigger an existential crisis."}
           </p>
           <div style={{ display: "flex", justifyContent: "flex-end" }}>
             <button
@@ -1987,7 +1994,7 @@ function FakeErrorDialog({ onClose }: { onClose: () => void }) {
   );
 }
 
-function BootScreen() {
+function BootScreen({ lang }: { lang: Lang }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -2019,7 +2026,7 @@ function BootScreen() {
             textShadow: "0 1px 2px rgba(0,0,0,0.6)",
           }}
         >
-          Bienvenido
+          {lang === "es" ? "Bienvenido" : "Welcome"}
         </span>
       </div>
       <div
@@ -2048,7 +2055,7 @@ function BootScreen() {
   );
 }
 
-function SuspendedOverlay({ onWake }: { onWake: () => void }) {
+function SuspendedOverlay({ onWake, lang }: { onWake: () => void; lang: Lang }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -2114,7 +2121,7 @@ function SuspendedOverlay({ onWake }: { onWake: () => void }) {
             textShadow: "0 1px 3px rgba(0,0,0,0.7)",
           }}
         >
-          Suspendido — tocá para despertar
+          {lang === "es" ? "Suspendido — tocá para despertar" : "Sleeping — click to wake"}
         </span>
       </div>
     </motion.div>
@@ -2147,6 +2154,7 @@ export default function MiniOS({
   open: boolean;
   onClose: () => void;
 }) {
+  const { lang } = useLang();
   const isMobile = useIsMobile();
   const isPortrait = useIsPortrait();
   // Estado persistido (sessionStorage, vía Zustand): qué apps quedaron
@@ -2493,7 +2501,7 @@ export default function MiniOS({
         >
           <style>{MINI_OS_CSS}</style>
 
-          <AnimatePresence>{booting && <BootScreen />}</AnimatePresence>
+          <AnimatePresence>{booting && <BootScreen lang={lang} />}</AnimatePresence>
 
           {/* Mientras arranca, no renderizamos nada del escritorio real —
               BootScreen hace su propio fade-in de opacidad (0 → 1), y
@@ -2563,6 +2571,7 @@ export default function MiniOS({
                   zIndex={BASE_Z + openWindows.indexOf(key)}
                   minimized={minimizedApps.includes(key)}
                   focused={openWindows[openWindows.length - 1] === key}
+                  lang={lang}
                   onClose={() => closeApp(key)}
                   onFocus={() => focusApp(key)}
                   onMinimize={() => minimizeApp(key)}
@@ -2626,7 +2635,7 @@ export default function MiniOS({
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={APP_META[key].iconSmall} alt="" width={13} height={13} draggable={false} />
-                    {APP_META[key].label}
+                    {getLabel(key, lang)}
                   </button>
                 );
               })}
@@ -2758,6 +2767,7 @@ export default function MiniOS({
             {startMenuOpen && (
               <StartMenu
                 recentApps={recentApps}
+                lang={lang}
                 onOpenApp={openApp}
                 onGoToSection={(sectionId) => {
                   setStartMenuOpen(false);
@@ -2780,11 +2790,11 @@ export default function MiniOS({
           </AnimatePresence>
 
           <AnimatePresence>
-            {suspended && <SuspendedOverlay onWake={() => setSuspended(false)} />}
+            {suspended && <SuspendedOverlay onWake={() => setSuspended(false)} lang={lang} />}
           </AnimatePresence>
 
           <AnimatePresence>
-            {fakeErrorOpen && <FakeErrorDialog onClose={() => setFakeErrorOpen(false)} />}
+            {fakeErrorOpen && <FakeErrorDialog onClose={() => setFakeErrorOpen(false)} lang={lang} />}
           </AnimatePresence>
             </>
           )}

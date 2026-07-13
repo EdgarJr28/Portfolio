@@ -2,7 +2,8 @@
 
 import { motion } from "motion/react";
 import SectionTitle from "@/components/ui/SectionTitle";
-import { experiences } from "@/lib/data";
+import { useLang } from "@/context/LangContext";
+import { t } from "@/lib/i18n";
 
 const SECTION_STYLE = {
   padding: "160px clamp(1.25rem, 5vw, 3rem)",
@@ -10,14 +11,6 @@ const SECTION_STYLE = {
   margin: "0 auto",
 };
 
-// Más antiguo → actual (los datos vienen ordenados al revés)
-const timeline = [...experiences].reverse();
-
-// En mobile el timeline es una lista vertical (línea a la izquierda, tarjetas
-// apiladas) — en desktop (md+) es el carrusel horizontal con scroll-snap de
-// siempre. Las propiedades que cambian de eje (línea, punto, padding) van acá
-// en vez de en `style` inline, porque un objeto de estilo no puede tener
-// media queries.
 const TIMELINE_CSS = `
 .exp-scroll {
   overflow-x: hidden;
@@ -95,6 +88,9 @@ const TIMELINE_CSS = `
 `;
 
 export default function Experience() {
+  const { lang } = useLang();
+  const timeline = [...t.experience.entries[lang]].reverse();
+
   return (
     <section id="experience" style={SECTION_STYLE}>
       <style>{TIMELINE_CSS}</style>

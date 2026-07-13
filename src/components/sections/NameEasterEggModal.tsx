@@ -6,19 +6,13 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import Modal from "@/components/ui/Modal";
 import Typewriter from "@/components/ui/Typewriter";
+import { useLang } from "@/context/LangContext";
+import { t, tr } from "@/lib/i18n";
 
 const FallingAvatarCanvas = dynamic(() => import("./FallingAvatarCanvas"), {
   ssr: false,
   loading: () => null,
 });
-
-const PHRASES = [
-  "Developing ideas, a moment...",
-  "Hello, it's wonderful to see you!",
-  "Wishing you a day full of positivity and joy!",
-  "Turn ideas into reality. Happy coding!",
-  "Hey! Nice to meet you.",
-];
 
 const SONG_URL = "/easter/about_me/Gunna.mp3";
 
@@ -30,6 +24,8 @@ export default function NameEasterEggModal({
   onClose: () => void;
 }) {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const { lang } = useLang();
+  const phrases = lang === "es" ? [...t.nameEgg.phrases_es] : [...t.nameEgg.phrases_en];
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -146,9 +142,7 @@ export default function NameEasterEggModal({
               padding: "0.6rem 0.8rem",
             }}
           >
-            Hello a pleasure, I am a cheerful and vibrant person, I really
-            like music and art, I emphasize that I like quiet places and I
-            have happiness as an engine of personal growth.
+            {tr(t.nameEgg.bio, lang)}
           </p>
 
           <div
@@ -176,7 +170,7 @@ export default function NameEasterEggModal({
             </span>
             <div style={{ flex: 1, minWidth: 0 }}>
               <Typewriter
-                phrases={PHRASES}
+                phrases={phrases}
                 typingSpeed={80}
                 pauseTime={2200}
                 style={{

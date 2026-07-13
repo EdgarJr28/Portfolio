@@ -7,8 +7,9 @@ import ReCAPTCHA from "react-google-recaptcha";
 import SectionTitle from "@/components/ui/SectionTitle";
 import Button from "@/components/ui/Button";
 import TextField from "@/components/ui/TextField";
+import { useLang } from "@/context/LangContext";
+import { t, tr } from "@/lib/i18n";
 
-// Isla flotante 3D — decorativa, carga diferida
 const ContactIslandCanvas = dynamic(() => import("./ContactIslandCanvas"), {
   ssr: false,
   loading: () => null,
@@ -23,17 +24,12 @@ const SECTION_STYLE = {
 };
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
   const [status, setStatus] = useState<FormStatus>("idle");
   const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const { lang } = useLang();
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -79,7 +75,7 @@ export default function Contact() {
           alignItems: "start",
         }}
       >
-        {/* ── Columna izquierda: info ── */}
+        {/* Columna izquierda */}
         <div>
           <a
             href="mailto:ed.dev28@gmail.com"
@@ -100,16 +96,12 @@ export default function Contact() {
           >
             ed.dev28@gmail.com
           </a>
-
-          {/* Diorama 3D — solo desktop */}
-          <div
-            style={{ position: "relative", height: "440px", marginTop: "-2rem" }}
-          >
+          <div style={{ position: "relative", height: "440px", marginTop: "-2rem" }}>
             <ContactIslandCanvas />
           </div>
         </div>
 
-        {/* ── Columna derecha: formulario ── */}
+        {/* Columna derecha: formulario */}
         <form
           onSubmit={handleSubmit}
           style={{ display: "flex", flexDirection: "column", gap: "2rem" }}
@@ -117,32 +109,29 @@ export default function Contact() {
           <TextField
             type="text"
             name="name"
-            placeholder="Nombre"
+            placeholder={tr(t.contact.name_placeholder, lang)}
             value={formData.name}
             onChange={handleChange}
             required
           />
-
           <TextField
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder={tr(t.contact.email_placeholder, lang)}
             value={formData.email}
             onChange={handleChange}
             required
           />
-
           <TextField
             as="textarea"
             name="message"
-            placeholder="Mensaje"
+            placeholder={tr(t.contact.message_placeholder, lang)}
             value={formData.message}
             onChange={handleChange}
             required
             rows={5}
           />
 
-          {/* reCAPTCHA v2 */}
           <ReCAPTCHA
             ref={recaptchaRef}
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ""}
@@ -150,12 +139,8 @@ export default function Contact() {
           />
 
           <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", flexWrap: "wrap" }}>
-            <Button
-              type="submit"
-              disabled={status === "loading"}
-              style={{ padding: "0.75rem 2rem" }}
-            >
-              {status === "loading" ? "Enviando…" : "Enviar mensaje"}
+            <Button type="submit" disabled={status === "loading"} style={{ padding: "0.75rem 2rem" }}>
+              {status === "loading" ? tr(t.contact.sending, lang) : tr(t.contact.send_btn, lang)}
             </Button>
 
             <AnimatePresence mode="wait">
@@ -165,13 +150,9 @@ export default function Contact() {
                   initial={{ opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }}
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.875rem",
-                    color: "rgba(50,213,131,0.85)",
-                  }}
+                  style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "rgba(50,213,131,0.85)" }}
                 >
-                  ✓ Mensaje enviado
+                  {tr(t.contact.success, lang)}
                 </motion.p>
               )}
               {status === "error" && (
@@ -180,13 +161,9 @@ export default function Contact() {
                   initial={{ opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }}
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.875rem",
-                    color: "rgba(255,70,74,0.85)",
-                  }}
+                  style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "rgba(255,70,74,0.85)" }}
                 >
-                  Error al enviar. Inténtalo de nuevo.
+                  {tr(t.contact.error, lang)}
                 </motion.p>
               )}
               {status === "captcha" && (
@@ -195,13 +172,9 @@ export default function Contact() {
                   initial={{ opacity: 0, x: 8 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0 }}
-                  style={{
-                    fontFamily: "var(--font-body)",
-                    fontSize: "0.875rem",
-                    color: "rgba(255,200,50,0.85)",
-                  }}
+                  style={{ fontFamily: "var(--font-body)", fontSize: "0.875rem", color: "rgba(255,200,50,0.85)" }}
                 >
-                  Completa el captcha primero.
+                  {tr(t.contact.captcha_required, lang)}
                 </motion.p>
               )}
             </AnimatePresence>

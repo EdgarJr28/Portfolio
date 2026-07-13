@@ -2,7 +2,9 @@
 
 import { motion } from "motion/react";
 import SectionTitle from "@/components/ui/SectionTitle";
-import { projects, type Project } from "@/lib/data";
+import { type Project } from "@/lib/data";
+import { useLang } from "@/context/LangContext";
+import { t } from "@/lib/i18n";
 
 const SECTION_STYLE = {
   padding: "160px clamp(1.25rem, 5vw, 3rem)",
@@ -24,7 +26,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         flexDirection: "column",
       }}
     >
-      {/* Imagen / placeholder */}
       <div
         style={{
           position: "relative",
@@ -44,7 +45,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             justifyContent: "center",
           }}
         >
-          {/* Placeholder con nombre del proyecto */}
           <span
             style={{
               fontFamily: "var(--font-display)",
@@ -59,8 +59,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             {project.title}
           </span>
         </motion.div>
-
-        {/* Overlay sutil al hover */}
         <motion.div
           initial={{ opacity: 0 }}
           whileHover={{ opacity: 1 }}
@@ -74,7 +72,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         />
       </div>
 
-      {/* Contenido */}
       <div
         style={{
           padding: "1.5rem",
@@ -109,7 +106,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           {project.description}
         </p>
 
-        {/* Stack tags */}
         <div style={{ display: "flex", flexWrap: "wrap", gap: "0.375rem" }}>
           {project.stack.map((tech) => (
             <span
@@ -129,7 +125,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           ))}
         </div>
 
-        {/* Links */}
         {(project.demo || project.repo) && (
           <div
             style={{
@@ -184,10 +179,12 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 }
 
 export default function Projects() {
+  const { lang } = useLang();
+  const projects = t.projects.entries[lang] as unknown as Project[];
+
   return (
     <section id="projects" style={SECTION_STYLE}>
       <SectionTitle number="04" title="Projects" />
-
       <div
         style={{
           display: "grid",

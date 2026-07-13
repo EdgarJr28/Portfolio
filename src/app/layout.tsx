@@ -5,6 +5,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import CustomCursor from "@/components/layout/CustomCursor";
 import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
+import { LangProvider } from "@/context/LangContext";
 import { Analytics } from "@vercel/analytics/react";
 
 const syne = Syne({
@@ -36,13 +37,15 @@ export default function RootLayout({
   return (
     <html lang="es" className={`${syne.variable} ${inter.variable}`}>
       <body>
-        <SmoothScrollProvider>
-          <CustomCursor />
-          <Navbar />
-          {children}
-          <Footer />
-          <Analytics />
-        </SmoothScrollProvider>
+        <LangProvider>
+          <SmoothScrollProvider>
+            <CustomCursor />
+            <Navbar />
+            {children}
+            <Footer />
+            <Analytics />
+          </SmoothScrollProvider>
+        </LangProvider>
       </body>
     </html>
   );
