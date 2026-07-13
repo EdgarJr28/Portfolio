@@ -4,6 +4,8 @@ import { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "../useReducedMotion";
+import { is } from "@react-three/fiber/dist/declarations/src/core/utils";
+import { useIsMobile } from "../useIsMobile";
 
 // Horneado en Blender: dos clips separados — "intro" (caminar + saludo,
 // se reproduce una sola vez) e "idle" (parado con maletín, hecho para
@@ -34,7 +36,7 @@ export default function IntroAvatarScene() {
       const mixer = intro.getMixer();
       const onFinished = (e: { action: THREE.AnimationAction }) => {
         if (e.action !== intro) return;
-        idle.reset().fadeIn(0.4).play();
+       /*  idle.reset().fadeIn(0.4).play(); */
       };
       mixer.addEventListener("finished", onFinished);
       return () => {
@@ -49,9 +51,9 @@ export default function IntroAvatarScene() {
       idle.fadeOut(0.2);
     };
   }, [actions, reduced]);
-
+  const isMobile = useIsMobile();
   return (
-    <group position={[0, -0.9, 0]}>
+    <group position={isMobile ? [-0, -2, -2] : [0, -0.9, 0]} scale={isMobile ? 1.4 : 1.1}>
       <primitive ref={group} object={scene} />
     </group>
   );

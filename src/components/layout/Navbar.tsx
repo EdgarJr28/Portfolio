@@ -176,7 +176,7 @@ export default function Navbar() {
             border: "none",
             padding: "4px",
             flexDirection: "column",
-            gap: "5px",
+            gap: "8px",
             cursor: "pointer",
           }}
         >

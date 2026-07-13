@@ -135,7 +135,7 @@ export default function RoomScene({
       {/* Rotación base -60°: muestra el rincón en 3/4 con el avatar de frente */}
       <group ref={rig} rotation={[0, -Math.PI / 3, 0]}>
         {/* El diorama vive descentrado en coords de Blender; se recentra aquí */}
-        <group position={[1.4, 0, -0.4]}>
+        <group position={isMobile ? [1, -1, -0.8] : [1.4, 0, -0.4]} scale={0.68}>
           <Room
             onFrameClick={onFrameClick}
             onNoteClick={onNoteClick}
