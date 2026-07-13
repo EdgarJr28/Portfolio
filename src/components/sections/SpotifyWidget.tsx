@@ -188,7 +188,7 @@ export default function SpotifyWidget() {
     </button>
   );
 
-  const CARD_W = isMobile ? 220 : 280;
+  const CARD_W = isMobile ? 200 : 280;
 
   return (
     <section
@@ -229,8 +229,8 @@ export default function SpotifyWidget() {
           <div
             style={{
               marginLeft: "auto",
-              marginRight: isMobile ? "30px" : "15%",
-              marginTop: isMobile ? "25px" : "175px",
+              marginRight: isMobile ? "10px" : "15%",
+              marginTop: isMobile ? "55px" : "175px",
               width: `${CARD_W}px`,
               textAlign: "center",
             }}
