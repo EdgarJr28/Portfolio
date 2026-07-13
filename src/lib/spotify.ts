@@ -44,6 +44,27 @@ export async function getLastPlayedTrack() {
   }
 }
 
+export async function getRecentlyPlayedTracks(limit = 10) {
+  await getAccessToken();
+  try {
+    const data = await spotifyApi.getMyRecentlyPlayedTracks({ limit });
+    // La misma canción puede aparecer varias veces en el historial reciente
+    // (repetida en loop, etc.) — nos quedamos con la primera aparición.
+    const seen = new Set<string>();
+    const tracks = [];
+    for (const item of data.body.items) {
+      const track = item.track;
+      if (!track || seen.has(track.id)) continue;
+      seen.add(track.id);
+      tracks.push(track);
+    }
+    return tracks;
+  } catch (err) {
+    console.error("[getRecentlyPlayedTracks]", err);
+    return [];
+  }
+}
+
 export async function getPlaylists() {
   await getAccessToken();
   try {

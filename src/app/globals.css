@@ -39,6 +39,15 @@ body {
   a, button, [role="button"] { cursor: none; }
 }
 
+/* Mini-OS (easter egg): cursor nativo normal, el personalizado desentona
+   con el look de escritorio clásico. */
+body.mini-os-open,
+body.mini-os-open a,
+body.mini-os-open button,
+body.mini-os-open [role="button"] {
+  cursor: default;
+}
+
 /* Cursor visible en touch */
 @media (pointer: coarse) {
   body { cursor: auto; }

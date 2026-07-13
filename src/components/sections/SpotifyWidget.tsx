@@ -207,7 +207,12 @@ export default function SpotifyWidget() {
         }}
       >
         <div style={{ maxWidth: "1200px", margin: "0 auto" }}>
-        <div style={{ width: "280px", marginLeft: "auto", marginRight: "15%", marginTop: "175px", textAlign: "center" }}>
+        {/* En móvil (sin el avatar 3D de fondo) la tarjeta va centrada; en
+            md+ se corre a la derecha para convivir con el avatar. */}
+        <div
+          className="mx-auto mt-28 md:ml-auto md:mr-[15%] md:mt-[175px]"
+          style={{ width: "280px", textAlign: "center" }}
+        >
           <button
             onClick={() => setPlaylistOpen(true)}
             style={{

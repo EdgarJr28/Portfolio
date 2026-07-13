@@ -77,15 +77,16 @@ export default function NameEasterEggModal({
         }}
       />
 
-      {/* Foto + texto — a la derecha, sin pisar la animación */}
+      {/* Foto + texto — a la derecha en desktop, centrado en móvil (donde
+          el modal es angosto y la animación queda de fondo) */}
       <div
+        className="justify-center md:justify-end"
         style={{
           position: "relative",
           zIndex: 2,
           height: "100%",
           display: "flex",
           alignItems: "center",
-          justifyContent: "flex-end",
           padding: "1.75rem",
         }}
       >

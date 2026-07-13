@@ -30,6 +30,31 @@ export function getFolderImages(relativeDir: string): string[] {
     .map((f) => `/${relativeDir}/${f}`);
 }
 
+export interface PhotoWithDate {
+  src: string;
+  /** Fecha del archivo (creación si el filesystem la expone, si no modificación), ISO. */
+  date: string;
+}
+
+/** Igual que getFolderImages, pero suma la fecha del archivo (para mostrarla en el visor). */
+export function getFolderImagesWithDates(relativeDir: string): PhotoWithDate[] {
+  const dir = path.join(process.cwd(), "public", relativeDir);
+  let entries: string[];
+  try {
+    entries = fs.readdirSync(dir);
+  } catch {
+    return [];
+  }
+  return entries
+    .filter((f) => IMAGE_EXTENSIONS.has(path.extname(f).toLowerCase()))
+    .sort((a, b) => a.localeCompare(b))
+    .map((f) => {
+      const stat = fs.statSync(path.join(dir, f));
+      const date = stat.birthtime.getTime() > 0 ? stat.birthtime : stat.mtime;
+      return { src: `/${relativeDir}/${f}`, date: date.toISOString() };
+    });
+}
+
 /** Mueve el archivo indicado al frente de la lista (portada), si existe. */
 export function withCoverFirst(photos: string[], coverFilename: string): string[] {
   const idx = photos.findIndex((p) => p.endsWith(`/${coverFilename}`));

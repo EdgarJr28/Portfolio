@@ -67,13 +67,22 @@ export default function Navbar() {
           backdropFilter: "blur(16px)",
           WebkitBackdropFilter: "blur(16px)",
           zIndex: 100,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
           padding: "0 clamp(1rem, 4vw, 2.5rem)",
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
+        {/* Tope de ancho interno para monitores 2K/4K: sin esto el logo y
+            los links quedaban pegados a los extremos de la pantalla. */}
+        <div
+          style={{
+            maxWidth: "1700px",
+            margin: "0 auto",
+            height: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
         {/* Logo */}
         <motion.a
           href="#hero"
@@ -155,15 +164,17 @@ export default function Navbar() {
         </div>
 
         {/* Mobile hamburger */}
+        {/* OJO: el display va por clases (flex / md:hidden) — un
+            display:flex inline pisaba al md:hidden y el hamburger quedaba
+            visible también en desktop. */}
         <button
-          className="md:hidden"
+          className="flex md:hidden"
           onClick={() => setMenuOpen((prev) => !prev)}
           aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
           style={{
             background: "none",
             border: "none",
             padding: "4px",
-            display: "flex",
             flexDirection: "column",
             gap: "5px",
             cursor: "pointer",
@@ -191,6 +202,7 @@ export default function Navbar() {
             />
           ))}
         </button>
+        </div>
       </nav>
 
       {/* Mobile menu overlay */}

@@ -39,4 +39,9 @@ next-env.d.ts
 # Agents 
 /agents/*.json
 .agents*
+.claude*
+
+# Notas
+PORTFOLIO_MODERNIZATION_PLAN.md
+notes.md
 

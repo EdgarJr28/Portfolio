@@ -41,9 +41,9 @@ export default function Blog({
   return (
     <section
       id="blog"
+      className="min-h-[65vh] md:min-h-screen"
       style={{
         position: "relative",
-        minHeight: "100vh",
         overflow: "hidden",
         display: "flex",
         alignItems: "center",

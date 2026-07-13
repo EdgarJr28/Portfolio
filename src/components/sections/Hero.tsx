@@ -30,10 +30,14 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
+      {/* Tope de ancho interno: en pantallas 2K/4K el texto quedaba pegado
+          al borde izquierdo con medio monitor vacío en el medio. */}
       <div
         style={{
           display: "flex",
           width: "100%",
+          maxWidth: "1700px",
+          margin: "0 auto",
           alignItems: "center",
         }}
       >
@@ -110,8 +114,6 @@ function TextContent({
       </motion.p>
 
       <motion.h1
-        onClick={onNameClick}
-        data-cursor-hover
         initial={{ opacity: 0, y: 22 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 0.2 }}
@@ -124,10 +126,19 @@ function TextContent({
           letterSpacing: "-0.03em",
           margin: 0,
           marginBottom: "2.5rem",
-          cursor: onNameClick ? "pointer" : undefined,
         }}
       >
-        Edgar<br />Maldonado
+        {/* El easter egg solo se activa clickeando "Edgar" — no en
+            "Maldonado" ni en el espacio vacío del resto del heading. */}
+        <span
+          onClick={onNameClick}
+          data-cursor-hover
+          style={{ cursor: onNameClick ? "pointer" : undefined }}
+        >
+          Edgar
+        </span>
+        <br />
+        Maldonado
       </motion.h1>
 
       <motion.div

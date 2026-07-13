@@ -20,35 +20,51 @@ const SnowOverlay = dynamic(() => import("@/components/three/scenes/SnowOverlay"
   loading: () => null,
 });
 
+// Mini "sistema operativo" de la pantalla del escritorio — carga diferida
+const MiniOS = dynamic(() => import("./MiniOS"), {
+  ssr: false,
+  loading: () => null,
+});
+
 const EASTER_EGG_VIDEO = encodeURI("/easter/iceman/ICEMAN VIDEO EASTEREGG.mp4");
 const EASTER_EGG_IMAGE = "/easter/iceman/Ed.png";
 
 export default function About() {
   const [easterEggOpen, setEasterEggOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
+  const [miniOsOpen, setMiniOsOpen] = useState(false);
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("debugOS")) setMiniOsOpen(true);
+  }, []);
 
   return (
     <section
       id="about"
+      className="flex flex-col min-h-[68vh] md:flex-row md:items-center md:min-h-screen"
       style={{
         position: "relative",
-        minHeight: "100vh",
         overflow: "hidden",
-        display: "flex",
-        alignItems: "center",
       }}
     >
-      {/* Escena 3D a todo el ancho, de fondo */}
-      <div style={{ position: "absolute", inset: 0, zIndex: 0 }}>
+      {/* En mobile: la animación va arriba, compacta y en flujo normal
+          (single-column: animación → texto, sin superponerse). En desktop
+          (md+) vuelve al modo "cinemático" de siempre: canvas de fondo a
+          pantalla completa con el texto flotando encima. */}
+      <div className="relative w-full h-[38vh] shrink-0 md:absolute md:inset-0 md:h-auto md:z-0">
         <AboutDeskCanvas
           onFrameClick={() => setEasterEggOpen(true)}
           onNoteClick={() => setNoteOpen(true)}
+          onScreenClick={() => setMiniOsOpen(true)}
         />
       </div>
 
-      {/* Degradado para legibilidad del texto encima del modelo */}
+      {/* Degradado para legibilidad del texto encima del modelo — solo
+          aplica en el modo overlay de desktop, en mobile el texto ya no
+          se superpone al canvas. */}
       <div
         aria-hidden="true"
+        className="hidden md:block"
         style={{
           position: "absolute",
           inset: 0,
@@ -59,15 +75,14 @@ export default function About() {
         }}
       />
 
-      {/* Texto superpuesto, pegado a la izquierda, no ocupa espacio del canvas */}
-      {/* pointerEvents:none para no tapar los clics del canvas (ej. la placa Iceman) */}
+      {/* Texto: en mobile, bloque normal debajo de la animación. En desktop,
+          superpuesto (pointerEvents:none para no tapar los clics del canvas,
+          ej. la placa Iceman). */}
       <div
+        className="relative z-[2] w-full pt-8 pb-12 md:pt-24 md:pb-16 md:pointer-events-none"
         style={{
-          position: "relative",
-          zIndex: 2,
-          width: "100%",
-          pointerEvents: "none",
-          padding: "96px clamp(1.25rem, 5vw, 4rem) 64px",
+          paddingLeft: "clamp(1.25rem, 5vw, 4rem)",
+          paddingRight: "clamp(1.25rem, 5vw, 4rem)",
         }}
       >
         <SectionTitle number="01" title="About" />
@@ -106,6 +121,7 @@ export default function About() {
 
       <EasterEggModal open={easterEggOpen} onClose={() => setEasterEggOpen(false)} />
       <NoteModal open={noteOpen} onClose={() => setNoteOpen(false)} />
+      <MiniOS open={miniOsOpen} onClose={() => setMiniOsOpen(false)} />
     </section>
   );
 }
@@ -125,11 +141,11 @@ function NoteModal({ open, onClose }: { open: boolean; onClose: () => void }) {
       <p
         style={{
           fontFamily: "var(--font-mono, monospace)",
-          fontSize: "1.15rem",
+          fontSize: "clamp(0.95rem, 3vw, 1.15rem)",
           color: "#f0f0f0",
           lineHeight: 1.6,
           margin: "1rem 0 1.5rem",
-          whiteSpace: "nowrap",
+          textAlign: "center",
         }}
       >
         &quot;all that hard work gonna pay off&quot;

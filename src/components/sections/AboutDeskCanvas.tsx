@@ -7,9 +7,11 @@ import RoomScene from "@/components/three/scenes/RoomScene";
 export default function AboutDeskCanvas({
   onFrameClick,
   onNoteClick,
+  onScreenClick,
 }: {
   onFrameClick?: () => void;
   onNoteClick?: () => void;
+  onScreenClick?: () => void;
 }) {
   return (
     <SceneCanvas
@@ -19,7 +21,11 @@ export default function AboutDeskCanvas({
       }}
       ambient={0.75}
     >
-      <RoomScene onFrameClick={onFrameClick} onNoteClick={onNoteClick} />
+      <RoomScene
+        onFrameClick={onFrameClick}
+        onNoteClick={onNoteClick}
+        onScreenClick={onScreenClick}
+      />
     </SceneCanvas>
   );
 }

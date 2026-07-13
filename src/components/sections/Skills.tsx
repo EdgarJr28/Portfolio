@@ -72,13 +72,16 @@ export default function Skills() {
     <section id="skills" style={SECTION_STYLE}>
       <SectionTitle number="02" title="Skills" />
 
+      {/* El grid de 2 columnas recién a partir de lg (1024px): en tablet
+          (768) los 480px fijos del canvas dejaban a los tags aplastados en
+          ~160px de ancho. */}
       <div
-        className="md:grid md:grid-cols-[480px_1fr]"
+        className="lg:grid lg:grid-cols-[480px_1fr]"
         style={{ gap: "3rem", alignItems: "center" }}
       >
-        {/* Avatar 3D — decorativo, solo desktop */}
+        {/* Avatar 3D — decorativo, solo desktop ancho */}
         <div
-          className="hidden md:block"
+          className="hidden lg:block"
           style={{ position: "relative", height: "540px" }}
         >
           <SkillsLabCanvas />

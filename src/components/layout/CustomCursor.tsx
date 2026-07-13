@@ -22,6 +22,13 @@ export default function CustomCursor() {
     }
 
     const onMove = (e: MouseEvent) => {
+      // El mini-OS (easter egg de la sección About) tiene su propio look
+      // "de escritorio" — el cursor personalizado desentona ahí, así que se
+      // apaga mientras esté abierto (ver MiniOS.tsx, clase "mini-os-open").
+      if (document.body.classList.contains("mini-os-open")) {
+        if (visible) setVisible(false);
+        return;
+      }
       rawX.set(e.clientX - 6);
       rawY.set(e.clientY - 6);
       if (!visible) setVisible(true);

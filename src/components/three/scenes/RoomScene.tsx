@@ -5,6 +5,7 @@ import { useFrame, type ThreeEvent } from "@react-three/fiber";
 import { useGLTF, useAnimations } from "@react-three/drei";
 import * as THREE from "three";
 import { useReducedMotion } from "../useReducedMotion";
+import { useIsMobile } from "../useIsMobile";
 
 const ROOM_URL = "/models/room.glb";
 const AVATAR_URL = "/models/avatar-typing.glb"; // Armature + model + halo, clip "typing"
@@ -34,16 +35,24 @@ function meshMaterialName(obj: THREE.Object3D): string | undefined {
   return Array.isArray(mesh.material) ? undefined : mesh.material.name;
 }
 
+const SCREEN_NAMES = new Set(["desktop-plane-0", "desktop-plane-1"]);
+
 function isInteractive(obj: THREE.Object3D) {
-  return obj.name === "frame-photo" || meshMaterialName(obj) === "rm-paper";
+  return (
+    obj.name === "frame-photo" ||
+    meshMaterialName(obj) === "rm-paper" ||
+    SCREEN_NAMES.has(obj.name)
+  );
 }
 
 function Room({
   onFrameClick,
   onNoteClick,
+  onScreenClick,
 }: {
   onFrameClick?: () => void;
   onNoteClick?: () => void;
+  onScreenClick?: () => void;
 }) {
   const { scene } = useGLTF(ROOM_URL, true);
 
@@ -57,6 +66,9 @@ function Room({
         } else if (meshMaterialName(e.object) === "rm-paper") {
           e.stopPropagation();
           onNoteClick?.();
+        } else if (SCREEN_NAMES.has(e.object.name)) {
+          e.stopPropagation();
+          onScreenClick?.();
         }
       }}
       onPointerOver={(e: ThreeEvent<PointerEvent>) => {
@@ -77,12 +89,15 @@ function Room({
 export default function RoomScene({
   onFrameClick,
   onNoteClick,
+  onScreenClick,
 }: {
   onFrameClick?: () => void;
   onNoteClick?: () => void;
+  onScreenClick?: () => void;
 }) {
   const rig = useRef<THREE.Group>(null);
   const reduced = useReducedMotion();
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
@@ -102,13 +117,30 @@ export default function RoomScene({
     rig.current.rotation.x += (targetX - rig.current.rotation.x) * 0.05;
   });
 
+  // La cámara de AboutDeskCanvas siempre mira al origen (comportamiento por
+  // defecto de R3F cuando no le damos `rotation`). El offset de desktop
+  // ([2.8, -1.35, 0]) descentra el diorama a propósito hacia la derecha,
+  // dejando hueco a la izquierda para el texto superpuesto — eso solo tiene
+  // sentido en el layout overlay de desktop. En mobile el texto va debajo,
+  // no encima, así que necesitamos el diorama centrado en el frame en vez
+  // de corrido: este offset compensa la rotación del rig para que el
+  // centro real del escritorio/avatar quede cerca del origen (a donde
+  // apunta la cámara), sin importar el aspect ratio de la caja del canvas.
+  const groupPosition: [number, number, number] = isMobile
+    ? [-0.95, -1.1, -0.9]
+    : [2.8, -1.35, 0];
+
   return (
-    <group position={[2.8, -1.35, 0]} scale={0.92}>
+    <group position={groupPosition} scale={0.92}>
       {/* Rotación base -60°: muestra el rincón en 3/4 con el avatar de frente */}
       <group ref={rig} rotation={[0, -Math.PI / 3, 0]}>
         {/* El diorama vive descentrado en coords de Blender; se recentra aquí */}
         <group position={[1.4, 0, -0.4]}>
-          <Room onFrameClick={onFrameClick} onNoteClick={onNoteClick} />
+          <Room
+            onFrameClick={onFrameClick}
+            onNoteClick={onNoteClick}
+            onScreenClick={onScreenClick}
+          />
           <Avatar />
         </group>
       </group>
