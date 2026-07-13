@@ -94,10 +94,15 @@ export const useMiniOSStore = create<MiniOSState & MiniOSActions>()(
         })),
 
       closeApp: (key) =>
-        set((state) => ({
-          openWindows: state.openWindows.filter((k) => k !== key),
-          minimizedApps: state.minimizedApps.filter((k) => k !== key),
-        })),
+        set((state) => {
+          const windowRects = { ...state.windowRects };
+          delete windowRects[key];
+          return {
+            openWindows: state.openWindows.filter((k) => k !== key),
+            minimizedApps: state.minimizedApps.filter((k) => k !== key),
+            windowRects,
+          };
+        }),
 
       focusApp: (key) =>
         set((state) => ({

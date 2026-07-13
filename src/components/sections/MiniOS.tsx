@@ -1,6 +1,7 @@
 "use client";
 
-import { Component, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { Component, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore } from "react";
+import { useIsMobile } from "@/components/three/useIsMobile";
 import type { ReactNode } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -649,6 +650,7 @@ function DesktopIcon({
   // Si la posición guardada cambia desde afuera (por ejemplo al cargar el
   // store persistido), sincronizamos — pero no mientras se está arrastrando.
   const draggingRef = useRef(false);
+  const lastTapRef = useRef(0);
   useEffect(() => {
     if (!draggingRef.current) setPos({ x, y });
   }, [x, y]);
@@ -682,7 +684,14 @@ function DesktopIcon({
         setPos(snapped);
         onDragEnd(snapped);
       } else {
-        onSelect();
+        const now = Date.now();
+        if (now - lastTapRef.current < 350) {
+          onOpen();
+          lastTapRef.current = 0;
+        } else {
+          lastTapRef.current = now;
+          onSelect();
+        }
       }
     };
     window.addEventListener("pointermove", onMove);
@@ -976,14 +985,8 @@ function AppWindow({
       setRect((r) => {
         const next = {
           ...r,
-          x: Math.min(
-            Math.max(startPosX + dx, -r.width + 120),
-            window.innerWidth - 120
-          ),
-          y: Math.min(
-            Math.max(startPosY + dy, 0),
-            window.innerHeight - TASKBAR_HEIGHT - 32
-          ),
+          x: Math.max(0, Math.min(startPosX + dx, Math.max(0, window.innerWidth - r.width))),
+          y: Math.max(0, Math.min(startPosY + dy, window.innerHeight - TASKBAR_HEIGHT - r.height)),
         };
         latest = next;
         return next;
@@ -2125,6 +2128,18 @@ function SuspendedOverlay({ onWake }: { onWake: () => void }) {
  * abiertas a la vez, cada una movible y redimensionable. Por ahora solo
  * contiene el CV, pensado para sumar más "apps" a futuro.
  */
+function useIsPortrait() {
+  return useSyncExternalStore(
+    (cb) => {
+      const mq = window.matchMedia("(orientation: portrait)");
+      mq.addEventListener("change", cb);
+      return () => mq.removeEventListener("change", cb);
+    },
+    () => window.matchMedia("(orientation: portrait)").matches,
+    () => false,
+  );
+}
+
 export default function MiniOS({
   open,
   onClose,
@@ -2132,6 +2147,8 @@ export default function MiniOS({
   open: boolean;
   onClose: () => void;
 }) {
+  const isMobile = useIsMobile();
+  const isPortrait = useIsPortrait();
   // Estado persistido (sessionStorage, vía Zustand): qué apps quedaron
   // abiertas/minimizadas, recientes, si Winamp ya se montó alguna vez y si
   // ya se mostró la bienvenida — todo esto sobrevive a cerrar/abrir el OS
@@ -2386,6 +2403,57 @@ export default function MiniOS({
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [open, suspended]);
+
+  // Mobile en portrait: pedir que roten el dispositivo
+  if (isMobile && isPortrait && open) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          style={{
+            position: "fixed",
+            inset: 0,
+            zIndex: 9999,
+            background: "#0a0a14",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            gap: "1.5rem",
+          }}
+        >
+          <motion.div
+            animate={{ rotate: [0, 90, 90, 0] }}
+            transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut", repeatDelay: 1 }}
+            style={{ fontSize: "3.5rem" }}
+          >
+            📱
+          </motion.div>
+          <p style={{ fontFamily: "var(--font-display)", fontSize: "1.1rem", color: "#f0f0f0", textAlign: "center", padding: "0 2rem" }}>
+            Rotate your device to landscape to open the OS
+          </p>
+          <button
+            onClick={onClose}
+            style={{
+              marginTop: "0.5rem",
+              background: "transparent",
+              border: "1px solid rgba(255,255,255,0.2)",
+              borderRadius: "6px",
+              color: "rgba(255,255,255,0.5)",
+              fontFamily: "var(--font-body)",
+              fontSize: "0.75rem",
+              padding: "0.4rem 1rem",
+              cursor: "pointer",
+            }}
+          >
+            Cancel
+          </button>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
 
   return (
     <AnimatePresence>

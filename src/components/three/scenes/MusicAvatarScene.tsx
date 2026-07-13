@@ -79,7 +79,7 @@ export default function MusicAvatarScene({ playing }: { playing: boolean }) {
 
   return (
     // agregar un grupo para poder mover el avatar y las notas juntas para movil y desktop
-    <group position={isMobile ? [-0.6, -1.35, 0] : [-0.55, -0.95, 0]} scale={0.68}>
+    <group position={isMobile ? [-0.6, -.85, 0] : [-0.55, -0.95, 0]} scale={0.68}>
       <primitive ref={group} object={scene} />
       <MusicNotes active={playing && !reduced} />
     </group>

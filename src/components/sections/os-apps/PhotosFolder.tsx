@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { WIN_FONT } from "./shared";
 import { useScrollMemory } from "./useScrollMemory";
@@ -24,6 +24,7 @@ export default function PhotosFolder({
 }) {
   const [photos, setPhotos] = useState<Photo[] | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
+  const lastTapRef = useRef<{ src: string; t: number } | null>(null);
   const { ref: scrollRef, onScroll } = useScrollMemory<HTMLDivElement>("photos", [photos]);
 
   useEffect(() => {
@@ -84,8 +85,17 @@ export default function PhotosFolder({
               return (
                 <button
                   key={src}
-                  onClick={() => setSelected(src)}
-                  onDoubleClick={() => onOpenImage(src, date)}
+                  onClick={() => {
+                    const now = Date.now();
+                    const last = lastTapRef.current;
+                    if (last && last.src === src && now - last.t < 350) {
+                      onOpenImage(src, date);
+                      lastTapRef.current = null;
+                    } else {
+                      setSelected(src);
+                      lastTapRef.current = { src, t: now };
+                    }
+                  }}
                   style={{
                     position: "relative",
                     display: "block",

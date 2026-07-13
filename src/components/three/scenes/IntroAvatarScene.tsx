@@ -36,7 +36,7 @@ export default function IntroAvatarScene() {
       const mixer = intro.getMixer();
       const onFinished = (e: { action: THREE.AnimationAction }) => {
         if (e.action !== intro) return;
-       /*  idle.reset().fadeIn(0.4).play(); */
+        idle.reset().fadeIn(0.4).play();
       };
       mixer.addEventListener("finished", onFinished);
       return () => {
