@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import ForestScene from "./ForestScene";
 import PhotoFrame from "./PhotoFrame";
 import { useReducedMotion } from "../useReducedMotion";
+import { useIsMobile } from "../useIsMobile";
 
 export type FrameKey = "randoms" | "vibes" | "nature";
 
@@ -29,6 +30,20 @@ export default function BlogForestScene({
 }: BlogForestSceneProps) {
   const rig = useRef<THREE.Group>(null);
   const reduced = useReducedMotion();
+  const isMobile = useIsMobile();
+  const { camera } = useThree();
+
+  useEffect(() => {
+    if (isMobile) {
+      camera.position.set(0, 1.0, 7.5);
+      (camera as THREE.PerspectiveCamera).fov = 75;
+      (camera as THREE.PerspectiveCamera).updateProjectionMatrix();
+    } else {
+      camera.position.set(0, 0.75, 4.6);
+      (camera as THREE.PerspectiveCamera).fov = 50;
+      (camera as THREE.PerspectiveCamera).updateProjectionMatrix();
+    }
+  }, [isMobile, camera]);
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {

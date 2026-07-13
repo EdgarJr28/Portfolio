@@ -127,7 +127,7 @@ export default function RoomScene({
   // centro real del escritorio/avatar quede cerca del origen (a donde
   // apunta la cámara), sin importar el aspect ratio de la caja del canvas.
   const groupPosition: [number, number, number] = isMobile
-    ? [-0.95, -1.1, -0.9]
+    ? [-0.6, -0.9, -0.6]
     : [2.8, -1.35, 0];
 
   return (

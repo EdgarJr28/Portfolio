@@ -15,10 +15,7 @@ export default function AboutDeskCanvas({
 }) {
   return (
     <SceneCanvas
-      camera={{
-        position: [5.2, 1.7, 9.5],
-        fov: 45,
-      }}
+      camera={{ position: [5.2, 1.7, 9.5], fov: 45 }}
       ambient={0.75}
     >
       <RoomScene

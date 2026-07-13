@@ -13,11 +13,10 @@ import Petals from "./Petals";
 import Flowers from "./Flowers";
 
 const AUDIO_SRC = "/sounds/os/virginia-beach.mp3";
-const PHRASE = "Some people become a home, even after they leave.";
+const PHRASE = "No sé por que mientras hago todo esto te sigo teniendo en mi cabeza, eres la mujer que más he amado nunca, si algun dia ves esto recuerda que te amare toda mi vida.";
 // Personalizá esto con el nombre/fecha reales — quedan como placeholder
 // porque no los conozco.
-const SIGNATURE = "M.";
-const DATE_LABEL = "siempre";
+const SIGNATURE = "Ed.";
 
 /** Sobre cerrado, estilo carta antigua — ilustración propia (divs +
  * clip-path), no artwork de terceros. */
@@ -127,7 +126,6 @@ function OpenLetter({ typed, showSignature }: { typed: string; showSignature: bo
                   margin: "0.3rem 0 0",
                 }}
               >
-                {DATE_LABEL}
               </p>
             </motion.div>
           )}

@@ -141,7 +141,6 @@ export default function Contact() {
 
           {/* Diorama 3D — solo desktop */}
           <div
-            className="hidden md:block"
             style={{ position: "relative", height: "440px", marginTop: "-2rem" }}
           >
             <ContactIslandCanvas />

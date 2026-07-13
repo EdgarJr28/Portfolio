@@ -140,6 +140,10 @@ export default function NameEasterEggModal({
               textAlign: "center",
               marginBottom: "1.1rem",
               textShadow: "0 2px 10px rgba(0,0,0,0.6)",
+              background: "rgba(0,0,0,0.35)",
+              backdropFilter: "blur(8px)",
+              borderRadius: "8px",
+              padding: "0.6rem 0.8rem",
             }}
           >
             Hello a pleasure, I am a cheerful and vibrant person, I really

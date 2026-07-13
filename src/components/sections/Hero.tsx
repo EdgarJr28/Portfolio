@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { motion } from "motion/react";
 import Button from "@/components/ui/Button";
 import NameEasterEggModal from "./NameEasterEggModal";
+import { useIsMobile } from "@/components/three/useIsMobile";
 
 // Avatar 3D — carga diferida, sin SSR (WebGL solo en cliente)
 const IntroCanvas = dynamic(() => import("./HeroIntroCanvas"), {
@@ -14,6 +15,7 @@ const IntroCanvas = dynamic(() => import("./HeroIntroCanvas"), {
 
 export default function Hero() {
   const [nameEggOpen, setNameEggOpen] = useState(false);
+  const isMobile = useIsMobile();
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   };
@@ -30,34 +32,42 @@ export default function Hero() {
         overflow: "hidden",
       }}
     >
-      {/* Tope de ancho interno: en pantallas 2K/4K el texto quedaba pegado
-          al borde izquierdo con medio monitor vacío en el medio. */}
-      <div
-        style={{
-          display: "flex",
-          width: "100%",
-          maxWidth: "1700px",
-          margin: "0 auto",
-          alignItems: "center",
-        }}
-      >
-        <div style={{ flex: 1 }}>
-          <TextContent scrollTo={scrollTo} onNameClick={() => setNameEggOpen(true)} />
+      {isMobile ? (
+        /* Mobile: columna — escena arriba, texto abajo */
+        <div style={{ display: "flex", flexDirection: "column", width: "100%", minHeight: "100vh" }}>
+          <div style={{ position: "relative", height: "65vh", flexShrink: 0 }}>
+            <IntroCanvas />
+          </div>
+          <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+            <TextContent scrollTo={scrollTo} onNameClick={() => setNameEggOpen(true)} centered />
+          </div>
         </div>
-
-        {/* Columna derecha — avatar 3D (oculto en mobile) */}
+      ) : (
+        /* Desktop: fila — texto izquierda, avatar derecha */
         <div
-          className="hidden md:block"
           style={{
-            flex: 1,
-            position: "relative",
-            height: "100vh",
-            transform: "translateY(-50px)",
+            display: "flex",
+            width: "100%",
+            maxWidth: "1700px",
+            margin: "0 auto",
+            alignItems: "center",
           }}
         >
-          <IntroCanvas />
+          <div style={{ flex: 1 }}>
+            <TextContent scrollTo={scrollTo} onNameClick={() => setNameEggOpen(true)} />
+          </div>
+          <div
+            style={{
+              flex: 1,
+              position: "relative",
+              height: "100vh",
+              transform: "translateY(-50px)",
+            }}
+          >
+            <IntroCanvas />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Gradiente inferior */}
       <div

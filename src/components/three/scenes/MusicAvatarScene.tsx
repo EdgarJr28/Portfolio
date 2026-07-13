@@ -67,7 +67,6 @@ export default function MusicAvatarScene({ playing }: { playing: boolean }) {
   const { scene, animations } = useGLTF(AVATAR_URL, true);
   const { actions } = useAnimations(animations, group);
   const reduced = useReducedMotion();
-
   useEffect(() => {
     const action = playing && !reduced ? actions["music"] : null;
     action?.reset().fadeIn(0.4).play();
