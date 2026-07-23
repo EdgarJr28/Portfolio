@@ -66,10 +66,22 @@ export async function getRecentlyPlayedTracks(limit = 10) {
 }
 
 export async function getPlaylists() {
-  await getAccessToken();
   try {
+    // Use client credentials so the API responds as a public visitor —
+    // this returns only the playlists actually visible on the user's profile,
+    // excluding any playlists the owner has hidden from their profile page.
+    const guestApi = new SpotifyWebApi({
+      clientId: process.env.SPOTIFY_CLIENT_ID,
+      clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
+    });
+    const cc = await guestApi.clientCredentialsGrant();
+    guestApi.setAccessToken(cc.body.access_token);
+
+    // Resolve owner ID via the authenticated user token first
+    await getAccessToken();
     const me = await spotifyApi.getMe();
-    const data = await spotifyApi.getUserPlaylists(me.body.id, { limit: 12 });
+
+    const data = await guestApi.getUserPlaylists(me.body.id, { limit: 50 });
     return data.body.items.filter((p) => p.images?.[0]?.url);
   } catch (err) {
     console.error("[getPlaylists]", err);
