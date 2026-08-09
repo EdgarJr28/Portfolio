@@ -14,9 +14,22 @@ import Flowers from "./Flowers";
 
 const AUDIO_SRC = "/sounds/os/virginia-beach.mp3";
 const PHRASE = "No sé por que mientras hago todo esto te sigo teniendo en mi cabeza, eres la mujer que más he amado nunca, si algun dia ves esto recuerda que te amare toda mi vida.";
-// Personalizá esto con el nombre/fecha reales — quedan como placeholder
-// porque no los conozco.
 const SIGNATURE = "Ed.";
+
+const LOVE_MESSAGES = [
+  "Tus ojos son de las pocas cosas que no puedo dejar de recordar. Hay algo en ellos que siempre me delató.",
+  "Tu risa hace que el ruido del mundo desaparezca. No sé si lo sabes, pero es verdad.",
+  "Me enseñaste sin querer que amar de verdad se siente como llegar a casa.",
+  "Si pudiera volver atrás, te elegiría a ti. En cada versión de esta historia.",
+  "Eres más hermosa de lo que crees. Y lo creo cada vez que cierro los ojos.",
+  "Contigo aprendí que el amor más honesto no grita. Simplemente está.",
+  "Hay canciones que solo tienen sentido cuando pienso en ti.",
+  "Nadie me ha hecho reír tanto ni extrañar tan profundo. Eso vale oro.",
+  "Te amo de la única manera que sé hacerlo: con todo lo que tengo.",
+  "Ojalá encuentres alguien que te quiera la mitad de lo que yo te quiero. Serías la persona más feliz del mundo.",
+  "Cambiaste algo en mí sin intentarlo. Eso es lo más poderoso que alguien puede hacer.",
+  "Donde sea que estés, hay alguien en este mundo que piensa en ti todos los días. Siempre seré yo.",
+] as const;
 
 /** Sobre cerrado, estilo carta antigua — ilustración propia (divs +
  * clip-path), no artwork de terceros. */
@@ -25,7 +38,7 @@ function ClosedEnvelope() {
     <motion.div
       animate={{ y: [0, -4, 0] }}
       transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-      style={{ width: "180px", height: "116px", position: "relative" }}
+      style={{ width: "min(180px, 46%)", aspectRatio: "180 / 116", position: "relative" }}
     >
       <div
         style={{
@@ -68,9 +81,9 @@ function OpenLetter({ typed, showSignature }: { typed: string; showSignature: bo
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
       <div
         style={{
-          width: "min(360px, 82vw)",
-          minHeight: "170px",
-          padding: "2rem 1.75rem",
+          width: "min(360px, 90%)",
+          minHeight: "clamp(130px, 25%, 170px)",
+          padding: "clamp(1rem, 5%, 2rem) clamp(0.875rem, 5%, 1.75rem)",
           borderRadius: "10px",
           textAlign: "center",
           background:
@@ -85,7 +98,7 @@ function OpenLetter({ typed, showSignature }: { typed: string; showSignature: bo
           style={{
             fontFamily: "Georgia, 'Times New Roman', serif",
             fontStyle: "italic",
-            fontSize: "clamp(1rem, 2.6vw, 1.2rem)",
+            fontSize: "clamp(0.875rem, 1.8vmin, 1.15rem)",
             color: "#4a3a2c",
             lineHeight: 1.7,
             margin: 0,
@@ -135,8 +148,8 @@ function OpenLetter({ typed, showSignature }: { typed: string; showSignature: bo
       {/* Solapa del sobre, asomando debajo de la carta */}
       <div
         style={{
-          width: "180px",
-          height: "34px",
+          width: "min(180px, 46%)",
+          height: "clamp(24px, 6%, 34px)",
           marginTop: "-6px",
           background: "linear-gradient(180deg, #d9b48f 0%, #cf9f6d 100%)",
           borderRadius: "0 0 4px 4px",
@@ -158,10 +171,26 @@ function OpenLetter({ typed, showSignature }: { typed: string; showSignature: bo
  * durante el fundido inicial. Todo dentro de la misma ventana del navegador
  * falso, sin saltos bruscos.
  */
+interface Particle {
+  id: number;
+  x: number;
+  y: number;
+  color: string;
+  type: "trail" | "heart";
+  dx: number;
+  dy: number;
+}
+
+const PARTICLE_COLORS = ["#eab8c2", "#e2909f", "#f3d9df", "#cc6880", "#d8b46a", "#ffecf0"];
+
 export default function LoverboyEasterEgg() {
   const [open, setOpen] = useState(false);
+  const [displayPhrase, setDisplayPhrase] = useState(PHRASE);
   const [typed, setTyped] = useState("");
+  const [particles, setParticles] = useState<Particle[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
+  const pidRef = useRef(0);
+  const lastTrailRef = useRef(0);
 
   // Parallax suave: la posición del mouse dentro de la ventana mueve
   // levemente las estrellas (más) y las flores (menos), como capas a
@@ -174,10 +203,48 @@ export default function LoverboyEasterEgg() {
   const flowersX = useSpring(useTransform(mx, [-1, 1], [-6, 6]), springCfg);
   const flowersY = useSpring(useTransform(my, [-1, 1], [-4, 4]), springCfg);
 
+  const spawnTrail = (x: number, y: number) => {
+    const now = Date.now();
+    if (now - lastTrailRef.current < 85) return;
+    lastTrailRef.current = now;
+    const id = pidRef.current++;
+    setParticles((p) => [
+      ...p.slice(-22),
+      { id, x, y, color: PARTICLE_COLORS[id % PARTICLE_COLORS.length], type: "trail", dx: 0, dy: 0 },
+    ]);
+    setTimeout(() => setParticles((p) => p.filter((q) => q.id !== id)), 1300);
+  };
+
+  const spawnHearts = (x: number, y: number) => {
+    const burst = Array.from({ length: 7 }, (_, i) => {
+      const id = pidRef.current++;
+      const angle = ((360 / 7) * i) * (Math.PI / 180);
+      return {
+        id,
+        x: x + (Math.random() - 0.5) * 14,
+        y,
+        color: PARTICLE_COLORS[id % PARTICLE_COLORS.length],
+        type: "heart" as const,
+        dx: Math.cos(angle) * (38 + Math.random() * 28),
+        dy: Math.sin(angle) * (38 + Math.random() * 28) - 22,
+      };
+    });
+    setParticles((p) => [...p.slice(-30), ...burst]);
+    burst.forEach((b) =>
+      setTimeout(() => setParticles((p) => p.filter((q) => q.id !== b.id)), 1900)
+    );
+  };
+
   const handlePointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     mx.set(((e.clientX - rect.left) / rect.width) * 2 - 1);
     my.set(((e.clientY - rect.top) / rect.height) * 2 - 1);
+    spawnTrail(e.clientX - rect.left, e.clientY - rect.top);
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    spawnHearts(e.clientX - rect.left, e.clientY - rect.top);
   };
 
   useEffect(() => {
@@ -194,23 +261,29 @@ export default function LoverboyEasterEgg() {
     };
   }, []);
 
-  // Máquina de escribir: arranca apenas se abre la carta, un caracter a la vez.
+  // Máquina de escribir: se reinicia cada vez que displayPhrase cambia.
   useEffect(() => {
     if (!open) return;
+    setTyped("");
     let i = 0;
     const id = setInterval(() => {
       i += 1;
-      setTyped(PHRASE.slice(0, i));
-      if (i >= PHRASE.length) clearInterval(id);
-    }, 42);
+      setTyped(displayPhrase.slice(0, i));
+      if (i >= displayPhrase.length) clearInterval(id);
+    }, 38);
     return () => clearInterval(id);
-  }, [open]);
+  }, [open, displayPhrase]);
 
-  const typingDone = typed.length >= PHRASE.length;
+  const handleFlowerClick = (index: number) => {
+    setDisplayPhrase(LOVE_MESSAGES[index]);
+  };
+
+  const typingDone = typed.length >= displayPhrase.length;
 
   return (
     <motion.div
       onPointerMove={handlePointerMove}
+      onClick={handleClick}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1.6, ease: "easeInOut" }}
@@ -221,7 +294,9 @@ export default function LoverboyEasterEgg() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
+        paddingBottom: "22%",
         overflow: "hidden",
+        cursor: "url('/cursors/usagi.png') 24 24, auto",
       }}
     >
       <audio ref={audioRef} src={AUDIO_SRC} />
@@ -246,7 +321,48 @@ export default function LoverboyEasterEgg() {
         }}
       />
 
-      {open && <Flowers baseDelay={0.3} parallaxX={flowersX} parallaxY={flowersY} />}
+      {open && (
+        <div style={{ position: "absolute", inset: 0, zIndex: 2, pointerEvents: "none" }}>
+          <Flowers baseDelay={0.3} parallaxX={flowersX} parallaxY={flowersY} onFlowerClick={handleFlowerClick} />
+        </div>
+      )}
+
+      {/* Trail + heart burst particles */}
+      <div aria-hidden="true" style={{ position: "absolute", inset: 0, pointerEvents: "none", overflow: "hidden", zIndex: 10 }}>
+        <AnimatePresence>
+          {particles.map((p) => (
+            <motion.div
+              key={p.id}
+              initial={{ opacity: 1, y: 0, x: 0, scale: 1 }}
+              animate={
+                p.type === "trail"
+                  ? { opacity: 0, y: -26, scale: 0.3 }
+                  : { opacity: [1, 1, 0], y: p.dy, x: p.dx, scale: [1, 1.3, 0.5] }
+              }
+              exit={{ opacity: 0 }}
+              transition={{ duration: p.type === "trail" ? 1.1 : 1.7, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                left: p.x,
+                top: p.y,
+                translateX: "-50%",
+                translateY: "-50%",
+                pointerEvents: "none",
+              }}
+            >
+              {p.type === "trail" ? (
+                <svg width="7" height="7" viewBox="0 0 14 14">
+                  <circle cx="7" cy="7" r="5" fill={p.color} opacity="0.72" />
+                </svg>
+              ) : (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill={p.color}>
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                </svg>
+              )}
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
 
       <div style={{ position: "relative", zIndex: 1 }}>
         <AnimatePresence mode="wait">
