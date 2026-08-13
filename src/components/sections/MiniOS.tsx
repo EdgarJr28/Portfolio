@@ -940,7 +940,7 @@ function AppWindow({
   viewingImageDate: string | null;
   onOpenImage: (src: string, date: string) => void;
   viewingGame: string | null;
-  onOpenGame: (swfPath: string) => void;
+  onOpenGame: (playerSrc: string) => void;
 }) {
   const meta = APP_META[appId];
   const src = IFRAME_APPS[appId] ?? "";
@@ -1126,7 +1126,7 @@ function AppWindow({
         ) : appId === "games-folder" ? (
           <GamesFolder onOpenGame={onOpenGame} />
         ) : appId === "flash-game" ? (
-          <FlashGame key={viewingGame ?? ""} swfPath={viewingGame ?? "/games/SihirliAyak.swf"} />
+          <FlashGame key={viewingGame ?? ""} src={viewingGame ?? "/ruffle/player.html?swf=/games/SihirliAyak.swf"} />
         ) : (
           <iframe
             src={src}
@@ -2283,10 +2283,13 @@ export default function MiniOS({
     return () => clearTimeout(id);
   }, [messengerToastOpen]);
 
+  // Modo juego: cualquier ventana de juego abierta (no minimizada) desactiva el salvapantallas.
+  const gameMode = openWindows.includes("flash-game") && !minimizedApps.includes("flash-game");
+
   // Suspender automáticamente tras 30s sin actividad (mouse/teclado/touch),
   // igual que hace un sistema operativo real.
   useEffect(() => {
-    if (!open || suspended || booting || openWindows.includes("flash-game")) return;
+    if (!open || suspended || booting || gameMode) return;
     const INACTIVITY_MS = 30_000;
     let timeoutId: ReturnType<typeof setTimeout>;
     const resetTimer = () => {
@@ -2300,7 +2303,7 @@ export default function MiniOS({
       clearTimeout(timeoutId);
       events.forEach((eventName) => window.removeEventListener(eventName, resetTimer));
     };
-  }, [open, suspended, booting]);
+  }, [open, suspended, booting, gameMode]);
 
   // Congelar el scroll de la página de fondo mientras el OS está abierto.
   // Necesario además de estético: Webamp centra su ventana usando
@@ -2376,8 +2379,8 @@ export default function MiniOS({
     openApp("image-viewer");
   };
 
-  const openGame = (swfPath: string) => {
-    setViewingGame(swfPath);
+  const openGame = (playerSrc: string) => {
+    setViewingGame(playerSrc);
     openApp("flash-game");
   };
 

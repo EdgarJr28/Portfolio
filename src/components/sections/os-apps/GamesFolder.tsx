@@ -6,8 +6,20 @@ import { WIN_FONT } from "./shared";
 export interface GameDef {
   id: string;
   title: string;
-  swfPath: string;
   genre: string;
+  /** Flash SWF via Ruffle */
+  swfPath?: string;
+  /** SNES/GBA/NES ROM via EmulatorJS */
+  romPath?: string;
+  /** EmulatorJS core id, e.g. "snes9x", "mgba", "fceumm" */
+  core?: string;
+}
+
+function gamePlayerSrc(game: GameDef): string {
+  if (game.romPath) {
+    return `/emulatorjs/player.html?rom=${encodeURIComponent(game.romPath)}&core=${game.core ?? "snes9x"}&name=${encodeURIComponent(game.title)}`;
+  }
+  return `/ruffle/player.html?swf=${encodeURIComponent(game.swfPath ?? "")}`;
 }
 
 export const GAMES: GameDef[] = [
@@ -16,6 +28,27 @@ export const GAMES: GameDef[] = [
     title: "Retrocesos Mágicos",
     swfPath: "/games/SihirliAyak.swf",
     genre: "Arcade",
+  },
+  {
+    id: "top-gear",
+    title: "Top Gear",
+    romPath: "/roms/TopGear.sfc",
+    core: "snes9x",
+    genre: "Carreras",
+  },
+  {
+    id: "sims-bustin-out",
+    title: "The Sims: Bustin' Out",
+    romPath: "/roms/SimsBustinOut.gba",
+    core: "mgba",
+    genre: "Simulación",
+  },
+  {
+    id: "pokemon-esmeralda",
+    title: "Pokémon Esmeralda",
+    romPath: "/roms/PokemonEsmeralda.gba",
+    core: "mgba",
+    genre: "RPG",
   },
 ];
 
@@ -64,14 +97,14 @@ export default function GamesFolder({
                   const now = Date.now();
                   const last = lastTapRef.current;
                   if (last && last.id === game.id && now - last.t < 350) {
-                    onOpenGame(game.swfPath);
+                    onOpenGame(gamePlayerSrc(game));
                     lastTapRef.current = null;
                   } else {
                     setSelected(game.id);
                     lastTapRef.current = { id: game.id, t: now };
                   }
                 }}
-                onDoubleClick={() => onOpenGame(game.swfPath)}
+                onDoubleClick={() => onOpenGame(gamePlayerSrc(game))}
                 style={{
                   display: "flex",
                   flexDirection: "column",

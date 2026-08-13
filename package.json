@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/copy-ruffle.js && next dev --turbopack",
-    "build": "node scripts/copy-ruffle.js && next build",
+    "dev": "node scripts/copy-ruffle.js && node scripts/copy-emulatorjs.js && next dev --turbopack",
+    "build": "node scripts/copy-ruffle.js && node scripts/copy-emulatorjs.js && next build",
     "start": "next start",
     "lint": "eslint src/",
     "spotify:token": "node scripts/spotify-token.mjs"
@@ -35,6 +35,9 @@
     "zustand": "^5.0.14"
   },
   "devDependencies": {
+    "@emulatorjs/core-mgba": "^4.2.3",
+    "@emulatorjs/core-snes9x": "^4.2.3",
+    "@emulatorjs/emulatorjs": "^4.2.3",
     "@eslint/eslintrc": "^3.3.5",
     "@ruffle-rs/ruffle": "^0.5.0",
     "@tailwindcss/postcss": "^4.3.1",
