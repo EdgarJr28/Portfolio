@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+    #container { width: 100%; height: 100%; }
+    ruffle-player { width: 100%; height: 100%; display: block; }
+    #fs-btn {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 6px;
+      color: #fff;
+      cursor: pointer;
+      padding: 7px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-family: Tahoma, sans-serif;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    body:hover #fs-btn,
+    #fs-btn:focus { opacity: 1; }
+    /* En móvil siempre visible porque no hay hover */
+    @media (hover: none) { #fs-btn { opacity: 1; } }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <button id="fs-btn" aria-label="Pantalla completa"></button>
+
+  <script src="./ruffle.js"></script>
+  <script>
+    // --- Ruffle init ---
+    window.addEventListener("load", function () {
+      var params = new URLSearchParams(window.location.search);
+      var swf = params.get("swf");
+      if (!swf || !window.RufflePlayer) return;
+      var player = window.RufflePlayer.newest().createPlayer();
+      player.style.width = "100%";
+      player.style.height = "100%";
+      player.style.display = "block";
+      document.getElementById("container").appendChild(player);
+      player.load({ url: swf });
+    });
+
+    // --- Fullscreen toggle ---
+    var btn = document.getElementById("fs-btn");
+
+    var ICON_ENTER = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 5V1h4M9 1h4v4M13 9v4H9M5 13H1V9" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var ICON_EXIT  = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 1v4H1M13 5H9V1M9 13v-4h4M1 9h4v4" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+    var LABEL_ENTER = "Pantalla completa";
+    var LABEL_EXIT  = "Salir";
+
+    function updateBtn() {
+      var full = !!document.fullscreenElement;
+      btn.innerHTML = (full ? ICON_EXIT : ICON_ENTER) + "<span>" + (full ? LABEL_EXIT : LABEL_ENTER) + "</span>";
+      btn.setAttribute("aria-label", full ? LABEL_EXIT : LABEL_ENTER);
+    }
+    updateBtn();
+
+    btn.addEventListener("click", function () {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen();
+      }
+    });
+
+    document.addEventListener("fullscreenchange", updateBtn);
+  </script>
+</body>
+</html>

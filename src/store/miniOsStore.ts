@@ -12,7 +12,9 @@ export type AppId =
   | "ie"
   | "private-folder"
   | "photos"
-  | "image-viewer";
+  | "image-viewer"
+  | "flash-game"
+  | "games-folder";
 
 export interface WinRect {
   x: number;

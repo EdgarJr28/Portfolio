@@ -21,6 +21,8 @@ import InternetExplorer from "./os-apps/InternetExplorer";
 import PrivateFolder from "./os-apps/PrivateFolder";
 import PhotosFolder from "./os-apps/PhotosFolder";
 import ImageViewer from "./os-apps/ImageViewer";
+import FlashGame from "./os-apps/FlashGame";
+import GamesFolder from "./os-apps/GamesFolder";
 import {
   useMiniOSStore,
   type AppId,
@@ -84,6 +86,16 @@ const APP_META: Record<
     icon: `${ICONS}/photos-folder-32.png`,
     iconSmall: `${ICONS}/photos-folder-32.png`,
   },
+  "flash-game": {
+    label: "Flash Player",
+    icon: "/images/os/icons/game-32.svg",
+    iconSmall: "/images/os/icons/game-16.svg",
+  },
+  "games-folder": {
+    label: "Juegos",
+    icon: "/images/os/icons/game-32.svg",
+    iconSmall: "/images/os/icons/game-16.svg",
+  },
 };
 
 // Apps con ventana/iframe estándar (todo menos Winamp, que maneja su propia
@@ -138,7 +150,7 @@ function getLabel(appId: AppId, lang: Lang): string {
 
 // Todas las apps del mini-OS, para el flyout "All Programs" del menú de
 // inicio (incluye las que ya están fijadas arriba, igual que en Windows real).
-const ALL_PROGRAMS: AppId[] = ["ie", "winamp", "notepad", "paint", "my-computer", "minesweeper"];
+const ALL_PROGRAMS: AppId[] = ["ie", "winamp", "notepad", "paint", "my-computer", "minesweeper", "games-folder"];
 
 const MIN_WIDTH = 340;
 const MIN_HEIGHT = 260;
@@ -159,6 +171,7 @@ const DESKTOP_ICON_ORDER: DesktopIconId[] = [
   "ie",
   "private-folder",
   "photos",
+  "games-folder",
 ];
 
 const ICON_COL_SPACING = 100;
@@ -518,6 +531,8 @@ const APP_DEFAULT_SIZE: Record<AppId, { width: number; height: number }> = {
   "private-folder": { width: 380, height: 320 },
   photos: { width: 560, height: 460 },
   "image-viewer": { width: 640, height: 520 },
+  "flash-game": { width: 700, height: 560 },
+  "games-folder": { width: 480, height: 380 },
 };
 
 function initialRect(appId: AppId, cascadeIndex: number): WinRect {
@@ -908,6 +923,8 @@ function AppWindow({
   viewingImage,
   viewingImageDate,
   onOpenImage,
+  viewingGame,
+  onOpenGame,
 }: {
   appId: AppId;
   cascadeIndex: number;
@@ -922,6 +939,8 @@ function AppWindow({
   viewingImage: string | null;
   viewingImageDate: string | null;
   onOpenImage: (src: string, date: string) => void;
+  viewingGame: string | null;
+  onOpenGame: (swfPath: string) => void;
 }) {
   const meta = APP_META[appId];
   const src = IFRAME_APPS[appId] ?? "";
@@ -1023,7 +1042,11 @@ function AppWindow({
         width: rect.width,
         height: rect.height,
         zIndex,
-        display: minimized ? "none" : "flex",
+        // flash-game usa visibility en vez de display:none para que el canvas
+        // de Ruffle no pierda su contexto WebGL al minimizar (mismo problema
+        // que Webamp — ver WinampHost).
+        display: appId === "flash-game" ? "flex" : minimized ? "none" : "flex",
+        visibility: appId === "flash-game" && minimized ? "hidden" : "visible",
       }}
     >
       <div className={`mos-header-bg ${focused ? "focus" : "mos-unfocused"}`} />
@@ -1079,6 +1102,8 @@ function AppWindow({
             "private-folder",
             "photos",
             "image-viewer",
+            "flash-game",
+            "games-folder",
           ].includes(appId)
             ? 0
             : "3px",
@@ -1098,6 +1123,10 @@ function AppWindow({
           <PhotosFolder onOpenImage={onOpenImage} />
         ) : appId === "image-viewer" ? (
           <ImageViewer src={viewingImage} date={viewingImageDate} />
+        ) : appId === "games-folder" ? (
+          <GamesFolder onOpenGame={onOpenGame} />
+        ) : appId === "flash-game" ? (
+          <FlashGame key={viewingGame ?? ""} swfPath={viewingGame ?? "/games/SihirliAyak.swf"} />
         ) : (
           <iframe
             src={src}
@@ -2185,6 +2214,7 @@ export default function MiniOS({
   const [messengerToastOpen, setMessengerToastOpen] = useState(false);
   const [viewingImage, setViewingImage] = useState<string | null>(null);
   const [viewingImageDate, setViewingImageDate] = useState<string | null>(null);
+  const [viewingGame, setViewingGame] = useState<string | null>(null);
   // Selección "de goma" (rubber-band): arrastrar en el fondo vacío dibuja un
   // rectángulo y selecciona todos los íconos que toque, como en un
   // escritorio real.
@@ -2256,7 +2286,7 @@ export default function MiniOS({
   // Suspender automáticamente tras 30s sin actividad (mouse/teclado/touch),
   // igual que hace un sistema operativo real.
   useEffect(() => {
-    if (!open || suspended || booting) return;
+    if (!open || suspended || booting || openWindows.includes("flash-game")) return;
     const INACTIVITY_MS = 30_000;
     let timeoutId: ReturnType<typeof setTimeout>;
     const resetTimer = () => {
@@ -2344,6 +2374,11 @@ export default function MiniOS({
       }
     }
     openApp("image-viewer");
+  };
+
+  const openGame = (swfPath: string) => {
+    setViewingGame(swfPath);
+    openApp("flash-game");
   };
 
   // Selección "de goma": arrastrar en el fondo vacío del escritorio dibuja
@@ -2579,6 +2614,8 @@ export default function MiniOS({
                   viewingImage={viewingImage}
                   viewingImageDate={viewingImageDate}
                   onOpenImage={openImage}
+                  viewingGame={viewingGame}
+                  onOpenGame={openGame}
                 />
               ))}
           </AnimatePresence>
