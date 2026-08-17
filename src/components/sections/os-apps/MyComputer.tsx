@@ -4,30 +4,31 @@ import { useState } from "react";
 import MenuBar from "./MenuBar";
 import { WIN_FONT } from "./shared";
 import { useScrollMemory } from "./useScrollMemory";
+import { useLang } from "@/context/LangContext";
+import { t, tr } from "@/lib/i18n";
 
 const ICONS = "/images/os/icons/mycomputer";
 const SOCIAL_ICONS = "/images/social";
 
 interface Shortcut {
-  label: string;
+  labelKey: keyof typeof t.os;
   sectionId: string;
 }
 
-// Secciones reales del portfolio, mostradas como carpetas "guardadas en esta
-// computadora" — igual que la ventana My Computer del repo de referencia.
 const SHORTCUTS: Shortcut[] = [
-  { label: "About Me", sectionId: "about" },
-  { label: "Skills", sectionId: "skills" },
-  { label: "Experience", sectionId: "experience" },
-  { label: "Projects", sectionId: "projects" },
-  { label: "Contact", sectionId: "contact" },
+  { labelKey: "mc_about",      sectionId: "about" },
+  { labelKey: "mc_skills",     sectionId: "skills" },
+  { labelKey: "mc_experience", sectionId: "experience" },
+  { labelKey: "mc_projects",   sectionId: "projects" },
+  { labelKey: "mc_contact",    sectionId: "contact" },
 ];
 
 const SOCIALS = [
-  { icon: `${SOCIAL_ICONS}/github.svg`, href: "https://github.com/EdgarJr28", label: "GitHub" },
-  { icon: `${SOCIAL_ICONS}/linkedin.svg`, href: "https://linkedin.com/in/edgar-maldonado-5619171a0", label: "LinkedIn" },
-  { icon: `${SOCIAL_ICONS}/twitter.svg`, href: "https://x.com/ed__28", label: "X (Twitter)" },
-  { icon: `${SOCIAL_ICONS}/instagram.svg`, href: "https://instagram.com/ed__2898", label: "Instagram" },
+  { icon: `${SOCIAL_ICONS}/github.svg`,    href: "https://github.com/EdgarJr28",                          label: "GitHub" },
+  { icon: `${SOCIAL_ICONS}/linkedin.svg`,  href: "https://linkedin.com/in/edgar-maldonado-5619171a0",    label: "LinkedIn" },
+  { icon: `${SOCIAL_ICONS}/twitter.svg`,   href: "https://x.com/ed__28",                                 label: "X (Twitter)" },
+  { icon: `${SOCIAL_ICONS}/instagram.svg`, href: "https://instagram.com/ed__2898",                       label: "Instagram" },
+  { icon: `${SOCIAL_ICONS}/discord.svg`,   href: "https://discordapp.com/users/465955558726434842",       label: "Discord" },
 ];
 
 const SIDEBAR_TEXT = "#0c327d";
@@ -46,6 +47,15 @@ function CardHeader({ text }: { text: string }) {
       <span style={{ flex: 1, fontWeight: 700, fontSize: "0.68rem", color: SIDEBAR_TEXT }}>{text}</span>
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={`${ICONS}/pullup.png`} alt="" width={14} height={14} draggable={false} />
+    </div>
+  );
+}
+
+function SectionHeader({ text }: { text: string }) {
+  return (
+    <div style={{ width: "300px", fontWeight: 700, fontSize: "0.66rem", padding: "6px 0 3px 12px", position: "relative", color: "#000" }}>
+      {text}
+      <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(to right, #70bfff 0, #fff 100%)" }} />
     </div>
   );
 }
@@ -74,6 +84,7 @@ export default function MyComputer({
   onClose: () => void;
   onShutdown: () => void;
 }) {
+  const { lang } = useLang();
   const [funcHover, setFuncHover] = useState<string | null>(null);
   const { ref: scrollRef, onScroll } = useScrollMemory<HTMLDivElement>("my-computer");
 
@@ -111,13 +122,20 @@ export default function MyComputer({
       <div style={{ display: "flex", alignItems: "center", height: "24px", borderBottom: "1px solid rgba(255,255,255,0.7)", flexShrink: 0 }}>
         <div style={{ flex: 1 }}>
           <MenuBar
-            data={{
-              File: [{ type: "item", text: "Close", onClick: onClose }],
-              Edit: [{ type: "item", text: "Select All", disabled: true }],
-              View: [{ type: "item", text: "Large Icons", disabled: true }],
-              Favorites: [{ type: "item", text: "Add to Favorites", disabled: true }],
-              Tools: [{ type: "item", text: "Folder Options", disabled: true }],
-              Help: [{ type: "item", text: "About", disabled: true }],
+            data={lang === "es" ? {
+              Archivo:      [{ type: "item", text: tr(t.os.mc_close, lang), onClick: onClose }],
+              Editar:       [{ type: "item", text: tr(t.os.mc_select_all, lang), disabled: true }],
+              Ver:          [{ type: "item", text: tr(t.os.mc_large_icons, lang), disabled: true }],
+              Favoritos:    [{ type: "item", text: tr(t.os.mc_add_favorites, lang), disabled: true }],
+              Herramientas: [{ type: "item", text: tr(t.os.mc_folder_options, lang), disabled: true }],
+              Ayuda:        [{ type: "item", text: "About", disabled: true }],
+            } : {
+              File:      [{ type: "item", text: tr(t.os.mc_close, lang), onClick: onClose }],
+              Edit:      [{ type: "item", text: tr(t.os.mc_select_all, lang), disabled: true }],
+              View:      [{ type: "item", text: tr(t.os.mc_large_icons, lang), disabled: true }],
+              Favorites: [{ type: "item", text: tr(t.os.mc_add_favorites, lang), disabled: true }],
+              Tools:     [{ type: "item", text: tr(t.os.mc_folder_options, lang), disabled: true }],
+              Help:      [{ type: "item", text: "About", disabled: true }],
             }}
           />
         </div>
@@ -186,7 +204,7 @@ export default function MyComputer({
           boxShadow: "inset 0 -2px 3px -1px #b0b0b0",
         }}
       >
-        <span style={{ color: "rgba(0,0,0,0.5)", padding: "0 5px" }}>Address</span>
+        <span style={{ color: "rgba(0,0,0,0.5)", padding: "0 5px" }}>{tr(t.os.mc_address, lang)}</span>
         <div
           style={{
             border: "1px solid rgba(122,122,255,0.6)",
@@ -222,7 +240,7 @@ export default function MyComputer({
         <div style={{ display: "flex", alignItems: "center", padding: "0 18px 0 5px", height: "100%" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={`${ICONS}/go.png`} alt="" style={{ height: "95%", border: "1px solid rgba(255,255,255,0.2)", marginRight: "3px" }} />
-          <span style={{ color: SIDEBAR_TEXT }}>Go</span>
+          <span style={{ color: SIDEBAR_TEXT }}>{tr(t.os.ie_go, lang)}</span>
         </div>
       </div>
 
@@ -243,33 +261,33 @@ export default function MyComputer({
           }}
         >
           <div style={{ marginBottom: "12px", borderRadius: "3px", overflow: "hidden" }}>
-            <CardHeader text="System Tasks" />
+            <CardHeader text={tr(t.os.mc_system_tasks, lang)} />
             <div style={{ padding: "5px 10px", background: "rgba(198,211,255,0.87)" }}>
               <div className="mc-row mc-link" style={{ display: "flex", marginBottom: "2px" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={`${ICONS}/view-info.ico`} alt="" width={13} height={13} style={{ marginRight: "5px" }} />
-                <span style={{ fontSize: "0.62rem", color: SIDEBAR_TEXT }}>View system information</span>
+                <span style={{ fontSize: "0.62rem", color: SIDEBAR_TEXT }}>{tr(t.os.mc_view_info, lang)}</span>
               </div>
-              <SidebarRow icon={`${ICONS}/remove.png`} text="Add or remove programs" />
-              <SidebarRow icon={`${ICONS}/control-16.png`} text="Change a setting" />
+              <SidebarRow icon={`${ICONS}/remove.png`} text={tr(t.os.mc_add_remove, lang)} />
+              <SidebarRow icon={`${ICONS}/control-16.png`} text={tr(t.os.mc_change_setting, lang)} />
             </div>
           </div>
 
           <div style={{ marginBottom: "12px", borderRadius: "3px", overflow: "hidden" }}>
-            <CardHeader text="Other Places" />
+            <CardHeader text={tr(t.os.mc_other_places, lang)} />
             <div style={{ padding: "5px 10px", background: "rgba(198,211,255,0.87)" }}>
-              <SidebarRow icon={`${ICONS}/network.png`} text="My Network Places" />
-              <SidebarRow icon={`${ICONS}/documents-16.png`} text="My Documents" />
-              <SidebarRow icon="/images/os/icons/folder-closed2-16.png" text="Shared Documents" />
-              <SidebarRow icon={`${ICONS}/control-16.png`} text="Control Panel" />
+              <SidebarRow icon={`${ICONS}/network.png`} text={tr(t.os.mc_network, lang)} />
+              <SidebarRow icon={`${ICONS}/documents-16.png`} text={tr(t.os.mc_documents, lang)} />
+              <SidebarRow icon="/images/os/icons/folder-closed2-16.png" text={tr(t.os.mc_shared, lang)} />
+              <SidebarRow icon={`${ICONS}/control-16.png`} text={tr(t.os.mc_control, lang)} />
             </div>
           </div>
 
           <div style={{ borderRadius: "3px", overflow: "hidden" }}>
-            <CardHeader text="Details" />
+            <CardHeader text={tr(t.os.mc_details, lang)} />
             <div style={{ padding: "5px 10px", background: "rgba(198,211,255,0.87)" }}>
               <p style={{ margin: "0 0 4px", fontSize: "0.6rem", color: SIDEBAR_TEXT, lineHeight: 1.4 }}>
-                Hecho con Next.js, React Three Fiber &amp; Tailwind.
+                {tr(t.os.mc_tech_note, lang)}
               </p>
               <a
                 href="https://github.com/EdgarJr28"
@@ -278,17 +296,14 @@ export default function MyComputer({
                 className="mc-link"
                 style={{ fontSize: "0.6rem", color: SIDEBAR_TEXT, textDecoration: "none" }}
               >
-                Ver el código fuente →
+                {tr(t.os.mc_source_code, lang)}
               </a>
             </div>
           </div>
         </div>
 
         <div style={{ flex: 1, background: "#fff", overflow: "auto" }}>
-          <div style={{ width: "300px", fontWeight: 700, fontSize: "0.66rem", padding: "6px 0 3px 12px", position: "relative", color: "#000" }}>
-            Files Stored on This Computer
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(to right, #70bfff 0, #fff 100%)" }} />
-          </div>
+          <SectionHeader text={tr(t.os.mc_files_stored, lang)} />
           <div style={{ display: "flex", flexWrap: "wrap", padding: "15px 15px 4px" }}>
             {SHORTCUTS.map((s) => (
               <button
@@ -307,15 +322,12 @@ export default function MyComputer({
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src="/images/os/icons/folder-closed2-48.png" alt="" width={40} height={40} draggable={false} style={{ marginRight: "5px" }} />
-                <span style={{ fontSize: "0.66rem", color: "#000" }}>{s.label}</span>
+                <span style={{ fontSize: "0.66rem", color: "#000" }}>{tr(t.os[s.labelKey] as { es: string; en: string }, lang)}</span>
               </button>
             ))}
           </div>
 
-          <div style={{ width: "300px", fontWeight: 700, fontSize: "0.66rem", padding: "6px 0 3px 12px", position: "relative", color: "#000" }}>
-            Hard Disk Drives
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(to right, #70bfff 0, #fff 100%)" }} />
-          </div>
+          <SectionHeader text={tr(t.os.mc_hard_disk, lang)} />
           <div style={{ display: "flex", padding: "15px 15px 4px" }}>
             <div style={{ display: "flex", alignItems: "center", width: "160px" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -324,10 +336,7 @@ export default function MyComputer({
             </div>
           </div>
 
-          <div style={{ width: "300px", fontWeight: 700, fontSize: "0.66rem", padding: "6px 0 3px 12px", position: "relative", color: "#000" }}>
-            Devices with Removable Storage
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(to right, #70bfff 0, #fff 100%)" }} />
-          </div>
+          <SectionHeader text={tr(t.os.mc_removable, lang)} />
           <div style={{ display: "flex", padding: "15px 15px 4px" }}>
             <div style={{ display: "flex", alignItems: "center", width: "160px" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -336,10 +345,7 @@ export default function MyComputer({
             </div>
           </div>
 
-          <div style={{ width: "300px", fontWeight: 700, fontSize: "0.66rem", padding: "6px 0 3px 12px", position: "relative", color: "#000" }}>
-            About Me :)
-            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: "1px", background: "linear-gradient(to right, #70bfff 0, #fff 100%)" }} />
-          </div>
+          <SectionHeader text={tr(t.os.mc_about_me, lang)} />
           <div style={{ display: "flex", flexWrap: "wrap", padding: "15px 15px 4px" }}>
             {SOCIALS.map((s) => (
               <a

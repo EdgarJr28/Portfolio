@@ -16,6 +16,7 @@ export async function GET() {
       ...getFolderImagesWithDates("images/randoms"),
       ...getFolderImagesWithDates("images/vibes"),
       ...getFolderImagesWithDates("images/nature"),
+      ...getFolderImagesWithDates("images/os/facebook"),
       ...getFolderImagesWithDates("easter/my_heart"),
     ];
     return NextResponse.json({ photos });

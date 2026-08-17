@@ -33,6 +33,7 @@ const SCOPES = [
   "user-read-recently-played",
   "user-read-private",
   "playlist-read-private",
+  "user-top-read",
 ].join(" ");
 
 // ─── Leer credenciales de .env (sin dependencias) ───────────────────────────

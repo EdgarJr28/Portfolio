@@ -2,6 +2,8 @@
 
 import { useRef, useState } from "react";
 import { WIN_FONT } from "./shared";
+import { useLang } from "@/context/LangContext";
+import { t, tr } from "@/lib/i18n";
 
 export interface GameDef {
   id: string;
@@ -27,36 +29,44 @@ export const GAMES: GameDef[] = [
     id: "sihirli-ayak",
     title: "Retrocesos Mágicos",
     swfPath: "/games/SihirliAyak.swf",
-    genre: "Arcade",
+    genre: "arcade",
   },
   {
     id: "top-gear",
     title: "Top Gear",
     romPath: "/roms/TopGear.sfc",
     core: "snes9x",
-    genre: "Carreras",
+    genre: "racing",
   },
   {
     id: "sims-bustin-out",
     title: "The Sims: Bustin' Out",
     romPath: "/roms/SimsBustinOut.gba",
     core: "mgba",
-    genre: "Simulación",
+    genre: "sim",
   },
   {
     id: "pokemon-esmeralda",
     title: "Pokémon Esmeralda",
     romPath: "/roms/PokemonEsmeralda.gba",
     core: "mgba",
-    genre: "RPG",
+    genre: "rpg",
   },
 ];
+
+function localizeGenre(genre: string, lang: "es" | "en"): string {
+  if (genre === "racing") return tr(t.os.genre_racing, lang);
+  if (genre === "sim")    return tr(t.os.genre_sim, lang);
+  if (genre === "rpg")    return "RPG";
+  return "Arcade";
+}
 
 export default function GamesFolder({
   onOpenGame,
 }: {
   onOpenGame: (swfPath: string) => void;
 }) {
+  const { lang } = useLang();
   const [selected, setSelected] = useState<string | null>(null);
   const lastTapRef = useRef<{ id: string; t: number } | null>(null);
 
@@ -72,7 +82,7 @@ export default function GamesFolder({
           fontWeight: 700,
         }}
       >
-        Juegos ({GAMES.length})
+        {tr(t.os.games_folder, lang)} ({GAMES.length})
       </div>
 
       <div
@@ -152,7 +162,7 @@ export default function GamesFolder({
                     color: "#666",
                   }}
                 >
-                  {game.genre}
+                  {localizeGenre(game.genre, lang)}
                 </span>
               </button>
             );
@@ -171,8 +181,8 @@ export default function GamesFolder({
         }}
       >
         {selected
-          ? `${GAMES.find((g) => g.id === selected)?.title} — doble click para abrir`
-          : `${GAMES.length} objeto${GAMES.length !== 1 ? "s" : ""}`}
+          ? `${GAMES.find((g) => g.id === selected)?.title} — ${tr(t.os.dbl_open, lang)}`
+          : `${GAMES.length} ${GAMES.length !== 1 ? tr(t.os.obj_plural, lang) : tr(t.os.obj_singular, lang)}`}
       </div>
     </div>
   );

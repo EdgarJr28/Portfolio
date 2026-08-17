@@ -65,6 +65,24 @@ export async function getRecentlyPlayedTracks(limit = 10) {
   }
 }
 
+export async function getTopTracks(limit = 5, timeRange: "short_term" | "medium_term" | "long_term" = "medium_term") {
+  await getAccessToken();
+  try {
+    const data = await spotifyApi.getMyTopTracks({ limit, time_range: timeRange });
+    return data.body.items.map((track) => ({
+      id: track.id,
+      title: track.name,
+      artist: track.artists[0]?.name ?? "",
+      albumImage: track.album.images[1]?.url ?? track.album.images[0]?.url ?? "",
+      songUrl: track.external_urls.spotify ?? "",
+      durationMs: track.duration_ms,
+    }));
+  } catch (err) {
+    console.error("[getTopTracks]", err);
+    return [];
+  }
+}
+
 export async function getPlaylists() {
   try {
     // Use client credentials so the API responds as a public visitor —

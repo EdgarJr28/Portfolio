@@ -10,6 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpotify } from "@fortawesome/free-brands-svg-icons";
 import SectionTitle from "@/components/ui/SectionTitle";
 import SpotifyPlaylistModal from "./SpotifyPlaylistModal";
+import { useLang } from "@/context/LangContext";
+import { t, tr } from "@/lib/i18n";
 
 // Avatar 3D que baila al ritmo del track — carga diferida
 const SpotifyAvatarCanvas = dynamic(() => import("./SpotifyAvatarCanvas"), {
@@ -97,6 +99,7 @@ function formatMs(ms: number) {
 }
 
 export default function SpotifyWidget() {
+  const { lang } = useLang();
   const [track, setTrack] = useState<NowPlayingData | null | undefined>(
     undefined // undefined = loading, null = no track
   );
@@ -166,26 +169,25 @@ export default function SpotifyWidget() {
   const duration = track?.durationMs ?? 0;
   const progressPct = duration > 0 ? Math.min(100, (liveProgress / duration) * 100) : 0;
 
+  const btnBase: React.CSSProperties = {
+    background: "transparent",
+    border: "none",
+    padding: 0,
+    fontFamily: "var(--font-body)",
+    fontSize: "0.8125rem",
+    color: "#1DB954",
+    letterSpacing: "0.02em",
+    cursor: "pointer",
+    textDecoration: "underline",
+    textUnderlineOffset: "3px",
+  };
+
   const seeMoreButton = (
-    <button
-      onClick={() => setPlaylistOpen(true)}
-      style={{
-        display: "inline-block",
-        background: "transparent",
-        border: "none",
-        padding: 0,
-        marginBottom: "1rem",
-        fontFamily: "var(--font-body)",
-        fontSize: "0.8125rem",
-        color: "#1DB954",
-        letterSpacing: "0.02em",
-        cursor: "pointer",
-        textDecoration: "underline",
-        textUnderlineOffset: "3px",
-      }}
-    >
-      See more music →
-    </button>
+    <div style={{ display: "flex", justifyContent: "center", marginBottom: "1rem" }}>
+      <button onClick={() => setPlaylistOpen(true)} style={btnBase}>
+        {tr(t.os.spotify_see_more, lang)}
+      </button>
+    </div>
   );
 
   const CARD_W = isMobile ? 200 : 280;

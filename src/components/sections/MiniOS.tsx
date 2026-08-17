@@ -145,6 +145,7 @@ function getLabel(appId: AppId, lang: Lang): string {
   if (appId === "private-folder") return tr(t.os.private_folder, lang);
   if (appId === "photos") return tr(t.os.photos, lang);
   if (appId === "image-viewer") return tr(t.os.images, lang);
+  if (appId === "games-folder") return tr(t.os.games_folder, lang);
   return APP_META[appId].label;
 }
 
@@ -2561,7 +2562,7 @@ export default function MiniOS({
           >
             {DESKTOP_ICON_ORDER.map((iconId, index) => {
               const meta = iconId === "recycle-bin" ? null : APP_META[iconId];
-              const label = meta ? meta.label : "Recycle Bin";
+              const label = iconId === "recycle-bin" ? tr(t.os.recycle_bin, lang) : getLabel(iconId, lang);
               const icon = meta ? meta.icon : `${ICONS}/recycle-bin2-32.png`;
               const defaultPos = getDefaultIconPos(index);
               const savedPos = desktopIconPositions[iconId];
