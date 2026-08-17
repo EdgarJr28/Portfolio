@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 // TEMP: resto de secciones deshabilitadas, se reactivan una por una — no borrar.

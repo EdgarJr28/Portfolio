@@ -22,12 +22,23 @@ export default function About() {
   const [easterEggOpen, setEasterEggOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [miniOsOpen, setMiniOsOpen] = useState(false);
+  const [miniOsMounted, setMiniOsMounted] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const isMobile = useIsMobile();
   const { lang } = useLang();
 
+  const openMiniOS = () => {
+    setMiniOsMounted(true);
+    setMiniOsOpen(true);
+  };
+
+  const closeMiniOS = () => {
+    setMiniOsOpen(false);
+    setTimeout(() => setMiniOsMounted(false), 350);
+  };
+
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("debugOS")) setMiniOsOpen(true);
+    if (new URLSearchParams(window.location.search).get("debugOS")) openMiniOS();
   }, []);
 
   useEffect(() => {
@@ -50,7 +61,7 @@ export default function About() {
         <AboutDeskCanvas
           onFrameClick={() => setEasterEggOpen(true)}
           onNoteClick={() => setNoteOpen(true)}
-          onScreenClick={() => setMiniOsOpen(true)}
+          onScreenClick={() => openMiniOS()}
         />
         <AnimatePresence>
           {showTooltip && (
@@ -151,7 +162,7 @@ export default function About() {
 
       <EasterEggModal open={easterEggOpen} onClose={() => setEasterEggOpen(false)} />
       <NoteModal open={noteOpen} onClose={() => setNoteOpen(false)} />
-      <MiniOS open={miniOsOpen} onClose={() => setMiniOsOpen(false)} />
+      {miniOsMounted && <MiniOS open={miniOsOpen} onClose={closeMiniOS} />}
     </section>
   );
 }

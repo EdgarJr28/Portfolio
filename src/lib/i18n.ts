@@ -126,6 +126,46 @@ export const t = {
     },
   },
 
+  // ─── Education ─────────────────────────────────────────────────────────────
+  education: {
+    entries: {
+      es: [
+        {
+          title: "Ingeniero de Sistemas",
+          institution: "Universidad de la Costa CUC",
+          period: "2021 — Presente",
+        },
+        {
+          title: "Tecnologías de Software para la Industria 4.0",
+          institution: "Universidad de la Costa CUC",
+          period: "Mayo 2025",
+        },
+        {
+          title: "Analista de Sistemas",
+          institution: "SENA",
+          period: "2020",
+        },
+      ],
+      en: [
+        {
+          title: "Systems Engineer",
+          institution: "Universidad de la Costa CUC",
+          period: "2021 — Present",
+        },
+        {
+          title: "Software Technologies for Industry 4.0",
+          institution: "Universidad de la Costa CUC",
+          period: "May 2025",
+        },
+        {
+          title: "Systems Analyst",
+          institution: "SENA",
+          period: "2020",
+        },
+      ],
+    },
+  },
+
   // ─── Projects ──────────────────────────────────────────────────────────────
   projects: {
     entries: {
@@ -135,35 +175,41 @@ export const t = {
           description: "Aplicacion movil para visualizacion de dispositivos medicos en Realidad Aumentada, con modelos 3D interactivos desde multiples angulos.",
           stack: ["Angular", "Node.js", "Unreal Engine"],
           demo: "https://www.m3d-ar.com/#/home",
+          image: "/images/projects_galery/m3dar.png",
         },
         {
           title: "Sports App",
           description: "Plataforma de reserva de instalaciones deportivas con autenticacion por roles, construida como proyecto academico.",
           stack: ["React", "Firebase", "Firestore"],
           demo: "https://sport-page-murex.vercel.app/",
+          image: "/images/projects_galery/sportweb.png",
         },
         {
           title: "Belena",
           description: "App en desarrollo para conectar anfitriones con espacio disponible y huespedes buscando alojamiento temporal.",
           stack: ["React", "Node.js"],
+          image: "/images/projects_galery/belena.png",
         },
         {
           title: "Black Ops",
           description: "Recreacion de pagina de videojuego con tecnologias 3D, HTML y CSS. Proyecto personal de exploracion tecnica.",
           stack: ["HTML", "CSS", "JavaScript", "Three.js"],
           demo: "https://black-ops-t2.vercel.app/index.html",
+          image: "/images/projects_galery/blackops.png",
         },
         {
           title: "API Rating Videos",
           description: "REST API con manejo de roles oAuth que simula una videoteca usando Amazon RDS. Paths publicos y privados con JWT.",
           stack: ["Node.js", "AWS RDS", "JWT", "REST"],
           demo: "https://test-production-2d4b.up.railway.app/docs",
+          image: "/images/projects_galery/APIvideo.png",
         },
         {
           title: "Backend Projects",
           description: "Coleccion de proyectos backend con SQL/NoSQL, WebSockets y APIs REST. Exploracion de arquitecturas y patrones.",
           stack: ["Node.js", "SQL", "NoSQL", "WebSocket"],
           repo: "https://github.com/EdgarJr28",
+          image: "/images/projects_galery/backend-development.png",
         },
       ],
       en: [
@@ -172,35 +218,41 @@ export const t = {
           description: "Mobile app for visualizing medical devices in Augmented Reality, with interactive 3D models from multiple angles.",
           stack: ["Angular", "Node.js", "Unreal Engine"],
           demo: "https://www.m3d-ar.com/#/home",
+          image: "/images/projects_galery/m3dar.png",
         },
         {
           title: "Sports App",
           description: "Sports facility booking platform with role-based authentication, built as an academic project.",
           stack: ["React", "Firebase", "Firestore"],
           demo: "https://sport-page-murex.vercel.app/",
+          image: "/images/projects_galery/sportweb.png",
         },
         {
           title: "Belena",
           description: "App in development to connect hosts with available space and guests looking for temporary accommodation.",
           stack: ["React", "Node.js"],
+          image: "/images/projects_galery/belena.png",
         },
         {
           title: "Black Ops",
           description: "Video game page recreation using 3D technologies, HTML and CSS. Personal technical exploration project.",
           stack: ["HTML", "CSS", "JavaScript", "Three.js"],
           demo: "https://black-ops-t2.vercel.app/index.html",
+          image: "/images/projects_galery/blackops.png",
         },
         {
           title: "API Rating Videos",
           description: "REST API with oAuth role management simulating a video library using Amazon RDS. Public and private paths with JWT.",
           stack: ["Node.js", "AWS RDS", "JWT", "REST"],
           demo: "https://test-production-2d4b.up.railway.app/docs",
+          image: "/images/projects_galery/APIvideo.png",
         },
         {
           title: "Backend Projects",
           description: "Collection of backend projects with SQL/NoSQL, WebSockets and REST APIs. Exploration of architectures and patterns.",
           stack: ["Node.js", "SQL", "NoSQL", "WebSocket"],
           repo: "https://github.com/EdgarJr28",
+          image: "/images/projects_galery/backend-development.png",
         },
       ],
     },

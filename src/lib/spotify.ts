@@ -177,14 +177,20 @@ interface SpotifyTrack {
   id: string;
   name: string;
   duration_ms: number;
+  preview_url: string | null;
   artists: { name: string }[];
-  album: { images: SpotifyImage[] };
+  album: { name: string; images: SpotifyImage[] };
   external_urls: { spotify: string };
+  show?: { name: string; publisher: string; images: SpotifyImage[] };
+  type?: string;
 }
 
 interface SpotifyPlaylist {
   id: string;
   name: string;
+  description?: string | null;
   images: SpotifyImage[] | null;
   external_urls: { spotify: string };
+  owner?: { display_name?: string };
+  tracks?: { total: number };
 }

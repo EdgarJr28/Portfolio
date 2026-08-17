@@ -44,11 +44,12 @@ function Top5Card({ tracks }: { tracks: TopTrack[] }) {
   return (
     <div style={{ position: "relative", width: "100%", aspectRatio: "1/1", borderRadius: "12px", overflow: "hidden", boxShadow: "0 24px 48px rgba(0,0,0,0.65)" }}>
       {/* BG image */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         src="/images/spotify-top5.png"
         alt="My Top 5"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+        fill
+        sizes="(max-width: 768px) 90vw, 420px"
+        style={{ objectFit: "cover" }}
       />
       {/* Multi-stop gradient: keep image visible on top half, solid dark on bottom */}
       <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.35) 30%, rgba(0,0,0,0.82) 55%, rgba(0,0,0,0.97) 75%)" }} />

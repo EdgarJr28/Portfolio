@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   title: "Edgar Maldonado — Developer",
   description:
     "Frontend developer, construyendo interfaces rápidas, accesibles y visualmente memorables.",
-  icons: [{ rel: "icon", url: "/dev.ico" }],
+  icons: [{ rel: "icon", url: "/icon.svg", type: "image/svg+xml" }],
 };
 
 export default function RootLayout({

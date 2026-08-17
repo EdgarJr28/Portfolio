@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { motion } from "motion/react";
 import SectionTitle from "@/components/ui/SectionTitle";
 import { type Project } from "@/lib/data";
@@ -37,27 +38,33 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         <motion.div
           whileHover={{ scale: 1.03 }}
           transition={{ duration: 0.4 }}
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+          style={{ position: "absolute", inset: 0 }}
         >
-          <span
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
-              fontWeight: 800,
-              color: "rgba(255,255,255,0.04)",
-              letterSpacing: "-0.03em",
-              textAlign: "center",
-              padding: "0 1rem",
-            }}
-          >
-            {project.title}
-          </span>
+          {project.image ? (
+            <Image
+              src={project.image}
+              alt={project.title}
+              fill
+              sizes="(max-width: 768px) 100vw, 480px"
+              style={{ objectFit: "cover" }}
+            />
+          ) : (
+            <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(1.5rem, 4vw, 2.5rem)",
+                  fontWeight: 800,
+                  color: "rgba(255,255,255,0.04)",
+                  letterSpacing: "-0.03em",
+                  textAlign: "center",
+                  padding: "0 1rem",
+                }}
+              >
+                {project.title}
+              </span>
+            </div>
+          )}
         </motion.div>
         <motion.div
           initial={{ opacity: 0 }}
@@ -66,7 +73,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           style={{
             position: "absolute",
             inset: 0,
-            background: "rgba(255,255,255,0.02)",
+            background: "rgba(0,0,0,0.25)",
             pointerEvents: "none",
           }}
         />

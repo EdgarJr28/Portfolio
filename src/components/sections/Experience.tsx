@@ -85,18 +85,46 @@ const TIMELINE_CSS = `
     top: 1.5rem;
   }
 }
+.edu-dot {
+  position: absolute;
+  left: 0;
+  top: 0.15rem;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #0a0a0a;
+  z-index: 1;
+}
+@media (min-width: 768px) {
+  .edu-dot {
+    top: 1.5rem;
+  }
+}
 `;
+
+const SUBSECTION_LABEL_STYLE: React.CSSProperties = {
+  fontFamily: "var(--font-body)",
+  fontSize: "0.6875rem",
+  letterSpacing: "0.2em",
+  textTransform: "uppercase",
+  color: "rgba(240,240,240,0.25)",
+  marginBottom: "1.75rem",
+};
 
 export default function Experience() {
   const { lang } = useLang();
   const timeline = [...t.experience.entries[lang]].reverse();
+  const education = [...t.education.entries[lang]].reverse();
 
   return (
     <section id="experience" style={SECTION_STYLE}>
       <style>{TIMELINE_CSS}</style>
       <SectionTitle number="03" title="Experience" />
 
-      <div className="exp-scroll">
+      {/* Work */}
+      <p style={SUBSECTION_LABEL_STYLE}>{lang === "es" ? "Trabajo" : "Work"}</p>
+      <div className="exp-scroll" style={{ marginBottom: "4rem" }}>
         <div
           className="exp-list"
           style={
@@ -179,6 +207,71 @@ export default function Experience() {
                   </li>
                 ))}
               </ul>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Education */}
+      <p style={SUBSECTION_LABEL_STYLE}>{lang === "es" ? "Estudios" : "Education"}</p>
+      <div className="exp-scroll">
+        <div
+          className="exp-list"
+          style={
+            {
+              "--exp-minw": `${education.length * 220 + (education.length - 1) * 48}px`,
+            } as React.CSSProperties
+          }
+        >
+          <div aria-hidden="true" className="exp-line" />
+
+          {education.map((edu, i) => (
+            <motion.div
+              key={i}
+              className="exp-item"
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-60px" }}
+              transition={{ duration: 0.65, delay: i * 0.08 }}
+            >
+              <div aria-hidden="true" className="edu-dot" />
+
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "0.7rem",
+                  letterSpacing: "0.15em",
+                  color: "rgba(240,240,240,0.3)",
+                  textTransform: "uppercase",
+                  marginBottom: "0.35rem",
+                }}
+              >
+                {edu.period}
+              </p>
+
+              <h3
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(1.1rem, 2.5vw, 1.375rem)",
+                  fontWeight: 700,
+                  color: "#f0f0f0",
+                  letterSpacing: "-0.01em",
+                  marginBottom: "0.2rem",
+                }}
+              >
+                {edu.title}
+              </h3>
+
+              <p
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontSize: "0.875rem",
+                  fontWeight: 400,
+                  color: "rgba(240,240,240,0.4)",
+                }}
+              >
+                {edu.institution}
+              </p>
             </motion.div>
           ))}
         </div>

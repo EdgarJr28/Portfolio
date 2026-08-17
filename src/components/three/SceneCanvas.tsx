@@ -37,14 +37,18 @@ export default function SceneCanvas({
   environment = true,
 }: SceneCanvasProps) {
   const wrapRef = useRef<HTMLDivElement>(null);
+  const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = wrapRef.current;
     if (!el) return;
     const io = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { rootMargin: "120px" }
+      ([entry]) => {
+        if (entry.isIntersecting) setMounted(true);
+        setVisible(entry.isIntersecting);
+      },
+      { rootMargin: "200px" }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -56,19 +60,21 @@ export default function SceneCanvas({
       className={className}
       style={{ position: "absolute", inset: 0, ...style }}
     >
-      <Canvas
-        camera={camera}
-        dpr={[1, 1.5]}
-        gl={{ alpha: true, antialias: true }}
-        frameloop={visible ? "always" : "never"}
-        style={{ background: "transparent" }}
-      >
-        <ambientLight intensity={ambient} />
-        <directionalLight position={[4, 6, 4]} intensity={1.1} />
-        <directionalLight position={[-4, 3, -3]} intensity={0.35} color="#88aaff" />
-        {environment && <Environment preset="city" />}
-        <Suspense fallback={null}>{children}</Suspense>
-      </Canvas>
+      {mounted && (
+        <Canvas
+          camera={camera}
+          dpr={[1, 1.5]}
+          gl={{ alpha: true, antialias: true }}
+          frameloop={visible ? "always" : "never"}
+          style={{ background: "transparent" }}
+        >
+          <ambientLight intensity={ambient} />
+          <directionalLight position={[4, 6, 4]} intensity={1.1} />
+          <directionalLight position={[-4, 3, -3]} intensity={0.35} color="#88aaff" />
+          {environment && <Environment preset="city" />}
+          <Suspense fallback={null}>{children}</Suspense>
+        </Canvas>
+      )}
     </div>
   );
 }
