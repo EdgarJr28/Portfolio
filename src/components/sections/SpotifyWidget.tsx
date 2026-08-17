@@ -267,7 +267,7 @@ export default function SpotifyWidget() {
                     transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
                     style={{ position: "relative", width: `${CARD_W}px`, height: `${CARD_W}px`, overflow: "hidden", boxShadow: "0 30px 60px rgba(0,0,0,0.6)" }}
                   >
-                    <Image src={track.albumImage} alt={`${track.title} — ${track.artist}`} fill style={{ objectFit: "cover" }} sizes={`${CARD_W}px`} unoptimized />
+                    <Image src={track.albumImage} alt={`${track.title} — ${track.artist}`} fill priority style={{ objectFit: "cover" }} sizes={`${CARD_W}px`} unoptimized />
                   </motion.div>
                   <div style={{ paddingTop: "1rem", background: "rgba(10,10,10,0.55)", backdropFilter: "blur(8px)", padding: "1rem", marginTop: "0" }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>

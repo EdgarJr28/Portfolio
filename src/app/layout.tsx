@@ -7,6 +7,7 @@ import CustomCursor from "@/components/layout/CustomCursor";
 import SmoothScrollProvider from "@/providers/SmoothScrollProvider";
 import { LangProvider } from "@/context/LangContext";
 import { Analytics } from "@vercel/analytics/react";
+import SuppressWarnings from "@/components/layout/SuppressWarnings";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -44,6 +45,7 @@ export default function RootLayout({
             {children}
             <Footer />
             <Analytics />
+            <SuppressWarnings />
           </SmoothScrollProvider>
         </LangProvider>
       </body>
