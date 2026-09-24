@@ -29,7 +29,7 @@ export const t = {
     location_value: { es: "Barranquilla, Colombia", en: "Barranquilla, Colombia" },
     email_label:    { es: "Email",           en: "Email" },
     exp_label:      { es: "Experiencia",     en: "Experience" },
-    exp_value:      { es: "5+ anos",         en: "5+ years" },
+    exp_value:      { es: "5+ años",         en: "5+ years" },
     avail_label:    { es: "Disponibilidad",  en: "Availability" },
     avail_value:    { es: "Abierto a oportunidades", en: "Open to opportunities" },
   },
@@ -133,7 +133,7 @@ export const t = {
         {
           title: "Ingeniero de Sistemas",
           institution: "Universidad de la Costa CUC",
-          period: "2021 — Presente",
+          period: "2021 — 2026",
         },
         {
           title: "Tecnologías de Software para la Industria 4.0",

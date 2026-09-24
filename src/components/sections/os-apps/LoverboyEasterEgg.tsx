@@ -8,6 +8,7 @@ import {
   useSpring,
   useTransform,
 } from "motion/react";
+import { Mascot } from "page-mascot";
 import Stars from "./Stars";
 import Petals from "./Petals";
 import Flowers from "./Flowers";
@@ -300,6 +301,26 @@ export default function LoverboyEasterEgg() {
       }}
     >
       <audio ref={audioRef} src={AUDIO_SRC} />
+
+      {/* Nutria que sigue el cursor (page-mascot). Se orienta hacia el mouse
+       * y reacciona al "boop". Solo activa en desktop con pointer fino. */}
+      <div
+        style={{
+          position: "absolute",
+          top: "5%",
+          left: "50%",
+          transform: "translateX(-50%)",
+          zIndex: 20,
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <Mascot
+          directions="/mascots/otter-directions.webp"
+          reactions="/mascots/otter-reactions.webp"
+          size={110}
+          label="nutria"
+        />
+      </div>
 
       <Stars parallaxX={starsX} parallaxY={starsY} />
       <Petals />
