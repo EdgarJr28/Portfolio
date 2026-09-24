@@ -307,9 +307,8 @@ export default function LoverboyEasterEgg() {
       <div
         style={{
           position: "absolute",
-          top: "5%",
-          left: "50%",
-          transform: "translateX(-50%)",
+          top: "16px",
+          left: "16px",
           zIndex: 20,
         }}
         onClick={(e) => e.stopPropagation()}
@@ -317,7 +316,7 @@ export default function LoverboyEasterEgg() {
         <Mascot
           directions="/mascots/otter-directions.webp"
           reactions="/mascots/otter-reactions.webp"
-          size={110}
+          size={96}
           label="nutria"
         />
       </div>

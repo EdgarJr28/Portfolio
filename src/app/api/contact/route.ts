@@ -1,8 +1,14 @@
 import { NextResponse } from 'next/server';
 import transporter from '@/app/utils/Mailer';
 import { Template } from '@/app/utils/templates/mailTemplate';
+import { rateLimit, clientIp } from '@/app/utils/rateLimit';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Best-effort: 5 sends per 10 minutes per IP. Protects the Gmail quota/inbox
+// from casual flooding; not a hard guarantee on serverless (see rateLimit.ts).
+const RATE_LIMIT = 5;
+const RATE_WINDOW_MS = 10 * 60 * 1000;
 
 async function verifyCaptcha(token: string): Promise<boolean> {
     const secret = process.env.RECAPTCHA_SECRET_KEY;
@@ -18,6 +24,14 @@ async function verifyCaptcha(token: string): Promise<boolean> {
 
 export async function POST(req: Request) {
     try {
+        const limit = rateLimit(clientIp(req), RATE_LIMIT, RATE_WINDOW_MS);
+        if (!limit.ok) {
+            return NextResponse.json(
+                { error: 'Demasiados intentos. Intenta de nuevo más tarde.' },
+                { status: 429, headers: { 'Retry-After': String(limit.retryAfter) } }
+            );
+        }
+
         const { name, email, message, captchaToken } = await req.json();
 
         if (
